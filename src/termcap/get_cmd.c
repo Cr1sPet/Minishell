@@ -56,6 +56,12 @@ int	manage_symb (char *input)
 		write (1, "down", 4);
 		return (1);
 	}
+	else if (!strcmp(input, "\177"))
+	{
+		test_clean_screen("le");
+		test_clean_screen("dc");
+		return (1);
+	}
 	return (0);
 }
 
@@ -70,7 +76,7 @@ char *get_cmd()
 	if (NULL == get_cmd.termtype || 1 != tgetent(0, get_cmd.termtype))
 	{
 		puts("ERROR with termtype");
-		exit (1);
+		// exit (1);
 	}
 	// устанавливаем новые настройки терминала, сохраняем копию исходных
 	set_input_mode(&get_cmd);
