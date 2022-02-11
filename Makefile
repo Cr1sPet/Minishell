@@ -1,6 +1,10 @@
 NAME		=	minishell
 
 SRCS		=	./src/main.c\
+				./src/termcap/get_cmd.c\
+				./src/termcap/crs_strjoin.c\
+				./src/termcap/crs_utils.c\
+				
 
 HEADER		=	./includes/
 
@@ -14,9 +18,11 @@ CC			=	gcc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror 
+# FLAGS		=	-Wall -Wextra -Werror 
 
 DEBAG		=	-g
+
+TERM		=	-ltermcap -lncurses
 
 .PHONY		:	all clean fclean re bonus
 
@@ -25,7 +31,7 @@ all			:	$(NAME)
 $(NAME)		:	$(OBJ)
 						$(MAKE) all -C ./libft
 						$(MAKE) bonus -C ./libft
-						$(CC) $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME)
+						$(CC) $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME) $(TERM)
 
 %.o			:	%.c $(HEADER)
 								$(CC) $(FLAGS) -I$(HEADER) $(DEBAG) -c $< -o $@

@@ -1,19 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: spurple <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/26 18:32:35 by spurple           #+#    #+#             */
-/*   Updated: 2022/01/26 18:33:36 by spurple          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# include "minishell.h"
 
-#include "minishell.h"
-
-int main ()
+int main(int argc, char **argv, char **envp)
 {
-	printf("Minishell\n");
-	return 0;
+	char	*cmd;
+	if (1 != argc)
+		return (1);
+	while (1)
+	{
+		cmd = get_cmd ();
+	}
+	return (0);
 }
