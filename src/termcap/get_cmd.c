@@ -82,7 +82,7 @@ char *get_cmd()
 		exit(EXIT_FAILURE);
 	}
 	input_buf[l] = '\0';
-	while(strcmp(input_buf, "\n"))
+	while(strcmp(input_buf, "\n") && strcmp(input_buf, "\4"))
 	{
 		if (!manage_symb(input_buf))
 		{
@@ -96,6 +96,12 @@ char *get_cmd()
 			exit(EXIT_FAILURE);
 		}
 	}
+	if (!strcmp(input_buf, "\4"))
+	{
+		write (1, "exit\n", 5);
+		exit(EXIT_SUCCESS);
+	}
+	write(1, "\n", 1);
 	// возвращаем исходные настройки терминала
 	tcsetattr (STDIN_FILENO, TCSAFLUSH, &get_cmd.saved_tattr);
 	return (get_cmd.cmd);
