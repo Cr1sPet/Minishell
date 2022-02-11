@@ -4,6 +4,7 @@
 # include "../../includes/minishell.h"
 typedef	struct s_get_cmd
 {
+	int				balance;
 	char			*cmd;
 	char			*termtype;
 	struct termios	tattr;
