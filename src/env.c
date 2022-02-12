@@ -13,6 +13,20 @@ static void	memclean(char **s, size_t l)
 	free (s);
 }
 
+char	*get_env(char *point, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp(point, envp[i], ft_strlen(point)))
+			return (&envp[i][ft_strlen(point) + 1]);
+		i++;
+	}
+	return (NULL);
+}
+
 void	init_env(t_minishell *mshell, char **envp)
 {
 	int		i;

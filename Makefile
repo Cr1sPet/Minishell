@@ -2,7 +2,7 @@ NAME		=	minishell
 
 SRCS		=	./src/main.c\
 				./src/exec/exec.c\
-				./src/init_env.c\
+				./src/env.c\
 				./src/init.c\
 				
 

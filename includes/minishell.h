@@ -14,6 +14,7 @@ typedef struct s_minishell
 
 int		exec(char *str, char **envp);
 void	init_env(t_minishell *mshell, char **envp);
+char	*get_env(char *point, char **envp);
 void	initialisation(t_minishell *mshell, char **envp);
 
 #endif

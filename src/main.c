@@ -20,9 +20,7 @@ int main(int argc, char **argv, char **envp)
 	if (1 != argc)
 		return (1);
 	initialisation (&mshell, envp);
-	int	i = 0;
-	while (mshell.env[i])
-		puts(mshell.env[i++]);
+	puts(get_env("PATH", mshell.env));
 	while (1)
 	{
 		cmd = get_cmd ();
