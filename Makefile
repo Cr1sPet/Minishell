@@ -1,6 +1,9 @@
 NAME		=	minishell
 
 SRCS		=	./src/main.c\
+				./src/exec/exec.c\
+				./src/init_env.c\
+				./src/init.c\
 				
 
 HEADER		=	./includes/
@@ -15,7 +18,7 @@ CC			=	gcc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror 
+# FLAGS		=	-Wall -Wextra -Werror 
 
 DEBAG		=	-g
 

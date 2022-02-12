@@ -12,17 +12,21 @@ char *get_cmd()
 
 int main(int argc, char **argv, char **envp)
 {
+	char		*cmd;
+	t_minishell	mshell;
+
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	char	*cmd;
-
 	if (1 != argc)
 		return (1);
+	initialisation (&mshell, envp);
+	int	i = 0;
+	while (mshell.env[i])
+		puts(mshell.env[i++]);
 	while (1)
 	{
 		cmd = get_cmd ();
-		puts(cmd);
+		// exec(cmd, );
 	}
 	return (0);
 }
