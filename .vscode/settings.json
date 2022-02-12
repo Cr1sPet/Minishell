@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "term.h": "c"
+        "term.h": "c",
+        "readline.h": "c",
+        "history.h": "c"
     }
 }
