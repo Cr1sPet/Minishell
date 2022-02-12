@@ -4,7 +4,7 @@ char *get_cmd()
 {
 	char  *str;
 
-	str = readline("minishell > ");
+	str = readline("🦍 minishell > ");
 	if (str && *str)
 		add_history (str);
 	return (str);
