@@ -22,6 +22,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd = get_cmd ();
+		parse(cmd);
 		puts(cmd);
 	}
 	return (0);
