@@ -2,8 +2,13 @@ NAME		=	minishell
 
 SRCS		=	./src/main.c\
 				./src/exec/exec.c\
+				./get_next_line/get_next_line.c\
+				./src/exec/here_doc.c\
 				./src/env.c\
 				./src/init.c\
+				# ./get_next_line/get_next_line_utils.c\
+				# ./src/redir.c\
+				
 				
 
 HEADER		=	./includes/

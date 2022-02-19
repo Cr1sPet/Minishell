@@ -35,7 +35,7 @@ void	init_env(t_minishell *mshell, char **envp)
 	l = 0;
 	while (envp[l])
 		l++;
-	mshell->env = (char **)malloc (sizeof (char *)* (l + 1));
+	mshell->env = (char **)malloc (sizeof (char *) * (l + 1));
 	if (NULL == mshell->env)
 		exit (1);
 	i = -1;

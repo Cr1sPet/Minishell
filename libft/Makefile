@@ -45,7 +45,7 @@ $(NAME)		:	$(OBJS) $(HEADER)
 	@ar rcs $(NAME) $?
 
 %.o : %.c $(HEADER)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) -g $(CFLAGS) -c $< -o $@
 
 bonus		:
 	@make OBJS="$(OBJS_B)" all
