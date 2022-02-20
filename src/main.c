@@ -14,7 +14,6 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
 	char	*cmd;
 
 	if (1 != argc)
@@ -22,8 +21,8 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd = get_cmd ();
-		parse(cmd);
-		puts(cmd);
+		parse(cmd, envp);
+		// puts(cmd);
 	}
 	return (0);
 }

@@ -10,6 +10,6 @@
 //crs
 char *get_cmd();
 //crs
-void parse(char *str);
+void parse(char *str, char **envp);
 
 #endif

@@ -28,8 +28,7 @@ all			:	$(NAME)
 $(NAME)		:	$(OBJ)
 						$(MAKE) all -C ./libft
 						$(MAKE) bonus -C ./libft
-						$(CC) $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME) $(READ)
-
+						$(CC) $(FLAGS) $(OBJ)  ${LIBFT} -o $(NAME) $(READ) -lreadline -ltermcap -g -L/Users/$(USER)/.brew/opt/readline/lib/ -I/Users/$(USER)/.brew/opt/readline/include
 %.o			:	%.c $(HEADER)
 								$(CC) $(FLAGS) -I$(HEADER) $(DEBAG) -c $< -o $@
 
