@@ -30,22 +30,24 @@ char *ft_gap2(char *str, int *i, char **envp)
 	char *tmp;
 	char *tmp2;
 	char *tmp3;
+	// char *tmp4;
 
 	j = *i;
-	while (str[(*i)])
+	while (str[++(*i)])
 	{
 		if (str[(*i)] == '$')
-			str = ft_dollar(str, &(*i), envp);
-		if (str[(*i)] == '"')
+		{
+			str = ft_dollar(str, i, envp);
+		}
+		if (str[(*i)] == '\"')
 			break;
-		(*i)++;
 	}
 	tmp = ft_substr(str, 0, j);
 	tmp2 = ft_substr(str, j + 1, *i - j - 1);
 	tmp3 = ft_strdup(str + *i + 1);
 	tmp = ft_strjoin(tmp, tmp2);
-	free(tmp2);
 	tmp = ft_strjoin(tmp, tmp3);
+	free(tmp2);
 	free(tmp3);
 	free(str);
 	return tmp;
@@ -65,5 +67,5 @@ char *parse(char *str, char **envp)
         if (str[i] == '$') // $
 			str = ft_dollar(str, &i, envp);
 	}
-	return str;
+	return (str);
 }
