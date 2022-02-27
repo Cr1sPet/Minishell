@@ -21,8 +21,8 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd = get_cmd ();
-		parse(cmd, envp);
-		// puts(cmd);
+		cmd = parse(cmd, envp);
+		puts(cmd);
 	}
 	return (0);
 }

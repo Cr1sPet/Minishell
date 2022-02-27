@@ -1,6 +1,6 @@
 NAME		=	minishell
 
-SRCS		=	./src/main.c ./src/parser.c\
+SRCS		=	./src/main.c ./src/parsing/parser.c ./src/parsing/dollar.c\
 				
 
 HEADER		=	./includes/

@@ -10,6 +10,7 @@
 //crs
 char *get_cmd();
 //crs
-void parse(char *str, char **envp);
+char *parse(char *str, char **envp);
+char *ft_dollar(char *str, int *i, char **envp);
 
 #endif
