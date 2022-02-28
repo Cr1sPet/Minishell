@@ -18,6 +18,7 @@ int main(int argc, char **argv, char **envp)
 
 	if (1 != argc)
 		return (1);
+	ft_pwd();
 	while (1)
 	{
 		cmd = get_cmd ();
