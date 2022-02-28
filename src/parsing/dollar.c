@@ -7,7 +7,7 @@ int ifkey(char c)
 	return 0;
 }
 
-char	*handle_char_key(char *str, char *value, int j, int *i)
+char	*concat_str_value(char *str, char *value, int j, int *i)
 {
 	char	*line_new;
 	char	*tmp1;
@@ -76,5 +76,7 @@ char *ft_dollar(char *str, int *i, char **envp)
 		return (str);
 	key = ft_substr(str, j + 1, *i - j  - 1);
 	value = envp_value(key, envp);
-	return handle_char_key(str,value, j, i);
+	value = concat_str_value(str,value, j, i);
+	free(key);
+	return value;
 }

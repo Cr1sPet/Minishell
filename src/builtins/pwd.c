@@ -7,13 +7,13 @@ int ft_pwd()
     pwd = malloc(sizeof(*pwd) * 2048);
     if (getcwd(pwd, 2048))
     {
-        printf("%s\n", pwd);
+        ft_putendl_fd(pwd, 1);
         free(pwd);
         return 1;
     }
     else
     {
-        printf("Error\n");
+        ft_putendl_fd("Error", 1);
         free(pwd);
         return 0;
     }
