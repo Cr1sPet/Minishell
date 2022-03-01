@@ -1,6 +1,6 @@
 # include "minishell.h"
 
-char *get_cmd()
+char	*get_cmd()
 {
 	char  *str;
 
@@ -12,35 +12,47 @@ char *get_cmd()
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_cmd		cmd_list;
 	t_minishell	mshell;
-
+	t_cmd		*temp_cmd;
 	initialisation (&mshell, envp);
-	cmd_list.mshell = &mshell;
-	cmd_list.limiter = "limiter";
-	cmd_list.args = (char **) malloc (sizeof(char *) * 2);
-	cmd_list.args[0] = strdup("/bin/cat");
-	// cmd_list.args[1] = strdup("-e");
-	cmd_list.args[1] = NULL;
-	// cmd_list.redir_in = 0;
-	// cmd_list.redir_out = 0;
-	cmd_list.pipe_in = 0;
-	cmd_list.pipe_out = pipe_out;
-	cmd_list.redir_in = redir_in_1;
-	cmd_list.redir_out = redir_out_1;
-	cmd_list.f1 = open ("test", O_RDONLY);
-	if (-1 == cmd_list.f1)
+	
+	mshell.cmd_list->args = (char **) malloc (sizeof(char *) * 2);
+	mshell.cmd_list->args[0] = ft_strdup("meg");
+	mshell.cmd_list->args[1] = NULL;
+	mshell.cmd_list->pipe_out =pipe_out;
+	mshell.cmd_list->pipe_in = default_pipe_in;
+	mshell.cmd_list->redir_in = default_redir_in;
+	mshell.cmd_list->redir_out = default_redir_out;
+
+	lst_cmdadd_back(&mshell.cmd_list, lst_cmdnew(&mshell));
+	temp_cmd = mshell.cmd_list;
+	mshell.cmd_list = mshell.cmd_list->next;
+	mshell.cmd_list->args = (char **) malloc (sizeof(char *) * 2);
+	mshell.cmd_list->args[0] = ft_strdup("/bin/cat");
+	mshell.cmd_list->args[1] = NULL;
+	mshell.cmd_list->pipe_in = pipe_in;
+	mshell.cmd_list->pipe_out = default_pipe_out;
+	mshell.cmd_list->redir_in = default_redir_in;
+	mshell.cmd_list->redir_out = default_redir_out;
+	if (-1 == pipe(mshell.fds))
 	{
-		puts("ERROR IN FILE OPEN");
+		ft_putendl_fd("ERROR WITH PIPE", mshell.stdout);
 		exit (1);
 	}
-	cmd_list.f2 = open ("out.txt", O_APPEND | O_CREAT | O_RDWR, 0644);
-	if (-1 == cmd_list.f2)
-	{
-		puts("ERROR IN FILE OPEN");
-		exit (1);
-	}
-	exec(&cmd_list);
-	puts("\nHELLO");
+	// cmd_list.f1 = open ("in.txt", O_RDONLY);
+	// if (-1 == cmd_list.f1)
+	// {
+		// puts("ERROR IN FILE OPEN");
+		// exit (1);
+	// }
+	// printf("%s\n", mshell.cmd_list->args[0]);
+	// mshell.cmd_list->f2 = open ("out.txt", O_APPEND | O_CREAT | O_RDWR, 0644);
+	// if (-1 == mshell.cmd_list->f2)
+	// {
+		// puts("ERROR IN FILE OPEN");
+		// exit (1);
+	// }
+	mshell.cmd_list = temp_cmd;
+	exec(&mshell);
 	return (0);
 }

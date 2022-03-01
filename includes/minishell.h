@@ -17,7 +17,8 @@ typedef struct s_minishell
 	int		stdin;
 	int		stdout;
 	int		status;
-	int		*fd;
+	int		fds[2];
+	struct s_cmd *cmd_list;
 }				t_minishell;
 
 typedef struct s_cmd
@@ -36,18 +37,26 @@ typedef struct s_cmd
 
 typedef enum e_stat
 {
-	pipe_in = 1,
+	default_pipe_in,
+	default_pipe_out,
+	pipe_in,
 	pipe_out,
+	default_redir_in,
+	default_redir_out,
 	redir_in_1,
 	redir_in_2,
 	redir_out_1,
 	redir_out_2
 }					t_stat;
 
-int		exec(t_cmd *cmd_list);
+int		exec(t_minishell *mshell);
 void	init_env(t_minishell *mshell, char **envp);
 char	*get_env(char *point, char **envp);
 void	initialisation(t_minishell *mshell, char **envp);
 void	work_here_doc(char *limiter, int f);
+
+void	lst_cmdadd_back(t_cmd **lst, t_cmd *new);
+t_cmd	*lst_cmdnew(t_minishell *mshell);
+t_cmd	*lst_cmdlast(t_cmd *lst);
 
 #endif

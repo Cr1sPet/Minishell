@@ -6,6 +6,9 @@ SRCS		=	./src/main.c\
 				./src/exec/here_doc.c\
 				./src/env.c\
 				./src/init.c\
+				./src/lst_cmdadd_back.c\
+				./src/lst_cmdlast.c\
+				./src/lst_cmdnew.c\
 				# ./get_next_line/get_next_line_utils.c\
 				# ./src/redir.c\
 				
