@@ -21,6 +21,7 @@ char *ft_quotes(char *str, int *i)
 	tmp = ft_strjoin(tmp, tmp3);
 	free(tmp3);
 	free(str);
+	--(*i);
 	return tmp;
 }
 
@@ -49,5 +50,6 @@ char *ft_quotes_2(char *str, int *i, char **envp)
 	free(tmp2);
 	free(tmp3);
 	free(str);
+	--(*i);
 	return tmp;
 }

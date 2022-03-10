@@ -10,12 +10,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 #include "../libft/libft.h"
-
-char *get_cmd();    
-char *parse(char *str, char **envp);
-char *ft_dollar(char *str, int *i, char **envp);
-int ft_pwd();
-char *ft_quotes(char *str, int *i);
-char *ft_quotes_2(char *str, int *i, char **envp);
+#include "parser.h"
 
 #endif
