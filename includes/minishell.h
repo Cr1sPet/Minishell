@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 
+#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
@@ -49,6 +50,7 @@ typedef enum e_stat
 	redir_out_2
 }					t_stat;
 
+void	echo(char **args);
 int		exec(t_minishell *mshell);
 void	init_env(t_minishell *mshell, char **envp);
 char	*get_env(char *point, char **envp);
