@@ -50,7 +50,8 @@ typedef enum e_stat
 	redir_out_2
 }					t_stat;
 
-void	echo(char **args);
+void	pwd(t_minishell *mshell);
+void	echo(char **args, t_minishell *mshell);
 int		exec(t_minishell *mshell);
 void	init_env(t_minishell *mshell, char **envp);
 char	*get_env(char *point, char **envp);
