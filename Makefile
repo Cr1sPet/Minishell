@@ -4,11 +4,14 @@ SRCS		=	./src/main.c\
 				./src/exec/exec.c\
 				./get_next_line/get_next_line.c\
 				./src/exec/here_doc.c\
-				./src/env.c\
 				./src/init.c\
 				./src/lst_cmdadd_back.c\
 				./src/lst_cmdlast.c\
 				./src/lst_cmdnew.c\
+				./src/builtins/echo.c\
+				./src/builtins/pwd.c\
+				./src/builtins/env.c\
+				./src/builtins/unset.c\
 				# ./get_next_line/get_next_line_utils.c\
 				# ./src/redir.c\
 				
