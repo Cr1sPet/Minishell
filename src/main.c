@@ -21,26 +21,29 @@ int	main(int argc, char **argv, char **envp)
 	mshell.cmd_list->args[1] = ft_strdup("src");
 	mshell.cmd_list->args[2] = NULL;
 
-	// lst_cmdadd_back(mshell.cmd_list, lst_cmdnew(mshell));
-	// temp_cmd = temp_cmd->next;
-	// temp_cmd->args = (char **) malloc (sizeof(char *) * 3);
-	// temp_cmd->args[0] = ft_strdup("cd");
-	// temp_cmd->args[1] = ft_strdup("src");
-	// temp_cmd->args[2] = NULL;
-	// ft_putendl_fd(getenv("PWD"), 1);
-	// pwd(&mshell);
-	ft_putendl_fd(get_env("PWD", mshell.env), 1);
-	ft_putendl_fd(get_env("OLDPWD", mshell.env), 1);
-	// chdir("src");
-	change_dir(&mshell);
-	// pwd(&mshell);
-	ft_putendl_fd(get_env("PWD", mshell.env), 1);
-	ft_putendl_fd(get_env("OLDPWD", mshell.env), 1);
-	// change_dir(&mshell);
-	// ft_putendl_fd(getenv("PWD"), 1);
-	// chdir("~");
-	// pwd(&mshell);
-	// ft_putendl_fd(getenv("PWD"), 1);
-	// exec(&mshell);
+	// char **ar =  (char *[]) {"export", "ABOBA=SETTED_ABOBA", NULL};
+	// char **ar2 =  (char *[]) {"export", "ABOBA2=", NULL};
+	char **ar = (char **)malloc (sizeof(char *) * 3);
+	ar[0] = ft_strdup("export");
+	ar[1] = ft_strdup("ABOBA=");
+	ar[2] = NULL;
+
+	char **ar2 = (char **)malloc (sizeof(char *) * 3);
+	ar2[0] = ft_strdup("export");
+	ar2[1] = ft_strdup("ABOBA2");
+	ar2[2] = NULL;
+
+	char **ar3 = (char **)malloc (sizeof(char *) * 3);
+	ar3[0] = ft_strdup("unset");
+	ar3[1] = ft_strdup("ABOBA");
+	ar3[2] = NULL;
+	ft_putendl_fd(get_env("ABOBA", mshell.env), 1);
+	export(ar, &mshell);
+	ft_putendl_fd(get_env("ABOBA=", mshell.env), 1);
+	// unset(ar3, &mshell);
+	// ft_putendl_fd(get_env("ABOBA", mshell.env), 1);
+	env(&mshell);
+	// export(ar2, &mshell);
+	// ft_putnbr_fd(find_len(ar2), 1);
 	return (0);
 }

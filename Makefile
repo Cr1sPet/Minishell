@@ -13,6 +13,7 @@ SRCS		=	./src/main.c\
 				./src/builtins/env.c\
 				./src/builtins/unset.c\
 				./src/builtins/change_dir.c\
+				./src/builtins/export.c\
 				# ./get_next_line/get_next_line_utils.c\
 				# ./src/redir.c\
 				

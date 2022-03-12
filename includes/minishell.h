@@ -50,11 +50,14 @@ typedef enum e_stat
 	redir_out_2
 }					t_stat;
 
+
+void	export(char **args, t_minishell *mshell);
+int		find_len(char **arr);
 void	env(t_minishell *mshell);
 void	pwd(t_minishell *mshell);
 void	change_dir(t_minishell *mshell);
 void	echo(char **args);
-void	unset(t_minishell *mshell);
+void	unset(char **args, t_minishell *mshell);
 int		exec(t_minishell *mshell);
 void	init_env(t_minishell *mshell, char **envp);
 int		get_ind_env(char *point, char **envp);
