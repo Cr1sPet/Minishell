@@ -3,11 +3,18 @@
 void	pwd(t_minishell *mshell)
 {
 	char	*pwd;
+	char	buf[2048];
 
-	pwd = get_env("PWD", mshell->env);
+	pwd = getcwd(buf, sizeof(buf));
 	if (pwd)
-		ft_putendl_fd(pwd, 1);
+	{
+		ft_putendl_fd(buf, 1);
+		mshell->status = 0;
+	}
 	else
+	{
+		perror("Error");
 		ft_putendl_fd("No such file or directory", 1);
-	mshell->status = 127;
+		mshell->status = 127;
+	}
 }

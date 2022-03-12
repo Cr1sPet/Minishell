@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	memclean(char **s, size_t l)
+void	memclean(char **s, size_t l)
 {
 	size_t	i;
 
@@ -11,6 +11,20 @@ static void	memclean(char **s, size_t l)
 		i++;
 	}
 	free (s);
+}
+
+int	get_ind_env(char *point, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (!ft_strncmp(point, envp[i], ft_strlen(point)))
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 char	*get_env(char *point, char **envp)

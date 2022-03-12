@@ -57,7 +57,7 @@ void	echo(char **args);
 void	unset(t_minishell *mshell);
 int		exec(t_minishell *mshell);
 void	init_env(t_minishell *mshell, char **envp);
-// int		get_ind_env(char *point, char **envp);
+int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
 char	*get_env(char *point, char **envp);
 void	initialisation(t_minishell *mshell, char **envp);
