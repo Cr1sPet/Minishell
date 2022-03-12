@@ -38,10 +38,12 @@ char	*concat_str_value(char *str, char *value, int j, int *i)
 
 char *envp_value(char *key, char **envp)
 {
-	int z = 0;
-	int	k = -1;
-	char *value;
+	int		z;
+	int		k;
+	char	*value;
 
+	z = 0;
+	k = -1;
 	while (envp[++k])
 	{
 		z = 0;
@@ -53,10 +55,11 @@ char *envp_value(char *key, char **envp)
 			if (z == (int)ft_strlen(key))
 			{
 				value = ft_substr(envp[k], z + 1, ft_strlen(envp[k]) - z);
-				return value;
+				return (value);
 			}
 		}
 	}
+	free(value);
 	return NULL;
 }
 

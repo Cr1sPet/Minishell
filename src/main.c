@@ -25,6 +25,8 @@ int	main(int argc, char **argv, char **envp)
 		parser(str_cmd, cmd, envp);
 		if (str_cmd->args[0])
 			puts(str_cmd->args[0]);
+		free(str_cmd->args);
+		free(cmd);
 	}
 	return (0);
 }
