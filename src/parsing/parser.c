@@ -1,6 +1,6 @@
 # include "minishell.h"
 
-int prepars(char *line, int i)
+int	prepars(const char *line, int i)
 {
 	char	ch;
 
@@ -19,31 +19,57 @@ int prepars(char *line, int i)
 	return (1);
 }
 
-char *parser(t_cmd pars_cmd,char *str, char **envp)
+char	*ft_space(char *str, int *i)
 {
-	int i;
-	char *cmd;
+	char	*tmp;
+	char	*tmp2;
+	int		j;
+
+	j = *i;
+	while (str[(*i)] == ' ')
+		++(*i);
+	tmp = ft_substr(str, 0, j + 1);
+	tmp2 = ft_strdup(str + *i);
+	tmp = ft_strjoin(tmp, tmp2);
+	free(tmp2);
+	free(str);
+	return (tmp);
+}
+
+char	*correct_str( char *str, char **envp)
+{
+	int		i;
 
 	i = -1;
-	if (!prepars(str, i))
-		return "Error";
-	while (str[++i] != ' ')
-		;
-	cmd = malloc(sizeof(char) *  i);
-	cmd = ft_substr(str, 0, i);
-	pars_cmd.args[0] = cmd;
-	free(cmd);
-	i = -1;
 	while (str[++i])
-	{  
+	{
+		if (str[i] == ' ')
+			str = ft_space(str, &i);
 		if (str[i] == '\'')
 			str = ft_quotes(str, &i);
-		if (str[i] == '"')
+		if (str[i] == '\"')
 			str = ft_quotes_2(str, &i, envp);
-        if (str[i] == '$')
+		if (str[i] == '$')
 			str = ft_dollar(str, &i, envp);
 	}
-	pars_cmd.args[2] = str;
+	return (str);
+}
+
+void	list_cmd(t_cmd *cmd, char *str)
+{
+	cmd->args = ft_split(str, ' ');
+}
+
+void	*parser(t_cmd *cmd, char *str, char **envp)
+{
+	if (!prepars(str, -1))
+	{
+		ft_putendl_fd("Error", 1);
+		return NULL;
+	}
+	str = correct_str(str, envp);
+	list_cmd(cmd, str);
+	printf("%s <--str\n", str);
 	free(str);
-	return (pars_cmd.args[2]);
+	return NULL;
 }

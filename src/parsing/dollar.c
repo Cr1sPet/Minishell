@@ -1,6 +1,6 @@
 # include "minishell.h"
 
-int ifkey(char c)
+int	ifkey(char c)
 {
 	if (c == '_' || ft_isalnum(c) || c == '*' || c == '!')
 		return (1);
@@ -60,23 +60,23 @@ char *envp_value(char *key, char **envp)
 	return NULL;
 }
 
-char *ft_dollar(char *str, int *i, char **envp)
+char	*ft_dollar(char *str, int *i, char **envp)
 {
-	char *key;
-	char *value;
-	int j;
+	char	*key;
+	char	*value;
+	int		j;
 
 	j = *i;
 	while (str[++(*i)])
 	{
 		if (!ifkey(str[*i]))
-			break;
+			break ;
 	}
 	if (*i == j + 1)
 		return (str);
-	key = ft_substr(str, j + 1, *i - j  - 1);
+	key = ft_substr(str, j + 1, *i - j - 1);
 	value = envp_value(key, envp);
-	value = concat_str_value(str,value, j, i);
+	value = concat_str_value(str, value, j, i);
 	free(key);
-	return value;
+	return (value);
 }
