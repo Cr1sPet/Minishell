@@ -10,6 +10,16 @@ char	*get_key(char *var)
 	return (ft_substr(var, 0, i));
 }
 
+int		ft_strcmp(char const *s1, char const *s2)
+{
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		++i;
+	return (s1[i] - s2[i]);
+}
+
 int	key_cmp(char *var1, char *var2)
 {
 	char	*key1;
@@ -27,7 +37,7 @@ int	key_cmp(char *var1, char *var2)
 		ft_putendl_fd("ERROR WITH MALLOC", 1);
 		exit (1);
 	}
-	return (strcmp(key1, key2));
+	return (ft_strcmp(key1, key2));
 }
 
 void	add_var(t_minishell *mshell, char *str)
@@ -81,20 +91,19 @@ void	print_sorted_env(char **env)
 	char	**temp_env;
 
 	i = 0;
-	j = 0;
 	temp_env = cp_2d_arr(env);
 	arr_size = find_len(temp_env);
 	while (i < arr_size)
 	{
+		j = 0;
 		while (j < arr_size - 1 - i)
 		{
 			int a = key_cmp(temp_env[j], temp_env[j + 1]);
 			if (a > 0)
 			{
-				swap1(&temp_env[j], &temp_env[j + 1]);
-				// temp = temp_env[j];
-				// temp_env[j] = temp_env[j + 1];
-				// temp_env[j + 1] = temp;
+				temp = temp_env[j];
+				temp_env[j] = temp_env[j + 1];
+				temp_env[j + 1] = temp;
 			}
 			j++;
 		}
