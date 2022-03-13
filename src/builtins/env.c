@@ -29,40 +29,43 @@ int	get_ind_env(char *point, char **envp)
 
 char	*get_env(char *point, char **envp)
 {
-	int	i;
+	int		i;
+	char	*key;
 
 	i = 0;
+	key = ft_strjoin(point, "=");
 	while (envp[i])
 	{
-		if (!ft_strncmp(point, envp[i], ft_strlen(point)))
+		if (0 == ft_strncmp(envp[i], key, ft_strlen(key)))
 			return (&envp[i][ft_strlen(point) + 1]);
 		i++;
 	}
 	return (NULL);
 }
 
-void	init_env(t_minishell *mshell, char **envp)
+char	**cp_2d_arr(char **envp)
 {
 	int		i;
 	int		l;
-
+	char	**ret_arr;
 	l = 0;
 	while (envp[l])
 		l++;
-	mshell->env = (char **)malloc (sizeof (char *) * (l + 1));
-	if (NULL == mshell->env)
+	ret_arr = (char **)malloc (sizeof (char *) * (l + 1));
+	if (NULL == ret_arr)
 		exit (1);
 	i = -1;
 	while (++i < l)
 	{
-		mshell->env[i] = ft_strdup(envp[i]);
-		if (NULL == mshell->env[i])
+		ret_arr[i] = ft_strdup(envp[i]);
+		if (NULL == ret_arr[i])
 		{
-			memclean(mshell->env, i);
+			memclean(ret_arr, i);
 			exit (1);
 		}
 	}
-	mshell->env[i] = NULL;
+	ret_arr[i] = NULL;
+	return (ret_arr);
 }		
 
 void	env(t_minishell *mshell)

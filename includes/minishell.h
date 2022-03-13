@@ -59,7 +59,7 @@ void	change_dir(t_minishell *mshell);
 void	echo(char **args);
 void	unset(char **args, t_minishell *mshell);
 int		exec(t_minishell *mshell);
-void	init_env(t_minishell *mshell, char **envp);
+char	**cp_2d_arr(char **envp);
 int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
 char	*get_env(char *point, char **envp);

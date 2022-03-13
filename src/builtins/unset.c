@@ -34,12 +34,20 @@ void	unset(char **args, t_minishell *mshell)
 {
 	int		i;
 	int		j;
+	char	*key;
 
 	i = 1;
 	j = 0;
 	while (args[i])
 	{
-		j = get_ind_env(args[i], mshell->env);
+		key = ft_strjoin(args[i], "=");
+		if (!key)
+		{
+			ft_putendl_fd("ERROR IN MALLOC", 2);
+			exit(1);
+		}
+		j = get_ind_env(key, mshell->env);
+		free (key);
 		if (-1 != j)
 		{
 			mshell->env = del_str(mshell->env, j);
