@@ -2,7 +2,7 @@ NAME		=	minishell
 
 SRCS		=	./src/main.c ./src/parsing/parser.c ./src/parsing/dollar.c\
 				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
-				./src/signal/signal.c
+				./src/signal/signal.c ./src/parsing/pipe.c\
 
 HEADER		=	./includes/
 
