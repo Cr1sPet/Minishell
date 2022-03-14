@@ -12,4 +12,15 @@
 #include "../libft/libft.h"
 #include "parser.h"
 
+typedef struct s_minishell
+{
+	char	**env;
+	int		stdin;
+	int		stdout;
+	int		status;
+	int		fds[2];
+	struct s_cmd *cmd_list;
+}				t_minishell;
+
+t_minishell shell;
 #endif

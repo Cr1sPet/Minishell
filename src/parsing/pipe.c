@@ -48,15 +48,16 @@ char *pipe_parse(int i,char *str, char **envp)
     (void)envp;
     temp = ft_substr(str, 0, i);
     cmd = command_split(temp);
-    ret =  ft_substr(str, i, ft_strlen(str));
-    int k;
-
-    k = -1;
-    while (cmd[++k])
+    cmd = correct_str(cmd,envp);
+    ret =  ft_substr(str, i + 1, ft_strlen(str));
+    ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
+    while (shell.cmd_list)
     {
-        cmd[k] = correct_str(cmd[k], envp);
-        printf("%s\n", cmd[k]);
+        int i = -1;
+        while (shell.cmd_list->args[++i])
+            printf("%s \n", shell.cmd_list->args[i]);
+        printf("--------------------------------------\n");
+        shell.cmd_list = shell.cmd_list->next;
     }
-        
     return ret;
 }

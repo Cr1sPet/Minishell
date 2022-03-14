@@ -19,15 +19,15 @@ void cmd_split(t_cmd *cmd, char *str, char **envp)
 		if (str[i] == '|')
 		{
 			str = pipe_parse(i, str, envp);
-			printf("%s str_tr\n", str);
-			i = 0;
+			i = 1;
 		}
 	}
+	str = pipe_parse(i, str, envp);
 }
 
 void	*parser(t_cmd *cmd, char *str, char **envp)
 {
-	if (!prepars(str))
+	if (!prepars(str) || str[0] == '|')
 		ft_putendl_fd("Error", 1);
 	else
 	{

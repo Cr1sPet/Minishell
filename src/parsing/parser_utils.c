@@ -23,6 +23,49 @@
 // 	return (tmp);
 // }
 
+void	ft_lstadd_back_parse(t_cmd **lst, t_cmd *new)
+{
+	t_cmd	*tmp;
+
+	if (lst)
+	{
+		if (*lst)
+		{
+			tmp = ft_lstlast_parse(*lst);
+			tmp->next = new;
+		}
+		else
+		{
+			*lst = new;
+		}
+	}
+}
+
+t_cmd	*ft_lstlast_parse(t_cmd *lst)
+{
+	if ((void *)0 == lst)
+		return ((void *)0);
+	while (lst)
+	{
+		if (!lst->next)
+			return (lst);
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+t_cmd	*ft_lstnew_parse(void *content)
+{
+	t_cmd	*new_list;
+
+	new_list = (t_cmd *)malloc(sizeof(t_cmd));
+	if ((void *)0 == new_list)
+		return ((void *)0);
+	new_list->args = content;
+	new_list->next = (void *)0;
+	return (new_list);
+}
+
 int	prepars(const char *str)
 {
 	char	ch;
@@ -40,23 +83,35 @@ int	prepars(const char *str)
 			if (!str[i] || str[i] != ch)
 				return (0);
 		}
+        if (str[i] == '|')
+        {
+			while (str[++i] && str[i] == ' ')
+                    ;
+            if (str[i + 1] == ' ' || str[i + 1] == '\0')
+                return (0);
+        }
 	}
 	return (1);
 }
 
-char	*correct_str(char *str, char **envp)
+char	**correct_str(char **str, char **envp)
 {
 	int		i;
+    int     j;
 
 	i = -1;
 	while (str[++i])
 	{
-		if (str[i] == '\'')
-			str = ft_quotes(str, &i);
-		if (str[i] == '\"')
-			str = ft_quotes_2(str, &i, envp);
-		if (str[i] == '$')
-			str = ft_dollar(str, &i, envp);
+        j = -1;
+        while (str[i][++j]) 
+        {
+            if (str[i][j] == '\'')
+			    str[i] = ft_quotes(str[i], &j);
+		    if (str[i][j] == '\"')
+			    str[i] = ft_quotes_2(str[i], &j, envp);
+		    if (str[i][j] == '$')
+			    str[i] = ft_dollar(str[i], &j, envp);
+        }
 	}
 	return (str);
 }
