@@ -59,7 +59,6 @@ char *envp_value(char *key, char **envp)
 			}
 		}
 	}
-	free(value);
 	return NULL;
 }
 

@@ -19,14 +19,14 @@ int	main(int argc, char **argv, char **envp)
 	str_cmd = malloc(sizeof(t_cmd));
 	if (1 != argc)
 		return (1);
+	// signal_init();
 	while (1)
 	{
 		cmd = get_cmd();
 		parser(str_cmd, cmd, envp);
-		if (str_cmd->args[0])
-			puts(str_cmd->args[0]);
+		// if (str_cmd->args[0])
+		// 	puts(str_cmd->args[0]);
 		free(str_cmd->args);
-		free(cmd);
 	}
 	return (0);
 }

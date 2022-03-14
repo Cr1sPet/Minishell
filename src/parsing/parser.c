@@ -43,18 +43,17 @@ char	*correct_str(char *str, char **envp)
 	int		i;
 
 	i = -1;
-//	str = ft_strtrim(str, " ");
-	(void)envp;
+	str = ft_strtrim(str, " ");
 	while (str[++i])
 	{
-//		if (str[i] == ' ')
-//			str = ft_space(str, i);
-//		if (str[i] == '\'')
-//			str = ft_quotes(str, &i);
-//		if (str[i] == '\"')
-//			str = ft_quotes_2(str, &i, envp);
-//		if (str[i] == '$')
-//			str = ft_dollar(str, &i, envp);
+		if (str[i] == ' ')
+			str = ft_space(str, i);
+		if (str[i] == '\'')
+			str = ft_quotes(str, &i);
+		if (str[i] == '\"')
+			str = ft_quotes_2(str, &i, envp);
+		if (str[i] == '$')
+			str = ft_dollar(str, &i, envp);
 	}
 	return (str);
 }
@@ -62,20 +61,18 @@ char	*correct_str(char *str, char **envp)
 void	list_cmd(t_cmd *cmd, char *str)
 {
 	cmd->args = ft_split(str, ' ');
-	free(str);
 }
 
 void	*parser(t_cmd *cmd, char *str, char **envp)
 {
 	if (!prepars(str))
-	{
 		ft_putendl_fd("Error", 1);
-		return NULL;
+	else
+	{
+		str = correct_str(str, envp);
+		printf("%s<--str\n", str);
+		list_cmd(cmd, str);
 	}
-//	str = correct_str(str, envp);
-	(void)envp;
-	(void)cmd;
-	printf("%s<--str\n", str);
-//	list_cmd(cmd, str);
+	free(str);
 	return NULL;
 }
