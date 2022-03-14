@@ -75,6 +75,25 @@ int	is_bin(char **args)
 	return (0);
 }
 
+int	try_builtin(t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->args[0], "echo"))
+		echo(cmd->args);
+	else if (!ft_strcmp(cmd->args[0], "cd"))
+		change_dir(cmd->mshell);
+	else if (!ft_strcmp(cmd->args[0], "env"))
+		env(cmd->mshell);
+	else if (!ft_strcmp(cmd->args[0], "pwd"))
+		pwd(cmd->mshell);
+	else if (!ft_strcmp(cmd->args[0], "export"))
+		export(cmd->args, cmd->mshell);
+	else if (!ft_strcmp(cmd->args[0], "unset"))
+		unset(cmd->args, cmd->mshell);
+	else
+		return (0);
+	return (1);
+}
+
 int	exec(t_cmd *cmd)
 {
 	while(cmd)
@@ -86,6 +105,11 @@ int	exec(t_cmd *cmd)
 	// else
 		// if ()
 		// set_fd(cmd);
+		if (try_builtin (cmd))
+		{
+			cmd = cmd->next;
+			continue;
+		}
 		if ('/' == cmd->args[0][0] || !ft_strncmp(cmd->args[0], "../", 3)\
 			|| !ft_strncmp(cmd->args[0], "./", 2))
 			exe(cmd->mshell);

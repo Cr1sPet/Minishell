@@ -18,10 +18,11 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd			*temp_cmd;
 
 	initialisation(&mshell, envp);
-	mshell.cmd_list->args = (char **) malloc (sizeof(char *) * 3);
-	mshell.cmd_list->args[0] = ft_strdup("cat");
+	mshell.cmd_list->args = (char **) malloc (sizeof(char *) * 4);
+	mshell.cmd_list->args[0] = ft_strdup("echo");
 	mshell.cmd_list->args[1] = ft_strdup("fegg.c");
-	mshell.cmd_list->args[2] = NULL;
+	mshell.cmd_list->args[2] = ft_strdup("-n");
+	mshell.cmd_list->args[4] = NULL;
 	mshell.cmd_list->pipe_in = default_pipe_in;
 	mshell.cmd_list->pipe_out = default_pipe_out;
 	mshell.cmd_list->redir_in = default_redir_in;

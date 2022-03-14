@@ -67,6 +67,7 @@ void	initialisation(t_minishell *mshell, char **envp);
 void	work_here_doc(char *limiter, int f);
 
 int		parse_cmds(t_cmd *cmd);
+int		ft_strcmp(char const *s1, char const *s2);
 void	lst_cmdadd_back(t_cmd **lst, t_cmd *new);
 t_cmd	*lst_cmdnew(t_minishell *mshell);
 t_cmd	*lst_cmdlast(t_cmd *lst);

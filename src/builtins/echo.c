@@ -14,7 +14,7 @@ void	echo(char **args)
 		write(1, "\n", 1);
 		return ;
 	}
-	if (i > 2)
+	if (i >=2)
 	{
 		if (!strcmp(args[1], "-n"))
 			j++;
