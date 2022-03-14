@@ -50,6 +50,7 @@ int	exe(t_minishell *mshell)
 		if (-1 == execve(mshell->cmd_list->args[0], mshell->cmd_list->args, mshell->env))
 		{
 			ft_putendl_fd("ERROR IN EXECVE", mshell->stdout);
+			perror("ERROR");
 			exit (1);
 		}
 	}
@@ -63,15 +64,35 @@ int	exe(t_minishell *mshell)
 	return (1);
 }
 
-int	exec(t_minishell *mshell)
+void	set_fd(t_cmd *cmd)
 {
-	while(mshell->cmd_list) {
-	// if (is_builtin(cmd_list))
-		// exec_builtin(cmd_list);
-	// else
-		exe(mshell);
-		mshell->cmd_list = mshell->cmd_list->next;
-	}
+	// if (cmd.)
+}
+
+int	is_bin(char **args)
+{
+
 	return (0);
 }
 
+int	exec(t_cmd *cmd)
+{
+	while(cmd)
+	{
+		// if (cmd->redir_out != default_redir_out)
+		
+	// if (is_builtin(cmd_list))
+	// 	exec_builtin(cmd_list);
+	// else
+		// if ()
+		// set_fd(cmd);
+		if ('/' == cmd->args[0][0] || !ft_strncmp(cmd->args[0], "../", 3)\
+			|| !ft_strncmp(cmd->args[0], "./", 2))
+			exe(cmd->mshell);
+		else if (parse_cmds(cmd))
+			exe(cmd->mshell);
+		ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
+		cmd = cmd->next;
+	}
+	return (0);
+}

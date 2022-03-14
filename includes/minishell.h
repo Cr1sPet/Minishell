@@ -58,7 +58,7 @@ void	pwd(t_minishell *mshell);
 void	change_dir(t_minishell *mshell);
 void	echo(char **args);
 void	unset(char **args, t_minishell *mshell);
-int		exec(t_minishell *mshell);
+int		exec(t_cmd *cmd);
 char	**cp_2d_arr(char **envp);
 int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
@@ -66,6 +66,7 @@ char	*get_env(char *point, char **envp);
 void	initialisation(t_minishell *mshell, char **envp);
 void	work_here_doc(char *limiter, int f);
 
+int		parse_cmds(t_cmd *cmd);
 void	lst_cmdadd_back(t_cmd **lst, t_cmd *new);
 t_cmd	*lst_cmdnew(t_minishell *mshell);
 t_cmd	*lst_cmdlast(t_cmd *lst);
