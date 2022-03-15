@@ -19,6 +19,7 @@ typedef struct s_minishell
 	int		stdout;
 	int		status;
 	int		fds[2];
+	int		fds1[2];
 	struct s_cmd *cmd_list;
 }				t_minishell;
 

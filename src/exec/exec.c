@@ -1,43 +1,20 @@
 #include "minishell.h"
 
-int	is_builtin(t_cmd *cmdlist)
-{
-	return (0);
-}
-
-int	exec_builtin(t_cmd *cmdlist)
-{
-	return (0);
-}
-
-int	exe(t_minishell *mshell)
+int	exe(t_cmd *cmd_list)
 {
 	pid_t	child;
 
-	if (mshell->cmd_list->redir_in != default_redir_in || mshell->cmd_list->redir_out != default_redir_out)
+	if (cmd_list->redir_in != default_redir_in || cmd_list->redir_out != default_redir_out)
 	{
-		if (mshell->cmd_list->redir_in == redir_in_1)
-			dup2(mshell->cmd_list->f1, STDIN_FILENO);
-		else if (mshell->cmd_list->redir_in == redir_in_2)
+		if (cmd_list->redir_in == redir_in_1)
+			dup2(cmd_list->f1, STDIN_FILENO);
+		else if (cmd_list->redir_in == redir_in_2)
 		{
-			work_here_doc(mshell->cmd_list->limiter, mshell->cmd_list->f1);
-			dup2(mshell->cmd_list->f1, STDIN_FILENO);
+			work_here_doc(cmd_list->limiter, cmd_list->f1);
+			dup2(cmd_list->f1, STDIN_FILENO);
 		}
-		if (mshell->cmd_list->redir_out == redir_out_1)
-			dup2(mshell->cmd_list->f2, STDOUT_FILENO);
-	}
-	else if (mshell->cmd_list->pipe_in != default_pipe_in || mshell->cmd_list->pipe_out != default_pipe_out)
-	{
-		if (mshell->cmd_list->pipe_in == pipe_in)
-		{
-			dup2(mshell->fds[0], STDIN_FILENO);
-			close(mshell->fds[1]);
-		}
-		if (mshell->cmd_list->pipe_out == pipe_out)
-		{
-			dup2(mshell->fds[1], STDOUT_FILENO);
-			// close(mshell->fds[0]);
-		}
+		if (cmd_list->redir_out == redir_out_1)
+			dup2(cmd_list->f2, STDOUT_FILENO);
 	}
 	child = fork();
 	if (-1 == child)
@@ -47,32 +24,21 @@ int	exe(t_minishell *mshell)
 	}
 	else if (0 == child)
 	{
-		if (-1 == execve(mshell->cmd_list->args[0], mshell->cmd_list->args, mshell->env))
+		if (-1 == execve(cmd_list->args[0], cmd_list->args, cmd_list->mshell->env))
 		{
-			ft_putendl_fd("ERROR IN EXECVE", mshell->stdout);
+			ft_putendl_fd("ERROR IN EXECVE", cmd_list->mshell->stdout);
 			perror("ERROR");
 			exit (1);
 		}
 	}
-	else
-	{
-		waitpid(child, &(mshell->status), 0);
-		dup2(mshell->stdin, STDIN_FILENO);
-		dup2(mshell->stdout, STDOUT_FILENO);
-		// ft_putnbr_fd(WEXITSTATUS(mshell->status), 1);
-	}
+	// else
+	// {
+	// 	waitpid(child, &(mshell->status), 0);
+	// 	dup2(mshell->stdin, STDIN_FILENO);
+	// 	dup2(mshell->stdout, STDOUT_FILENO);
+	// 	// ft_putnbr_fd(WEXITSTATUS(mshell->status), 1);
+	// }
 	return (1);
-}
-
-void	set_fd(t_cmd *cmd)
-{
-	// if (cmd.)
-}
-
-int	is_bin(char **args)
-{
-
-	return (0);
 }
 
 int	try_builtin(t_cmd *cmd)
@@ -94,27 +60,74 @@ int	try_builtin(t_cmd *cmd)
 	return (1);
 }
 
+int	set_fd (t_cmd *cmd_list, int *ok)
+{
+	*ok = 0;
+	if (cmd_list->pipe_in != default_pipe_in || cmd_list->pipe_out != default_pipe_out)
+	{
+		if (cmd_list->pipe_in == pipe_in)
+		{
+			dup2(cmd_list->mshell->fds[0], STDIN_FILENO);
+			*ok = 1;
+			close(cmd_list->mshell->fds[1]);
+		}
+		if (cmd_list->pipe_out == pipe_out)
+		{
+			pipe (cmd_list->mshell->fds);
+			// close (fds2[0]);
+			dup2(cmd_list->mshell->fds[1], STDOUT_FILENO);
+			if (*ok == 1)
+				*ok = 3;
+			else
+				*ok = 2;
+
+			// close(mshell->fds[0]);
+		}
+	}
+}
+
 int	exec(t_cmd *cmd)
 {
+	int	ok;
+
+
+	ok = 0;
 	while(cmd)
 	{
-		// if (cmd->redir_out != default_redir_out)
-		
-	// if (is_builtin(cmd_list))
-	// 	exec_builtin(cmd_list);
-	// else
-		// if ()
-		// set_fd(cmd);
+		set_fd(cmd, &ok);
 		if (try_builtin (cmd))
 		{
 			cmd = cmd->next;
+			if (ok)
+			{
+				if (1 == ok || ok == 3)
+				{
+					// close (cmd->mshell->fds[0]);
+					dup2(cmd->mshell->stdin, STDIN_FILENO);
+				}
+				if (2 == ok || ok == 3)
+				{
+					// close (cmd->mshell->fds[1]);
+					dup2(cmd->mshell->stdout, STDOUT_FILENO);
+				}
+			}
 			continue;
 		}
 		if ('/' == cmd->args[0][0] || !ft_strncmp(cmd->args[0], "../", 3)\
 			|| !ft_strncmp(cmd->args[0], "./", 2))
-			exe(cmd->mshell);
+			exe(cmd);
 		else if (parse_cmds(cmd))
-			exe(cmd->mshell);
+			exe(cmd);
+		if (1 == ok || ok == 3)
+		{
+			// close (cmd->mshell->fds[0]);
+			dup2(cmd->mshell->stdin, STDIN_FILENO);
+		}
+		if (2 == ok || ok == 3)
+		{
+			// close (cmd->mshell->fds[1]);
+			dup2(cmd->mshell->stdout, STDOUT_FILENO);
+		}
 		ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 		cmd = cmd->next;
 	}
