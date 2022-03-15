@@ -39,17 +39,18 @@ char	**command_split(char *str)
 	return (cmds);
 }
 
-char *pipe_parse(int i,char *str, char **envp) 
+char *pipe_parse(int *i,char *str, char **envp) 
 {
     char    *temp;
     char    *ret;
     char    **cmd;
 
     (void)envp;
-    temp = ft_substr(str, 0, i);
+    temp = ft_substr(str, 0, *i);
     cmd = command_split(temp);
     cmd = correct_str(cmd,envp);
-    ret =  ft_substr(str, i + 1, ft_strlen(str));
+    ret =  ft_substr(str, *i + 1, ft_strlen(str));
+    *i = 0;
     ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
     while (shell.cmd_list)
     {
