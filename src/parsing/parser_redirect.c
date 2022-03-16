@@ -43,9 +43,13 @@ char *right_redirect(char *str, int *i, char **envp)
     while (str[++j] && str[j] != '>' && str[j] != '|')
         ;
     filename = ft_substr(str, *i + 1, j - 1);
+    filename = ft_strtrim(filename, " ");
     filename = correct_test(filename, envp);
     ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redr_list, ft_lstnew_redir(filename, 0));
     ret = ft_substr(str, ft_strlen(filename), ft_strlen(str) - ft_strlen(filename));
+    *i = -1;
+    printf("%s <--filename\n", filename);
+    printf("%s <---ret\n", ret);
     return ret;
 }
 
