@@ -39,26 +39,38 @@ char	**command_split(char *str)
 	return (cmds);
 }
 
+int check_redir(char *str, int i)
+{
+    int j;
+
+    j = -1;
+    while(++j < i)
+    {
+        if (str[j] == '>' ||  str[j] == '<')
+            return j;
+    }
+    return 0;
+}
+
 char *pipe_parse(int *i,char *str, char **envp) 
 {
     char    *temp;
+    char    *temp_2;
     char    *ret;
     char    **cmd;
 
-    (void)envp;
     temp = ft_substr(str, 0, *i);
+    if (check_redir(str, *i))
+    {
+        temp = ft_substr(str, 0, check_redir(str, *i));
+        temp_2 = ft_substr(str,  check_redir(str, *i), ft_strlen(str) - check_redir(str, *i));
+    }
     cmd = command_split(temp);
     cmd = correct_str(cmd,envp);
     ret =  ft_substr(str, *i + 1, ft_strlen(str));
-    *i = 0;
     ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
-    while (shell.cmd_list)
-    {
-        int i = -1;
-        while (shell.cmd_list->args[++i])
-            printf("%s \n", shell.cmd_list->args[i]);
-        printf("--------------------------------------\n");
-        shell.cmd_list = shell.cmd_list->next;
-    }
+    if (check_redir(str, *i))
+        redir(temp_2, envp);
+    *i = 0;
     return ret;
 }

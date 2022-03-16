@@ -16,10 +16,6 @@ void cmd_split(char *str, char **envp)
 		}
 		if (str[i] == '|')
 			str = pipe_parse(&i, str, envp);
-		if (str[i] == '>')
-			str = right_redirect(str, &i);
-		if (str[i] == '<')
-			left_redirect();
 	}
 	str = pipe_parse(&i, str, envp);
 }
@@ -30,5 +26,21 @@ void	*parser(char *str, char **envp)
 		ft_putendl_fd("Error", 1);
 	else
 		cmd_split(str, envp);
+
+	while (shell.cmd_list)
+    {
+        int i = -1;
+        while (shell.cmd_list->args[++i])
+		{
+			printf("%s \n", shell.cmd_list->args[i]);
+		}
+		while (shell.cmd_list->redr_list)
+		{
+			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
+			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
+		}
+        printf("--------------------------------------\n");
+        shell.cmd_list = shell.cmd_list->next;
+    }
 	return NULL;
 }
