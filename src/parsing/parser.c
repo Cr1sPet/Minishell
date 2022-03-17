@@ -27,20 +27,21 @@ void	*parser(char *str, char **envp)
 	else
 		cmd_split(str, envp);
 
-	// while (shell.cmd_list)
-    // {
-    //     int i = -1;
-    //     while (shell.cmd_list->args[++i])
-	// 	{
-	// 		printf("%s \n", shell.cmd_list->args[i]);
-	// 	}
-	// 	while (shell.cmd_list->redr_list)
-	// 	{
-	// 		printf("%s<struct\n", shell.cmd_list->redr_list->filename);
-	// 		shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
-	// 	}
-    //     printf("--------------------------------------\n");
-    //     shell.cmd_list = shell.cmd_list->next;
-    // }
+	while (shell.cmd_list)
+    {
+        int i = -1;
+        while (shell.cmd_list->args[++i])
+		{
+			printf("%s \n", shell.cmd_list->args[i]);
+		}
+		while (shell.cmd_list->redr_list)
+		{
+			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
+			printf("%d   %d<type\n", shell.cmd_list->redr_list->type_redr, shell.cmd_list->redr_list->double_redir);
+			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
+		}
+        printf("--------------------------------------\n");
+        shell.cmd_list = shell.cmd_list->next;
+    }
 	return NULL;
 }
