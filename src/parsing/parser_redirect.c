@@ -87,4 +87,5 @@ void redir(char *str, char **envp)
         if (str[i] == '|')
             break ;
     }
+    free(str);
 }

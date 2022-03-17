@@ -72,5 +72,7 @@ char *pipe_parse(int *i,char *str, char **envp)
     if (check_redir(str, *i))
         redir(temp_2, envp);
     *i = 0;
+    free(temp);
+    free(str);
     return ret;
 }
