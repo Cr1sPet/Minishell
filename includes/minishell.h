@@ -12,15 +12,24 @@
 #include <readline/history.h>
 # include "../libft/libft.h"
 
+typedef struct s_env_store
+{
+	char	*key;
+	char	*val;
+	int		equal;
+}				t_env_store;
+
 typedef struct s_minishell
 {
-	char	**env;
-	int		stdin;
-	int		stdout;
-	int		status;
-	int		fds[2];
-	int		fds1[2];
-	struct s_cmd *cmd_list;
+	char			**env;
+	int				stdin;
+	int				stdout;
+	int				status;
+	int				fds[2];
+	int				fds1[2];
+	t_env_store		*env_store;
+	t_env_store		*export;
+	struct s_cmd	*cmd_list;
 }				t_minishell;
 
 typedef struct s_cmd
@@ -67,6 +76,9 @@ char	*get_env(char *point, char **envp);
 void	initialisation(t_minishell *mshell, char **envp);
 void	work_here_doc(char *limiter, int f);
 
+char	**collect_env (t_minishell *mshell);
+void	print_env_store(t_env_store *env_store, t_minishell	*mshell);
+char	*get_key(char *var);
 int		parse_cmds(t_cmd *cmd);
 int		ft_strcmp(char const *s1, char const *s2);
 void	lst_cmdadd_back(t_cmd **lst, t_cmd *new);

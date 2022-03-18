@@ -15,6 +15,7 @@ SRCS		=	./src/main.c\
 				./src/builtins/change_dir.c\
 				./src/builtins/export.c\
 				/home/serj/projects/Minishell/src/builtins/parse.c\
+				./src/utils.c\
 				# ./src/exec/redirects.c\
 				# ./get_next_line/get_next_line_utils.c\
 				# ./src/redir.c\

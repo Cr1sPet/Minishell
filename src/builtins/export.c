@@ -5,6 +5,8 @@ char	*get_key(char *var)
 	int	i;
 
 	i = 0;
+	if (!ft_strchr(var, '='))
+		return (ft_strdup(var));
 	while (var[i] != '=')
 		i++;
 	return (ft_substr(var, 0, i));
@@ -20,126 +22,137 @@ int		ft_strcmp(char const *s1, char const *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	key_cmp(char *var1, char *var2)
+void	add_val_by_index (t_minishell *mshell, char *val, int index)
 {
-	char	*key1;
-	char	*key2;
-
-	key1 = get_key(var1);
-	if (NULL == key1)
+	if (val)
 	{
-		ft_putendl_fd("ERROR WITH MALLOC", 1);
-		exit (1);
+		mshell->export[index].val = val;
+		mshell->export[index].equal = 1;
 	}
-	key2 = get_key(var2);
-	if (NULL == key2)
-	{
-		ft_putendl_fd("ERROR WITH MALLOC", 1);
-		exit (1);
-	}
-	return (ft_strcmp(key1, key2));
+	else
+		mshell->export[index].equal = 0;
 }
 
-void	add_var(t_minishell *mshell, char *str)
+t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len)
 {
-	int		i;
-	int		new_size;
-	char	**new_env;
+	int			i;
+	int			j;
+	t_env_store	*new_env_store;
 
 	i = 0;
-	new_size = find_len(mshell->env) + 2;
-	new_env = (char **)malloc (sizeof(char *) * (new_size));
-	if (NULL == new_env)
+	j = 0;
+	new_env_store = (t_env_store *)malloc(sizeof(t_env_store) * (len + 2));
+	while (i <  len + 1)
 	{
-		ft_putendl_fd("ERROR WITH MALLOC", 1);
-		exit (1);
-	}
-	while (mshell->env[i])
-	{
-		new_env[i] = ft_strdup(mshell->env[i]);
-		if (NULL == new_env[i])
+		if (i == index)
 		{
-			ft_putendl_fd("ERROR WITH MALLOC", 1);
-			exit (1);
+			new_env_store[i].key = elem->key;
+			new_env_store[i].val = elem->val;
+			if (new_env_store[i].val)
+				new_env_store[i].equal = 1;
+			else
+				new_env_store[i].equal = 0;
+		}	
+		else
+		{
+			new_env_store[i].key = env_store[j].key;
+			new_env_store[i].val = env_store[j].val;
+			new_env_store[i].equal = env_store[j++].equal;
 		}
 		i++;
 	}
-	new_env[i] = ft_strdup(str);
-	if (NULL == new_env[i])
-	{
-		ft_putendl_fd("ERROR WITH MALLOC", 1);
-		exit (1);
-	}
-	new_env[++i] = NULL;
-	memclean(mshell->env, new_size - 1);
-	mshell->env = new_env;
+	new_env_store[i].key = NULL;
+	new_env_store[i].val = NULL;
+	new_env_store[i].equal = 0;
+	return new_env_store;
 }
 
-void swap1(char **str1_ptr, char **str2_ptr)
+int	if_key_exists (t_minishell *mshell, t_env_store *elem, int len)
 {
-  char *temp = *str1_ptr;
-  *str1_ptr = *str2_ptr;
-  *str2_ptr = temp;
-}  
+	int	i;
 
-void	print_sorted_env(char **env)
+	i = 0;
+	while (mshell->export[i].key)
+	{
+		if (!ft_strcmp(mshell->export[i].key, elem->key))
+		{
+			add_val_by_index(mshell, elem->val, i);
+			return 1;
+		}
+		i++;
+	}
+	return 0;
+}
+
+void	add_elem_to_env_store (t_minishell *mshell, t_env_store *elem)
 {
 	int	i;
 	int	j;
-	int	arr_size;
-	char	*temp;
-	char	**temp_env;
 
 	i = 0;
-	temp_env = cp_2d_arr(env);
-	arr_size = find_len(temp_env);
-	while (i < arr_size)
+	j = 0;
+	while (mshell->export[j].key)
+		j++;
+	if (if_key_exists(mshell, elem, j))
+		return ;
+	if (ft_strcmp(elem->key, mshell->export[0].key) < 0)
+		mshell->export = add_elem_by_index(mshell->export, elem, 0, j);
+	else if (ft_strcmp(elem->key, mshell->export[j - 1].key) > 0)
+		mshell->export = add_elem_by_index(mshell->export, elem, j - 1, j);
+	else
 	{
-		j = 0;
-		while (j < arr_size - 1 - i)
+		while (mshell->export[i].key)
 		{
-			int a = key_cmp(temp_env[j], temp_env[j + 1]);
-			if (a > 0)
-			{
-				temp = temp_env[j];
-				temp_env[j] = temp_env[j + 1];
-				temp_env[j + 1] = temp;
-			}
-			j++;
+			char *v1 = elem->key;
+			char * v2 = mshell->export[i].key;
+			char * v3 = mshell->export[i + 1].key;
+			if (ft_strcmp(elem->key, mshell->export[i].key) > 0
+				&& ft_strcmp(elem->key, mshell->export[i + 1].key) < 0)
+				mshell->export =  add_elem_by_index(mshell->export, elem, i + 1, j);
+			i++;
 		}
-		i++;
 	}
-	i = 0;
-	while (temp_env[i])
-		ft_putendl_fd(temp_env[i++], 1);
-	memclean(temp_env, arr_size + 1);
 }
+
 void	export(char **args, t_minishell *mshell)
 {
-	int	len;
-	int	i;
+	int			len;
+	int			i;
+	int			j;
+	t_env_store	temp;
 
 	i = 1;
+	j = 0;
+	while (mshell->export[j].key)
+		j++;
 	len = find_len(args);
 	mshell->status = 0;
 	if (len == 1)
 	{
-		print_sorted_env(mshell->env);
+		print_env_store(mshell->export, mshell);
 	}
 	else if (len > 1)
 	{
 		while (i < len)
 		{
+			if ('=' == args[i][0] || '=' == args[i][ft_strlen(args[i]) - 1])
+			{
+				mshell->status = 1;
+				ft_putendl_fd("not a valid identifier", 1);
+				i++;
+				continue ;
+			}
+			temp.key = get_key(args[i]);
+			temp.val = ft_strchr (args[i], '=');
+			if (temp.val)
+				temp.val += 1;
+			add_elem_to_env_store (mshell, &temp);
 			if (ft_strchr(args[i], '='))
 			{
-				if ('=' == args[i][0] || '=' == args[i][ft_strlen(args[i]) - 1])
-				{
-					mshell->status = 1;
-					ft_putendl_fd("not a valid identifier", 1);
-					return ;
-				}
-				add_var(mshell, args[i]);
+				mshell->env_store =  add_elem_by_index(mshell->env_store, &temp, j, j);
 			}
+			temp.key = NULL;
+			temp.val = NULL;
 			i++;
 		}
 	}

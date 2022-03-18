@@ -125,7 +125,7 @@ int	exec(t_cmd *cmd)
 		}
 		if (2 == ok || ok == 3)
 		{
-			// close (cmd->mshell->fds[1]);
+			// close (cmd->mshell->fds[1]);    
 			dup2(cmd->mshell->stdout, STDOUT_FILENO);
 		}
 		ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
