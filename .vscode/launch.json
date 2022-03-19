@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "/home/serj/projects/MINI/minishell",
+            "program": "minishell",
             "args": [],
             "cwd": "${workspaceFolder}"
         }

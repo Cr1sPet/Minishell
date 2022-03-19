@@ -26,11 +26,13 @@ char *left_redirect(char *str, int *i, char **envp)
 
     j = *i;
     type = 0;
+	shell.cmd_list->redir_in = redir_in_1;
     if (str[j + 1] == '<')
     {
         type = 1;
         j++;
         ++(*i);
+		shell.cmd_list->redir_in = redir_in_2;
     }
     while (str[++j] && str[j] != '<' && str[j] != '|' && str[j] != '>')
         ;
@@ -44,20 +46,22 @@ char *left_redirect(char *str, int *i, char **envp)
     return ret;
 }
 
-char *right_redirect(char *str, int *i, char **envp)
+char	*right_redirect(char *str, int *i, char **envp)
 {
-    char    *ret;
-    char    *filename;
-    int      j;
-    int     type;
+	char	*ret;
+	char	*filename;
+	int		j;
+	int		type;
 
     j = *i;
     type = 0;
+	shell.cmd_list->redir_out = redir_out_1;
     if (str[j + 1] == '>')
     {
         type = 1;
         j++;
         ++(*i);
+		shell.cmd_list->redir_out = redir_out_2;
     }
     while (str[++j] && str[j] != '>' && str[j] != '|' && str[j] != '<')
         ;
@@ -71,16 +75,16 @@ char *right_redirect(char *str, int *i, char **envp)
     return ret;
 }
 
-void redir(char *str, char **envp)
+void	redir(char *str, char **envp)
 {
-    int i;
+	int	i;
 
     i = -1;
     (void)envp;
     while (str[++i])
     {
         if (str[i] == '>')
-           str =  right_redirect(str, &i, envp);
+           str = right_redirect(str, &i, envp);
         if (str[i] ==  '<')
             str =  left_redirect(str, &i, envp);
         if (str[i] == '|')

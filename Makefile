@@ -1,10 +1,29 @@
 NAME		=	minishell
 
-SRCS		=	./src/main.c ./src/parsing/parser.c ./src/parsing/dollar.c\
-				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
-				./src/signal/signal.c ./src/parsing/parser_pipe.c\
-				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
-				./src/parsing/pipe_utils.c
+SRCS		=	./src/main.c\
+				./src/exec/exec.c\
+				./get_next_line/get_next_line.c\
+				./src/exec/here_doc.c\
+				./src/init.c\
+				./src/lst_cmdadd_back.c\
+				./src/lst_cmdlast.c\
+				./src/lst_cmdnew.c\
+				./src/builtins/echo.c\
+				./src/builtins/pwd.c\
+				./src/builtins/env.c\
+				./src/builtins/unset.c\
+				./src/builtins/change_dir.c\
+				./src/builtins/export.c\
+				./src/builtins/parse.c\
+				./src/utils.c\
+				./src/parsing/parser.c ./src/parsing/dollar.c\
+                				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
+                				./src/signal/signal.c ./src/parsing/parser_pipe.c\
+                				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
+                				./src/parsing/pipe_utils.c
+				# ./src/exec/redirects.c\
+				# ./get_next_line/get_next_line_utils.c\
+				# ./src/redir.c\
 
 HEADER		=	./includes/
 
@@ -18,7 +37,7 @@ CC			=	gcc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror 
+# FLAGS		=	-Wall -Wextra -Werror 
 
 DEBAG		=	-g
 

@@ -52,7 +52,7 @@ int check_redir(char *str, int i)
     return 0;
 }
 
-char *pipe_parse(int *i,char *str, char **envp) 
+char	*pipe_parse(int *i,char *str, char **envp)
 {
     char    *temp;
     char    *temp_2;

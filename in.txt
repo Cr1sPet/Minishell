@@ -1,0 +1,10 @@
+hello
+hello
+heredoc> dssdas
+heredoc> asd
+heredoc> f
+heredoc> dsa
+heredoc> 
+heredoc> as
+heredoc> wow
+wow
