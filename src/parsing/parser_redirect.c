@@ -41,7 +41,6 @@ char *left_redirect(char *str, int *i, char **envp)
     ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redr_list, ft_lstnew_redir(filename, 2, type));
     *i = -1;
     ret = ft_strtrim(ret, " ");
-    free(str);
     return ret;
 }
 
@@ -69,7 +68,6 @@ char *right_redirect(char *str, int *i, char **envp)
     ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redr_list, ft_lstnew_redir(filename, 1, type));
     *i = -1;
     ret = ft_strtrim(ret, " ");
-    free(str);
     return ret;
 }
 
@@ -78,6 +76,7 @@ void redir(char *str, char **envp)
     int i;
 
     i = -1;
+    (void)envp;
     while (str[++i])
     {
         if (str[i] == '>')
@@ -87,5 +86,4 @@ void redir(char *str, char **envp)
         if (str[i] == '|')
             break ;
     }
-    free(str);
 }

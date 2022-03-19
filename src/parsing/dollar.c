@@ -32,7 +32,6 @@ char	*concat_str_value(char *str, char *value, int j, int *i)
 	}
 	free(tmp1);
 	free(tmp2);
-	free(str);
 	return (line_new);
 }
 
@@ -66,6 +65,7 @@ char	*ft_dollar(char *str, int *i, char **envp)
 {
 	char	*key;
 	char	*value;
+	char	*ret;
 	int		j;
 
 	j = *i;
@@ -78,7 +78,7 @@ char	*ft_dollar(char *str, int *i, char **envp)
 		return (str);
 	key = ft_substr(str, j + 1, *i - j - 1);
 	value = envp_value(key, envp);
-	value = concat_str_value(str, value, j, i);
+	ret = concat_str_value(str, value, j, i);
 	free(key);
-	return (value);
+	return (ret);
 }
