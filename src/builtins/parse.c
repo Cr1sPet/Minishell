@@ -86,8 +86,8 @@ int	parse_cmds(t_cmd *cmd)
 	char	**pathes;
 	int		ok;
 
-	ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
-	pathes = get_pathes(shell.cmd_list->mshell->env);
+	// ft_putstr_fd(*shell.env, 1);
+	pathes = get_pathes(shell.env);
 	if (NULL == pathes)
 		return (0);
 	ok = get_cmd(cmd->args, pathes);

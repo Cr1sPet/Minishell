@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env_store	*get_env_store(t_minishell *mshell, char **envp)
+t_env_store	*get_env_store(char **envp)
 {
 
 	int			len;
@@ -12,7 +12,7 @@ t_env_store	*get_env_store(t_minishell *mshell, char **envp)
 	env_store = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
 	if (NULL == env_store)
 	{
-		ft_putendl_fd("MALLOC ERROR", mshell->stdout);
+		ft_putendl_fd("MALLOC ERROR", shell.stdout);
 		exit (1);
 	}
 	while (envp[i])
@@ -20,7 +20,7 @@ t_env_store	*get_env_store(t_minishell *mshell, char **envp)
 		env_store[i].key = get_key(envp[i]);
 		if (NULL == env_store)
 		{
-			ft_putendl_fd("MALLOC ERROR", mshell->stdout);
+			ft_putendl_fd("MALLOC ERROR", shell.stdout);
 			exit (1);
 		}
 		env_store[i].val = ft_strchr(envp[i], '=') + 1;
@@ -82,7 +82,7 @@ void	sort_export(t_env_store	*export, int len)
 	}
 }
 
-t_env_store	*get_export(t_minishell *mshell, char **envp)
+t_env_store	*get_export(char **envp)
 {
 	int			i;
 	int			len;
@@ -91,10 +91,10 @@ t_env_store	*get_export(t_minishell *mshell, char **envp)
 	i = 0;
 	len = find_len(envp);
 	export = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
-	while (mshell->env_store[i].key)
+	while (shell.env_store[i].key)
 	{
-		export[i].key = mshell->env_store[i].key;
-		export[i].val = mshell->env_store
+		export[i].key = shell.env_store[i].key;
+		export[i].val = shell.env_store
 		[i].val;
 		export[i].equal = 1;
 		i++;
@@ -108,18 +108,17 @@ t_env_store	*get_export(t_minishell *mshell, char **envp)
 
 void	initialisation(char **envp)
 {
-	t_minishell *mshell;
-	mshell->stdin = dup(STDIN_FILENO);
-	mshell->stdout = dup (STDOUT_FILENO);
-	mshell->env_store = get_env_store(mshell, envp);
-	mshell->export = get_export(mshell, envp);
-	mshell->env = cp_2d_arr(envp);
+	shell.stdin = dup(STDIN_FILENO);
+	shell.stdout = dup (STDOUT_FILENO);
+	shell.env_store = get_env_store(envp);
+	shell.export = get_export(envp);
+	shell.env = cp_2d_arr(envp);
 	// while (*mshell->env)
 	// {
 	// 	ft_putstr_fd(*mshell->env, 1);
 	// 	mshell->env++;
 	// }
-	mshell->status = 0;
-	shell.cmd_list->mshell = mshell;
-//	lst_cmdadd_back(&mshell->cmd_list, lst_cmdnew(mshell));
+	shell.status = 0;
+	// shell.cmd_list->mshell = mshell;
+	
 }

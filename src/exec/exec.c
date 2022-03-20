@@ -67,15 +67,15 @@ int	set_fd (t_cmd *cmd_list, int *ok)
 	{
 		if (cmd_list->pipe_in == pipe_in)
 		{
-			dup2(cmd_list->mshell->fds[0], STDIN_FILENO);
+			dup2(shell.fds[0], STDIN_FILENO);
 			*ok = 1;
-			close(cmd_list->mshell->fds[1]);
+			close(shell.fds[1]);
 		}
 		if (cmd_list->pipe_out == pipe_out)
 		{
-			pipe (cmd_list->mshell->fds);
+			pipe (shell.fds);
 			// close (fds2[0]);
-			dup2(cmd_list->mshell->fds[1], STDOUT_FILENO);
+			dup2(shell.fds[1], STDOUT_FILENO);
 			if (*ok == 1)
 				*ok = 3;
 			else
@@ -87,7 +87,7 @@ int	set_fd (t_cmd *cmd_list, int *ok)
 	return (1);
 }
 
-int	exec(t_cmd *cmd)
+int	exec()
 {
 	int	ok;
 
@@ -103,15 +103,15 @@ int	exec(t_cmd *cmd)
 				if (1 == ok || ok == 3)
 				{
 					// close (cmd->mshell->fds[0]);
-					dup2(shell.cmd_list->mshell->stdin, STDIN_FILENO);
+					dup2(shell.stdin, STDIN_FILENO);
 				}
 				if (2 == ok || ok == 3)
 				{
 					// close (cmd->mshell->fds[1]);
-					dup2(shell.cmd_list->mshell->stdout, STDOUT_FILENO);
+					dup2(shell.stdout, STDOUT_FILENO);
 				}
 			}
-			ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
+			// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 			shell.cmd_list = shell.cmd_list->next;
 			char *str = shell.cmd_list->args[0];
 			continue;
@@ -131,7 +131,7 @@ int	exec(t_cmd *cmd)
 			// close (cmd->mshell->fds[1]);    
 			dup2(shell.cmd_list->mshell->stdout, STDOUT_FILENO);
 		}
-		ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
+		// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 		shell.cmd_list = shell.cmd_list->next;
 	}
 //	shell.cmd_list = shell.cmd_list->next;
