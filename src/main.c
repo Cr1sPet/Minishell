@@ -17,10 +17,10 @@ int	main(int argc, char **argv, char **envp) {
 	if (1 != argc)
 		return (1);
 	// signal_init();
+	initialisation(envp);
 	while (1) {
 		cmd = get_cmd();
 		// cmd = ft_strdup("echo hello | cat -e");
-		initialisation(envp);
 		parser(cmd, shell.env);
 		// if (str_cmd->args[0])
 		// 	puts(str_cmd->args[0]);
@@ -31,4 +31,3 @@ int	main(int argc, char **argv, char **envp) {
 	}
 	return 0;
 }
-
