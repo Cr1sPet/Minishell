@@ -46,7 +46,7 @@ void	change_old_pwd(t_minishell *mshell)
 
 }
 
-void	change_pwd(t_minishell *mshell, char *dest)
+void	change_pwd(char *dest)
 {
 	int		i;
 	char	*pwd;
@@ -59,36 +59,36 @@ void	change_pwd(t_minishell *mshell, char *dest)
 		return ;
 	}
 	i = 0;
-	while (mshell->env[i])
+	while (shell.env[i])
 	{
-		if (!ft_strncmp(dest, mshell->env[i], 3))
+		if (!ft_strncmp(dest, shell.env[i], 3))
 		{
-			mshell->env[i] = change_value(mshell->env[i], buf);
+			shell.env[i] = change_value(shell.env[i], buf);
 			return ;
 		}
 		i++;
 	}
 }
 
-void	change_dir(t_minishell *mshell)
+void	change_dir()
 {
 	int	len;
 
-	len = find_len(mshell->cmd_list->args);
-	mshell->status = 0;
+	len = find_len(shell.cmd_list->args);
+	shell.status = 0;
 	if (len > 2)
 	{
 		ft_putendl_fd("No such file or directory", 1);
-		mshell->status = 1;
+		shell.status = 1;
 	}
 	else if (2 == len)
 	{
-		change_pwd(mshell, "OLDPWD");
-		if (-1 == chdir(mshell->cmd_list->args[1]))
+		change_pwd("OLDPWD");
+		if (-1 == chdir(shell.cmd_list->args[1]))
 		{
 			perror("Error");
-			mshell->status = 1;
+			shell.status = 1;
 		}
-		change_pwd(mshell, "PWD");
+		change_pwd("PWD");
 	}
 }

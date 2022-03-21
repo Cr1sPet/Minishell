@@ -20,6 +20,7 @@ void	echo(char **args)
 			j++;
 		while (args[j])
 		{
+			// if (ft_strcmp(args[i], "$?"))
 			ft_putstr_fd(args[j], 1);
 			if (j++ < i - 1)
 				write(1, " ", 1);

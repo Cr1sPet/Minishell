@@ -68,7 +68,7 @@ char	**cp_2d_arr(char **envp)
 	return (ret_arr);
 }		
 
-void	env(t_minishell *mshell)
+void	env(void)
 {
 	int	i;
 

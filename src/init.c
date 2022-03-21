@@ -34,7 +34,7 @@ t_env_store	*get_env_store(char **envp)
 	return (env_store);
 }
 
-void	print_env_store(t_env_store *env_store, t_minishell	*mshell)
+void	print_env_store(t_env_store *env_store)
 {
 	int	i;
 

@@ -41,20 +41,20 @@ int	exe(t_cmd *cmd_list)
 	return (1);
 }
 
-int	try_builtin(t_cmd *cmd)
+int	try_builtin(char **args)
 {
-	if (!ft_strcmp(cmd->args[0], "echo"))
-		echo(cmd->args);
-	else if (!ft_strcmp(cmd->args[0], "cd"))
-		change_dir(cmd->mshell);
-	else if (!ft_strcmp(cmd->args[0], "env"))
-		env(cmd->mshell);
-	else if (!ft_strcmp(cmd->args[0], "pwd"))
-		pwd(cmd->mshell);
-	else if (!ft_strcmp(cmd->args[0], "export"))
-		export(cmd->args, cmd->mshell);
-	else if (!ft_strcmp(cmd->args[0], "unset"))
-		unset(cmd->args, cmd->mshell);
+	if (!ft_strcmp(args[0], "echo"))
+		echo(args);
+	else if (!ft_strcmp(args[0], "cd"))
+		change_dir();
+	else if (!ft_strcmp(args[0], "env"))
+		env();
+	else if (!ft_strcmp(args[0], "pwd"))
+		pwd();
+	else if (!ft_strcmp(args[0], "export"))
+		export();
+	else if (!ft_strcmp(args[0], "unset"))
+		unset(args, shell.env);
 	else
 		return (0);
 	return (1);
@@ -96,7 +96,7 @@ int	exec()
 	while(shell.cmd_list)
 	{
 		set_fd(shell.cmd_list, &ok);
-		if (try_builtin (shell.cmd_list))
+		if (try_builtin (shell.cmd_list->args))
 		{
 			if (ok)
 			{
@@ -112,6 +112,7 @@ int	exec()
 				}
 			}
 			shell.cmd_list = shell.cmd_list->next;
+			// char *str = shell.cmd_list->args[0];
 			continue;
 		}
 		if ('/' == shell.cmd_list->args[0][0] || !ft_strncmp(shell.cmd_list->args[0], "../", 3)\

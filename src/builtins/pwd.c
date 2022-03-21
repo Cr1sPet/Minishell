@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	pwd(t_minishell *mshell)
+void	pwd()
 {
 	char	*pwd;
 	char	buf[2048];
