@@ -2,7 +2,7 @@
 
 int	ifkey(char c)
 {
-	if (c == '_' || ft_isalnum(c) || c == '*' || c == '!')
+	if (c == '_' || ft_isalnum(c) || c == '*' || c == '!' || c == '?')
 		return (1);
 	return 0;
 }
