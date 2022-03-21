@@ -111,9 +111,7 @@ int	exec()
 					dup2(shell.stdout, STDOUT_FILENO);
 				}
 			}
-			// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 			shell.cmd_list = shell.cmd_list->next;
-			char *str = shell.cmd_list->args[0];
 			continue;
 		}
 		if ('/' == shell.cmd_list->args[0][0] || !ft_strncmp(shell.cmd_list->args[0], "../", 3)\
@@ -131,7 +129,6 @@ int	exec()
 			// close (cmd->mshell->fds[1]);    
 			dup2(shell.cmd_list->mshell->stdout, STDOUT_FILENO);
 		}
-		// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 		shell.cmd_list = shell.cmd_list->next;
 	}
 //	shell.cmd_list = shell.cmd_list->next;

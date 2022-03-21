@@ -11,41 +11,79 @@ char	*get_cmd()
 }
 
 //<<<<<<< HEAD
+
 int	main(int argc, char **argv, char **envp) {
 	char *cmd;   
-	t_cmd *temp_cmd;
+
 	(void) argv;
 	if (1 != argc)
 		return (1);
-	
-	initialisation(envp);
-
-	shell.cmd_list = NULL;
-	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
-	temp_cmd = shell.cmd_list;
-	shell.cmd_list->args = (char **) malloc (sizeof(char *) * 3);
-	shell.cmd_list->args[0] = ft_strdup("echo");
-	shell.cmd_list->args[1] = ft_strdup("hello");
-	// mshell.cmd_list->args[2] = ft_strdup("-n");
-	shell.cmd_list->args[2] = NULL;
-	shell.cmd_list->pipe_in = default_pipe_in;
-	shell.cmd_list->pipe_out = pipe_out;
-	shell.cmd_list->redir_in = default_redir_in;
-	shell.cmd_list->redir_out = default_redir_out;
-	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
-	temp_cmd = temp_cmd->next;
-	temp_cmd->args = (char **) malloc (sizeof(char *) * 3);
-	temp_cmd->args[0] = ft_strdup("cat");
-	temp_cmd->args[1] = ft_strdup("-e");
-	// mshell.cmd_list->args[2] = ft_strdup("-n");
-	temp_cmd->args[2] = NULL;
-	temp_cmd->pipe_in = pipe_in;
-	temp_cmd->pipe_out = default_pipe_out;
-	temp_cmd->redir_in = default_redir_in;
-	temp_cmd->redir_out = default_redir_out;
-	exec();
+	// signal_init();
+	while (1) {
+		cmd = get_cmd();
+		// cmd = ft_strdup("echo hello | cat -e");
+		initialisation(envp);
+		parser(cmd, shell.env);
+		// if (str_cmd->args[0])
+		// 	puts(str_cmd->args[0]);
+//		echo(shell.cmd_list->args);
+//		shell.cmd_list = shell.cmd_list->next;
+		// ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
+		exec();
+	}
 	return 0;
 }
+
+// int	main(int argc, char **argv, char **envp) {
+// 	char *cmd;   
+// 	t_cmd *temp_cmd;
+// 	(void) argv;
+// 	if (1 != argc)
+// 		return (1);
+	
+// 	initialisation(envp);
+
+// 	shell.cmd_list = NULL;
+// 	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
+// 	temp_cmd = shell.cmd_list;
+// 	shell.cmd_list->args = (char **) malloc (sizeof(char *) * 3);
+// 	shell.cmd_list->args[0] = ft_strdup("echo");
+// 	shell.cmd_list->args[1] = ft_strdup("hello");
+// 	// mshell.cmd_list->args[2] = ft_strdup("-n");
+// 	shell.cmd_list->args[2] = NULL;
+// 	shell.cmd_list->pipe_in = default_pipe_in;
+// 	shell.cmd_list->pipe_out = pipe_out;
+// 	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
+// 	temp_cmd = temp_cmd->next;
+// 	temp_cmd->args = (char **) malloc (sizeof(char *) * 3);
+// 	temp_cmd->args[0] = ft_strdup("cat");
+// 	temp_cmd->args[1] = ft_strdup("-e");
+// 	// mshell.cmd_list->args[2] = ft_strdup("-n");
+// 	temp_cmd->args[2] = NULL;
+// 	temp_cmd->pipe_in = pipe_in;
+// 	temp_cmd->pipe_out = default_pipe_out;
+// 	exec();
+// // 		while (shell.cmd_list)
+// //   {
+// //       int i = -1;
+// // 	  printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
+// //       while (shell.cmd_list->args[++i])
+// // 		{
+// // 			printf("%s \n", shell.cmd_list->args[i]);
+// // 			// free(shell.cmd_list->args[i]);
+// // 		}
+// // 		while (shell.cmd_list->redr_list)
+// // 		{
+// // 			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
+// // 			printf("%d   %d<type\n", shell.cmd_list->redr_list->type_redr, shell.cmd_list->redr_list->double_redir);
+// // 			// free(shell.cmd_list->redr_list->filename);
+// // 			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
+// // 		}
+// //       printf("--------------------------------------\n");
+// //       shell.cmd_list = shell.cmd_list->next;
+// //   }
+// 	return 0;
+// }
 //=======ddfdf
 //
 //

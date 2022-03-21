@@ -1,5 +1,35 @@
 # include "minishell.h"
 
+void check_pipe()
+{
+	t_cmd *temp;
+	int i;
+
+	i = 0;
+	temp = shell.cmd_list;
+	while (shell.cmd_list)
+	{
+		if (i == 0 && shell.cmd_list->next)
+		{
+			shell.cmd_list->pipe_in = default_pipe_in;
+			shell.cmd_list->pipe_out = pipe_out;
+		}
+		if (i > 0 && shell.cmd_list->next)
+		{
+			shell.cmd_list->pipe_in = pipe_in;
+			shell.cmd_list->pipe_out = pipe_out;
+		}
+		if (i > 0 && !shell.cmd_list->next)
+		{
+			shell.cmd_list->pipe_in = pipe_in;
+			shell.cmd_list->pipe_out = default_pipe_out;
+		}
+		i++;
+		shell.cmd_list = shell.cmd_list->next;
+	}
+	shell.cmd_list = temp;
+}
+
 void	cmd_split(char *str, char **envp)
 {
 	int		i;
@@ -7,7 +37,6 @@ void	cmd_split(char *str, char **envp)
 	int		k;
 
 	i = -1;
-	k = 0;
 	(void)envp;
 	while (str[++i])
 	{
@@ -18,13 +47,7 @@ void	cmd_split(char *str, char **envp)
 				;
 		}
 		if (str[i] == '|')
-		{
-			k++;
 			str = pipe_parse(&i, str, envp);
-			shell.cmd_list->pipe_out = pipe_out;
-			if (k > 1)
-				shell.cmd_list->pipe_in = pipe_in;
-		}
 	}
 	pipe_parse(&i, str, envp);
 	shell.cmd_list->pipe_in = pipe_in;
@@ -39,26 +62,25 @@ void	*parser(char *str, char **envp)
 	else
 	{
 		cmd_split(str, envp);
-
+		check_pipe();
 	}
-		
-
 	// free(str);
-//	while (shell.cmd_list)
+// 	while (shell.cmd_list)
 //   {
 //       int i = -1;
+// 	  printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
 //       while (shell.cmd_list->args[++i])
-//		{
-//			printf("%s \n", shell.cmd_list->args[i]);
-//			// free(shell.cmd_list->args[i]);
-//		}
-//		while (shell.cmd_list->redr_list)
-//		{
-//			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
-//			printf("%d   %d<type\n", shell.cmd_list->redr_list->type_redr, shell.cmd_list->redr_list->double_redir);
-//			// free(shell.cmd_list->redr_list->filename);
-//			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
-//		}
+// 		{
+// 			printf("%s \n", shell.cmd_list->args[i]);
+// 			// free(shell.cmd_list->args[i]);
+// 		}
+// 		while (shell.cmd_list->redr_list)
+// 		{
+// 			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
+// 			printf("%d   %d<type\n", shell.cmd_list->redr_list->type_redr, shell.cmd_list->redr_list->double_redir);
+// 			// free(shell.cmd_list->redr_list->filename);
+// 			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
+// 		}
 //       printf("--------------------------------------\n");
 //       shell.cmd_list = shell.cmd_list->next;
 //   }
