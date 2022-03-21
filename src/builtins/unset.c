@@ -30,7 +30,7 @@ char	**del_str(char **env, int index)
 	return (new_env);
 }
 
-void	unset(char **args, t_minishell *mshell)
+void	unset(char **args, char **env)
 {
 	int		i;
 	int		j;
@@ -46,12 +46,12 @@ void	unset(char **args, t_minishell *mshell)
 			ft_putendl_fd("ERROR IN MALLOC", 2);
 			exit(1);
 		}
-		j = get_ind_env(key, mshell->env);
+		j = get_ind_env(key, env);
 		free (key);
 		if (-1 != j)
 		{
-			mshell->env = del_str(mshell->env, j);
-			if (!mshell->env)
+			shell.env = del_str(env, j);
+			if (!env)
 			{
 				ft_putendl_fd("ERROR IN MALLOC", 2);
 				exit(1);

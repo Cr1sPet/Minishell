@@ -104,13 +104,13 @@ void redir(char *str, char **envp);
 
 
 
-void	export(char **args, t_minishell *mshell);
+void	export();
 int		find_len(char **arr);
-void	env(t_minishell *mshell);
-void	pwd(t_minishell *mshell);
-void	change_dir(t_minishell *mshell);
+void	env(void);
+void	pwd();
+void	change_dir();
 void	echo(char **args);
-void	unset(char **args, t_minishell *mshell);
+void	unset(char **args, char **env);
 int		exec();
 char	**cp_2d_arr(char **envp);
 int		get_ind_env(char *point, char **envp);
@@ -120,7 +120,7 @@ void	initialisation(char **envp);
 void	work_here_doc(char *limiter, int f);
 
 char	**collect_env (t_minishell *mshell);
-void	print_env_store(t_env_store *env_store, t_minishell	*mshell);
+void	print_env_store(t_env_store *env_store);
 char	*get_key(char *var);
 int		parse_cmds(t_cmd *cmd);
 int		ft_strcmp(char const *s1, char const *s2);

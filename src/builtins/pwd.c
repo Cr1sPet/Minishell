@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	pwd(t_minishell *mshell)
+void	pwd()
 {
 	char	*pwd;
 	char	buf[2048];
@@ -9,12 +9,12 @@ void	pwd(t_minishell *mshell)
 	if (pwd)
 	{
 		ft_putendl_fd(buf, 1);
-		mshell->status = 0;
+		shell.status = 0;
 	}
 	else
 	{
 		perror("Error");
 		ft_putendl_fd("No such file or directory", 1);
-		mshell->status = 127;
+		shell.status = 127;
 	}
 }

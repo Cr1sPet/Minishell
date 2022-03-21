@@ -68,14 +68,15 @@ char	**cp_2d_arr(char **envp)
 	return (ret_arr);
 }		
 
-void	env(t_minishell *mshell)
+void	env(void)
 {
 	int	i;
 
 	i = 0;
-	if (!mshell->env)
+	if (!shell.env)
 		ft_putendl_fd("Not such file or directory", 2);
-	while (mshell->env[i])
-		ft_putendl_fd(mshell->env[i++], 1);
-	mshell->status = 0;
+	
+	while (shell.env[i])
+		ft_putendl_fd(shell.env[i++], 1);
+	shell.status = 0;
 }

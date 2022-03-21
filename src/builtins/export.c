@@ -22,15 +22,15 @@ int		ft_strcmp(char const *s1, char const *s2)
 	return (s1[i] - s2[i]);
 }
 
-void	add_val_by_index (t_minishell *mshell, char *val, int index)
+void	add_val_by_index (char *val, int index)
 {
 	if (val)
 	{
-		mshell->export[index].val = val;
-		mshell->export[index].equal = 1;
+		shell.export[index].val = val;
+		shell.export[index].equal = 1;
 	}
 	else
-		mshell->export[index].equal = 0;
+		shell.export[index].equal = 0;
 }
 
 t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len)
@@ -67,16 +67,16 @@ t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int i
 	return new_env_store;
 }
 
-int	if_key_exists (t_minishell *mshell, t_env_store *elem, int len)
+int	if_key_exists (t_env_store *elem, int len)
 {
 	int	i;
 
 	i = 0;
-	while (mshell->export[i].key)
+	while (shell.export[i].key)
 	{
-		if (!ft_strcmp(mshell->export[i].key, elem->key))
+		if (!ft_strcmp(shell.export[i].key, elem->key))
 		{
-			add_val_by_index(mshell, elem->val, i);
+			add_val_by_index(elem->val, i);
 			return 1;
 		}
 		i++;
@@ -84,37 +84,37 @@ int	if_key_exists (t_minishell *mshell, t_env_store *elem, int len)
 	return 0;
 }
 
-void	add_elem_to_env_store (t_minishell *mshell, t_env_store *elem)
+void	add_elem_to_env_store (t_env_store *elem)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (mshell->export[j].key)
+	while (shell.export[j].key)
 		j++;
-	if (if_key_exists(mshell, elem, j))
+	if (if_key_exists(elem, j))
 		return ;
-	if (ft_strcmp(elem->key, mshell->export[0].key) < 0)
-		mshell->export = add_elem_by_index(mshell->export, elem, 0, j);
-	else if (ft_strcmp(elem->key, mshell->export[j - 1].key) > 0)
-		mshell->export = add_elem_by_index(mshell->export, elem, j - 1, j);
+	if (ft_strcmp(elem->key, shell.export[0].key) < 0)
+		shell.export = add_elem_by_index(shell.export, elem, 0, j);
+	else if (ft_strcmp(elem->key, shell.export[j - 1].key) > 0)
+		shell.export = add_elem_by_index(shell.export, elem, j - 1, j);
 	else
 	{
-		while (mshell->export[i].key)
+		while (shell.export[i].key)
 		{
 			char *v1 = elem->key;
-			char * v2 = mshell->export[i].key;
-			char * v3 = mshell->export[i + 1].key;
-			if (ft_strcmp(elem->key, mshell->export[i].key) > 0
-				&& ft_strcmp(elem->key, mshell->export[i + 1].key) < 0)
-				mshell->export =  add_elem_by_index(mshell->export, elem, i + 1, j);
+			char * v2 = shell.export[i].key;
+			char * v3 = shell.export[i + 1].key;
+			if (ft_strcmp(elem->key, shell.export[i].key) > 0
+				&& ft_strcmp(elem->key, shell.export[i + 1].key) < 0)
+				shell.export =  add_elem_by_index(shell.export, elem, i + 1, j);
 			i++;
 		}
 	}
 }
 
-void	export(char **args, t_minishell *mshell)
+void	export()
 {
 	int			len;
 	int			i;
@@ -123,33 +123,33 @@ void	export(char **args, t_minishell *mshell)
 
 	i = 1;
 	j = 0;
-	while (mshell->export[j].key)
+	while (shell.export[j].key)
 		j++;
-	len = find_len(args);
-	mshell->status = 0;
+	len = find_len(shell.cmd_list->args);
+	shell.status = 0;
 	if (len == 1)
 	{
-		print_env_store(mshell->export, mshell);
+		print_env_store(shell.export);
 	}
 	else if (len > 1)
 	{
 		while (i < len)
 		{
-			if ('=' == args[i][0] || '=' == args[i][ft_strlen(args[i]) - 1])
+			if ('=' == shell.cmd_list->args[i][0] || '=' == shell.cmd_list->args[i][ft_strlen(shell.cmd_list->args[i]) - 1])
 			{
-				mshell->status = 1;
+				shell.status = 1;
 				ft_putendl_fd("not a valid identifier", 1);
 				i++;
 				continue ;
 			}
-			temp.key = get_key(args[i]);
-			temp.val = ft_strchr (args[i], '=');
+			temp.key = get_key(shell.cmd_list->args[i]);
+			temp.val = ft_strchr (shell.cmd_list->args[i], '=');
 			if (temp.val)
 				temp.val += 1;
-			add_elem_to_env_store (mshell, &temp);
-			if (ft_strchr(args[i], '='))
+			add_elem_to_env_store (&temp);
+			if (ft_strchr(shell.cmd_list->args[i], '='))
 			{
-				mshell->env_store =  add_elem_by_index(mshell->env_store, &temp, j, j);
+				shell.env_store = add_elem_by_index(shell.env_store, &temp, j, j);
 			}
 			temp.key = NULL;
 			temp.val = NULL;
