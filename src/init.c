@@ -112,7 +112,7 @@ void	initialisation(char **envp)
 	shell.stdout = dup (STDOUT_FILENO);
 	shell.env_store = get_env_store(envp);
 	shell.export = get_export(envp);
-	shell.env = cp_2d_arr(envp);
+	shell.env = collect_env(&shell);
 	// while (*mshell->env)
 	// {
 	// 	ft_putstr_fd(*mshell->env, 1);

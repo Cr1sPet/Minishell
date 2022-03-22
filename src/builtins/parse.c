@@ -73,11 +73,13 @@ static int	get_cmd(char **args, char **pathes)
 		ft_putendl_fd("MALLOC ERROR", 2);
 		exit (1);
 	}
-	else if (-1 == ok)
-	{
-		ft_putstr_fd("command not found: ", 2);
-		ft_putendl_fd(args[0], 2);
-	}
+	// else if (-1 == ok)
+	// {
+	// 	ft_putstr_fd("command not found: ", shell.stdout);
+	// 	ft_putendl_fd(args[0], shell.stdout);
+	// 	shell.status = 127;
+	// 	ok = 0;
+	// }
 	return (ok);
 }
 

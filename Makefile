@@ -16,14 +16,17 @@ SRCS		=	./src/main.c\
 				./src/builtins/export.c\
 				./src/builtins/parse.c\
 				./src/utils.c\
-				./src/parsing/parser.c ./src/parsing/dollar.c\
-                				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
-                				./src/signal/signal.c ./src/parsing/parser_pipe.c\
-                				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
-                				./src/parsing/pipe_utils.c
-				# ./src/exec/redirects.c\
-				# ./get_next_line/get_next_line_utils.c\
-				# ./src/redir.c\
+				./src/exec/set_redir.c\
+				./src/lst_rediraddback.c\
+				./src/lst_redirlast.c\
+				./src/lst_redirnew.c\
+				# ./src/parsing/parser.c ./src/parsing/dollar.c\
+                # 				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
+                # 				./src/signal/signal.c ./src/parsing/parser_pipe.c\
+                # 				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
+                # 				./src/parsing/pipe_utils.c\
+				
+
 
 HEADER		=	./includes/
 

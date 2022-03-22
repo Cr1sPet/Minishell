@@ -75,7 +75,6 @@ void	env(void)
 	i = 0;
 	if (!shell.env)
 		ft_putendl_fd("Not such file or directory", 2);
-	
 	while (shell.env[i])
 		ft_putendl_fd(shell.env[i++], 1);
 	shell.status = 0;

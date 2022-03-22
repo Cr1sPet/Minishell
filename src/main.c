@@ -10,56 +10,39 @@ char	*get_cmd()
 	return (str);
 }
 
-//<<<<<<< HEAD
+t_cmd	*custom_cmd(char **args, t_redir *redir_in, t_redir *redir_out, int pipe_in, int pipe_out)
+{
+	t_cmd	*cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	cmd->args = args;
+	cmd->redir_in = redir_in;
+	cmd->redir_out = redir_out;
+	cmd->pipe_in = pipe_in;
+	cmd->pipe_out = pipe_out;
+	cmd->next = NULL;
+	return (cmd);
+}
+
 int	main(int argc, char **argv, char **envp) {
-	char *cmd;   
-	t_cmd *temp_cmd;
 	(void) argv;
 	if (1 != argc)
 		return (1);
-	
 	initialisation(envp);
-
-	shell.cmd_list = NULL;
-	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
-	temp_cmd = shell.cmd_list;
-	shell.cmd_list->args = (char **) malloc (sizeof(char *) * 3);
-	shell.cmd_list->args[0] = ft_strdup("echo");
-	shell.cmd_list->args[1] = ft_strdup("$?");
-	// mshell.cmd_list->args[2] = ft_strdup("-n");
-	shell.cmd_list->args[2] = NULL;
-	shell.cmd_list->pipe_in = default_pipe_in;
-	shell.cmd_list->pipe_out = default_pipe_out;
-	shell.cmd_list->redir_in = default_redir_in;
-	shell.cmd_list->redir_out = default_redir_out;
-	shell.cmd_list->next = NULL;
-	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
-	temp_cmd = temp_cmd->next;
-	temp_cmd->args = (char **) malloc (sizeof(char *) * 3);
-	temp_cmd->args[0] = ft_strdup("wc");
-	temp_cmd->args[1] = ft_strdup("-l");
-	// mshell.cmd_list->args[2] = ft_strdup("-n");
-	temp_cmd->args[2] = NULL;
-	temp_cmd->pipe_in = pipe_in;
-	temp_cmd->pipe_out = pipe_out;
-	temp_cmd->redir_in = default_redir_in;
-	temp_cmd->redir_out = default_redir_out;
-	temp_cmd->next = NULL;
-	lst_cmdadd_back(&shell.cmd_list, lst_cmdnew(&shell));
-	temp_cmd = temp_cmd->next;
-	temp_cmd->args = (char **) malloc (sizeof(char *) * 3);
-	temp_cmd->args[0] = ft_strdup("cat");
-	temp_cmd->args[1] = ft_strdup("-e");
-	// mshell.cmd_list->args[2] = ft_strdup("-n");
-	temp_cmd->args[2] = NULL;
-	temp_cmd->pipe_in = pipe_in;
-	temp_cmd->pipe_out = default_pipe_out;
-	temp_cmd->redir_in = default_redir_in;
-	temp_cmd->redir_out = default_redir_out;
-	temp_cmd->next = NULL;
+	t_redir * red = NULL;
+	lst_rediradd_back(&red, lst_redirnew("test_files/1", redir_in_1));
+	lst_rediradd_back(&red, lst_redirnew("test_files/2", redir_in_1));
+	lst_rediradd_back(&red, lst_redirnew("test_files/3", redir_in_1));
+	t_redir * red1 = NULL;
+	lst_rediradd_back(&red1, lst_redirnew("test_files/4", redir_out_1));
+	lst_rediradd_back(&red1, lst_redirnew("test_files/5", redir_out_1));
+	lst_rediradd_back(&red1, lst_redirnew("test_files/6", redir_out_2));
+	lst_cmdadd_back(&shell.cmd_list, custom_cmd(ft_split("cat -e", ' '),
+			red, red1, default_pipe_in, default_pipe_out));
 	exec();
 	return (0);
 }
+
 // int	main(int argc, char **argv, char **envp) {
 // 	char *cmd;   
 
@@ -81,3 +64,4 @@ int	main(int argc, char **argv, char **envp) {
 // 	}
 // 	return 0;
 // }
+

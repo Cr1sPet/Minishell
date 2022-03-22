@@ -3,6 +3,7 @@
 int	exe(t_cmd *cmd_list)
 {
 	pid_t	child;
+	int		status;
 
 //	if (cmd_list->redir_in != default_redir_in || cmd_list->redir_out != default_redir_out)
 //	{
@@ -24,20 +25,21 @@ int	exe(t_cmd *cmd_list)
 	}
 	else if (0 == child)
 	{
-		if (-1 == execve(cmd_list->args[0], cmd_list->args, cmd_list->mshell->env))
+		if (-1 == execve(cmd_list->args[0], cmd_list->args, shell.env))
 		{
-			ft_putendl_fd("ERROR IN EXECVE", cmd_list->mshell->stdout);
+			ft_putendl_fd("ERROR IN EXECVE", shell.stdout);
 			perror("ERROR");
 			exit (1);
 		}
 	}
-	// else
-	// {
-	// 	waitpid(child, &(mshell->status), 0);
-	// 	dup2(mshell->stdin, STDIN_FILENO);
-	// 	dup2(mshell->stdout, STDOUT_FILENO);
-	// 	// ft_putnbr_fd(WEXITSTATUS(mshell->status), 1);
-	// }
+	else if (!shell.cmd_list->next)
+	{
+		waitpid(child, &status, 0);
+		shell.status = WEXITSTATUS(status);
+		dup2(shell.stdin, STDIN_FILENO);
+		dup2(shell.stdout, STDOUT_FILENO);
+		ft_putnbr_fd(shell.status, shell.stdout);
+	}
 	return (1);
 }
 
@@ -60,80 +62,63 @@ int	try_builtin(char **args)
 	return (1);
 }
 
-int	set_fd (t_cmd *cmd_list, int *ok)
+
+
+int	set_fd(t_cmd *cmd_list, int *ok)
 {
 	*ok = 0;
-	if (cmd_list->pipe_in != default_pipe_in || cmd_list->pipe_out != default_pipe_out)
+	if (cmd_list->redir_in)
 	{
-		if (cmd_list->pipe_in == pipe_in)
-		{
-			dup2(shell.fds[0], STDIN_FILENO);
-			*ok = 1;
-			close(shell.fds[1]);
-		}
-		if (cmd_list->pipe_out == pipe_out)
-		{
-			pipe (shell.fds);
-			// close (fds2[0]);
-			dup2(shell.fds[1], STDOUT_FILENO);
-			if (*ok == 1)
-				*ok = 3;
-			else
-				*ok = 2;
-
-			// close(mshell->fds[0]);
-		}
+		if (!set_redir_in(cmd_list->redir_in))
+			return (-10);
+	}
+	else if (cmd_list->pipe_in == pipe_in)
+	{
+		*ok = 1;
+		dup2(shell.fds[0], STDIN_FILENO);
+		close(shell.fds[1]);
+	}
+	if (cmd_list->redir_out)
+	{
+		set_redir_out(cmd_list->redir_out);
+	}
+	else if (cmd_list->pipe_out == pipe_out)
+	{
+		pipe (shell.fds);
+		dup2(shell.fds[1], STDOUT_FILENO);
+		if (*ok == 1)
+			*ok = 3;
+		else
+			*ok = 2;
 	}
 	return (1);
 }
 
-int	exec()
+int	exec(void)
 {
 	int	ok;
 
-
 	ok = 0;
-	while(shell.cmd_list)
+	while (shell.cmd_list)
 	{
-		set_fd(shell.cmd_list, &ok);
-		if (try_builtin (shell.cmd_list->args))
+		if (-10 == set_fd(shell.cmd_list, &ok))
 		{
-			if (ok)
-			{
-				if (1 == ok || ok == 3)
-				{
-					// close (cmd->mshell->fds[0]);
-					dup2(shell.stdin, STDIN_FILENO);
-				}
-				if (2 == ok || ok == 3)
-				{
-					// close (cmd->mshell->fds[1]);
-					dup2(shell.stdout, STDOUT_FILENO);
-				}
-			}
-			// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
 			shell.cmd_list = shell.cmd_list->next;
-			// char *str = shell.cmd_list->args[0];
-			continue;
+			continue ;
 		}
-		if ('/' == shell.cmd_list->args[0][0] || !ft_strncmp(shell.cmd_list->args[0], "../", 3)\
-			|| !ft_strncmp(shell.cmd_list->args[0], "./", 2))
-			exe(shell.cmd_list);
-		else if (parse_cmds(shell.cmd_list))
-			exe(shell.cmd_list);
+		if (!try_builtin (shell.cmd_list->args))
+		{
+			if ('/' == shell.cmd_list->args[0][0] || !ft_strncmp(shell.cmd_list->args[0], "../", 3)\
+				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2))
+				exe(shell.cmd_list);
+			else if (parse_cmds(shell.cmd_list))
+				exe(shell.cmd_list);
+		}
 		if (1 == ok || ok == 3)
-		{
-			// close (cmd->mshell->fds[0]);
-			dup2(shell.cmd_list->mshell->stdin, STDIN_FILENO);
-		}
+			dup2(shell.stdin, STDIN_FILENO);
 		if (2 == ok || ok == 3)
-		{
-			// close (cmd->mshell->fds[1]);    
-			dup2(shell.cmd_list->mshell->stdout, STDOUT_FILENO);
-		}
-		// ft_putendl_fd("HHAHAHAHAAHAHHAHA", 1);
+			dup2(shell.stdout, STDOUT_FILENO);
 		shell.cmd_list = shell.cmd_list->next;
 	}
-//	shell.cmd_list = shell.cmd_list->next;
 	return (0);
 }
