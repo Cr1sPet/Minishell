@@ -50,7 +50,6 @@ void	cmd_split(char *str, char **envp)
 			str = pipe_parse(&i, str, envp);
 	}
 	pipe_parse(&i, str, envp);
-	shell.cmd_list->pipe_in = pipe_in;
 }
 
 void	*parser(char *str, char **envp)
@@ -71,7 +70,7 @@ void	*parser(char *str, char **envp)
 // 	//   printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
 //       while (shell.cmd_list->args[++i])
 // 		{
-// 			printf("%s \n", shell.cmd_list->args[i]);
+// 			printf("%s\n", shell.cmd_list->args[i]);
 // 			// free(shell.cmd_list->args[i]);
 // 		}
 // 		while (shell.cmd_list->redir_out)
