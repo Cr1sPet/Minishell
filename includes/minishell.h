@@ -74,7 +74,6 @@ typedef struct s_cmd
 	int				pipe_out;
 	t_redir			*redir_in;
 	t_redir			*redir_out;
-	t_minishell		*mshell;
 	struct s_cmd	*next;
 }				t_cmd;
 

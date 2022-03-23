@@ -42,10 +42,17 @@ char	**command_split(char *str)
 int check_redir(char *str, int i)
 {
     int j;
+    char ch;
 
     j = -1;
     while(++j < i)
     {
+        if (str[j] == '\'' || str[j] == '\"')
+		{
+			ch = str[j];
+			while (str[++j] && str[j] != ch)
+				;
+		}
         if (str[j] == '>' ||  str[j] == '<')
             return j;
     }
