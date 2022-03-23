@@ -31,7 +31,7 @@ t_redir	*ft_lstlast_redir(t_redir *lst)
 	return (lst);
 }
 
-t_redir	*ft_lstnew_redir(void *content, int type, int db)
+t_redir	*ft_lstnew_redir(void *content, int type)
 {
 	t_redir	*new_list;
 
@@ -39,7 +39,6 @@ t_redir	*ft_lstnew_redir(void *content, int type, int db)
 	if ((void *)0 == new_list)
 		return ((void *)0);
 	new_list->filename = content;
-	new_list->double_redir = db;
 	new_list->type_redr = type;
 	new_list->next = (void *)0;
 	return (new_list);

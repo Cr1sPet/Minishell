@@ -25,14 +25,12 @@ char *left_redirect(char *str, int *i, char **envp)
     int     type;
 
     j = *i;
-    type = 0;
-	shell.cmd_list->redir_in = redir_in_1;
+    type = redir_in_1;
     if (str[j + 1] == '<')
     {
-        type = 1;
+        type = redir_in_2;
         j++;
         ++(*i);
-		shell.cmd_list->redir_in = redir_in_2;
     }
     while (str[++j] && str[j] != '<' && str[j] != '|' && str[j] != '>')
         ;
@@ -40,7 +38,7 @@ char *left_redirect(char *str, int *i, char **envp)
     ret = ft_substr(str, ft_strlen(filename), ft_strlen(str) - ft_strlen(filename));
     filename = ft_strtrim(filename, " ");
     filename = correct_test(filename, envp);
-    ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redr_list, ft_lstnew_redir(filename, 2, type));
+    ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(filename, type));
     *i = -1;
     ret = ft_strtrim(ret, " ");
     return ret;
@@ -54,14 +52,12 @@ char	*right_redirect(char *str, int *i, char **envp)
 	int		type;
 
     j = *i;
-    type = 0;
-	shell.cmd_list->redir_out = redir_out_1;
+    type = redir_out_1;
     if (str[j + 1] == '>')
     {
-        type = 1;
+        type = redir_out_2;
         j++;
         ++(*i);
-		shell.cmd_list->redir_out = redir_out_2;
     }
     while (str[++j] && str[j] != '>' && str[j] != '|' && str[j] != '<')
         ;
@@ -69,7 +65,7 @@ char	*right_redirect(char *str, int *i, char **envp)
     ret = ft_substr(str, ft_strlen(filename), ft_strlen(str) - ft_strlen(filename));
     filename = ft_strtrim(filename, " ");
     filename = correct_test(filename, envp);
-    ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redr_list, ft_lstnew_redir(filename, 1, type));
+    ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, ft_lstnew_redir(filename, type));
     *i = -1;
     ret = ft_strtrim(ret, " ");
     return ret;

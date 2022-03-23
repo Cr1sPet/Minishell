@@ -5,9 +5,6 @@ SRCS		=	./src/main.c\
 				./get_next_line/get_next_line.c\
 				./src/exec/here_doc.c\
 				./src/init.c\
-				./src/lst_cmdadd_back.c\
-				./src/lst_cmdlast.c\
-				./src/lst_cmdnew.c\
 				./src/builtins/echo.c\
 				./src/builtins/pwd.c\
 				./src/builtins/env.c\
@@ -17,14 +14,17 @@ SRCS		=	./src/main.c\
 				./src/builtins/parse.c\
 				./src/utils.c\
 				./src/exec/set_redir.c\
+				./src/parsing/parser.c ./src/parsing/dollar.c\
+                				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
+                				./src/signal/signal.c ./src/parsing/parser_pipe.c\
+                				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
+                				./src/parsing/pipe_utils.c\
 				./src/lst_rediraddback.c\
 				./src/lst_redirlast.c\
 				./src/lst_redirnew.c\
-				# ./src/parsing/parser.c ./src/parsing/dollar.c\
-                # 				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
-                # 				./src/signal/signal.c ./src/parsing/parser_pipe.c\
-                # 				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
-                # 				./src/parsing/pipe_utils.c\
+				./src/lst_cmdadd_back.c\
+				./src/lst_cmdlast.c\
+				./src/lst_cmdnew.c\
 				
 
 

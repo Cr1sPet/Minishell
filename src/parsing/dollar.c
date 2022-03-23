@@ -43,7 +43,6 @@ char *envp_value(char *key, char **envp)
 
 	z = 0;
 	k = -1;
-printf("%d <---status\n", shell.status);
 	if (key[0] == '?' && ft_strlen(key) == 1)
 		return (value = ft_itoa(shell.status));
 	while (envp[++k])

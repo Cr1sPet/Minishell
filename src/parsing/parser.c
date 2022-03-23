@@ -68,20 +68,27 @@ void	*parser(char *str, char **envp)
 // 	while (shell.cmd_list)
 //   {
 //       int i = -1;
-// 	  printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
+// 	//   printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
 //       while (shell.cmd_list->args[++i])
 // 		{
 // 			printf("%s \n", shell.cmd_list->args[i]);
 // 			// free(shell.cmd_list->args[i]);
 // 		}
-// 		while (shell.cmd_list->redr_list)
+// 		while (shell.cmd_list->redir_out)
 // 		{
-// 			printf("%s<struct\n", shell.cmd_list->redr_list->filename);
-// 			printf("%d   %d<type\n", shell.cmd_list->redr_list->type_redr, shell.cmd_list->redr_list->double_redir);
+// 			printf("%s<struct\n", shell.cmd_list->redir_out->filename);
+// 			printf("%d<type\n", shell.cmd_list->redir_out->type_redr);
 // 			// free(shell.cmd_list->redr_list->filename);
-// 			shell.cmd_list->redr_list= shell.cmd_list->redr_list->next;
+// 			shell.cmd_list->redir_out= shell.cmd_list->redir_out->next;
 // 		}
-//       printf("--------------------------------------\n");
+// 		 printf("--------------------------------------\n");
+// 				while (shell.cmd_list->redir_in)
+// 		{
+// 			printf("%s<struct\n", shell.cmd_list->redir_in->filename);
+// 			printf("%d<type\n", shell.cmd_list->redir_in->type_redr);
+// 			// free(shell.cmd_list->redr_list->filename);
+// 			shell.cmd_list->redir_in= shell.cmd_list->redir_in->next;
+// 		}
 //       shell.cmd_list = shell.cmd_list->next;
 //   }
 	return NULL;

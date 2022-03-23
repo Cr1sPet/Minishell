@@ -42,9 +42,7 @@ t_cmd	*ft_lstnew_parse(void *content)
 	new_list->args = content;
 	new_list->pipe_in = default_pipe_in;
 	new_list->pipe_out = default_pipe_out;
-	new_list->redir_in = default_redir_in;
-	new_list->redir_out = default_redir_out;
 	new_list->next = (void *)0;
-	new_list->mshell = &shell;
+	// new_list->mshell = &shell;
 	return (new_list);
 }
