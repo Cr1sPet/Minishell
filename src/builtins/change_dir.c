@@ -31,16 +31,6 @@ char	*change_value(char *str, char *val)
 	return (new_str);
 }
 
-int	find_len(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-		i++;
-	return (i);
-}
-
 void	change_old_pwd(t_minishell *mshell)
 {
 
@@ -74,7 +64,7 @@ void	change_dir()
 {
 	int	len;
 
-	len = find_len(shell.cmd_list->args);
+	len = len_2d_str(shell.cmd_list->args);
 	shell.status = 0;
 	if (len > 2)
 	{

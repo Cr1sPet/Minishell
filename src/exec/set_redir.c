@@ -37,6 +37,7 @@ int	set_redir_out(t_redir *redir)
 			exit (1);
 		}
 		dup2(fd, STDOUT_FILENO);
+		close (fd);
 		redir = redir->next;
 	}
 }

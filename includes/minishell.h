@@ -28,6 +28,7 @@ typedef struct s_minishell
 	int				status;
 	int				fds[2];
 	int				fds1[2];
+	int				env_changed;
 	t_env_store		*env_store;
 	t_env_store		*export;
 	struct s_cmd	*cmd_list;
@@ -79,6 +80,14 @@ typedef struct s_cmd
 }				t_cmd;
 
 
+
+void	add_env_store(t_env_store *temp, char *flag);
+void	add_val_by_index (t_env_store *env_store, char *val, int index);
+// int		if_key_exists (t_env_store *env_store, t_env_store *elem, int len);
+int		get_shlvl(void);
+t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len);
+int		len_env_store(t_env_store *env_store);
+void	add_elem_to_env_store (t_env_store **env_store, t_env_store *elem);
 int		set_redir_in(t_redir *redir);
 int		set_redir_out(t_redir *redir);
 void	*parser(char *str, char **envp);
@@ -105,7 +114,7 @@ void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
 void	export();
-int		find_len(char **arr);
+int		len_2d_str(char **str);
 void	env(void);
 void	pwd();
 void	change_dir();

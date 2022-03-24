@@ -9,7 +9,7 @@ char	**del_str(char **env, int index)
 
 	i = 0;
 	j = 0;
-	new_size = find_len(env);
+	new_size = len_2d_str(env);
 	new_env = (char **)malloc(sizeof(char *) * new_size);
 	if (NULL == new_env)
 		return (NULL);
