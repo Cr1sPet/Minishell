@@ -45,12 +45,12 @@ int	try_builtin(char **args)
 		export();
 	else if (!ft_strcmp(args[0], "unset"))
 		unset(args, shell.env);
+	else if (!ft_strcmp(args[0], "exit"))
+		ft_exit(args);
 	else
 		return (0);
 	return (1);
 }
-
-
 
 int	set_fd(t_cmd *cmd_list, int *ok)
 {

@@ -146,8 +146,6 @@ void	change_shlvl(int flag)
 	elem.val = val;
 	add_env_store(&elem, "1");
 	shell.env_changed = 0;
-	// add_elem_to_env_store(&shell.env_store, &elem);
-	// add_elem_to_env_store(&shell.export, &elem);
 }
 
 void	initialisation(char **envp)

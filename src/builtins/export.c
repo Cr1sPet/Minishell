@@ -108,7 +108,9 @@ void	add_elem_to_env_store (t_env_store **env_store_top, t_env_store *elem)
 		{
 			if (ft_strcmp(elem->key, env_store[i].key) > 0
 				&& ft_strcmp(elem->key, env_store[i + 1].key) < 0)
-				*env_store_top = add_elem_by_index(env_store, elem, i + 1, j);
+				{
+					*env_store_top = add_elem_by_index(env_store, elem, i + 1, j);
+				}
 			i++;
 		}
 	}

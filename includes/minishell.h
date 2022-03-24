@@ -80,7 +80,10 @@ typedef struct s_cmd
 }				t_cmd;
 
 
-
+void	clean_cmd_list(void);
+void	clean_env_store(t_env_store *env_store, int len);
+void	ft_exit(char **args);
+void	change_shlvl(int flag);
 void	add_env_store(t_env_store *temp, char *flag);
 void	add_val_by_index (t_env_store *env_store, char *val, int index);
 // int		if_key_exists (t_env_store *env_store, t_env_store *elem, int len);

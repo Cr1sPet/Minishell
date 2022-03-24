@@ -5,12 +5,15 @@ void	memclean(char **s, size_t l)
 	size_t	i;
 
 	i = 0;
-	while (i < l)
+	if (s)
 	{
-		free (s[i]);
-		i++;
+		while (i < l)
+		{
+			free (s[i]);
+			i++;
+		}
+		free (s);
 	}
-	free (s);
 }
 
 int	get_ind_env(char *point, char **envp)
