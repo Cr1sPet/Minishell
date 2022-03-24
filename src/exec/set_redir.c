@@ -28,7 +28,7 @@ int	set_redir_out(t_redir *redir)
 	while (redir)
 	{
 		if (redir_out_1 == redir->type_redr)
-			fd = open(redir->filename, O_WRONLY | O_CREAT, 0644);
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir_out_2 == redir->type_redr)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (-1 == fd)
