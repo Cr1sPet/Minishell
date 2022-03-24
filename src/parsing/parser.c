@@ -90,5 +90,6 @@ void	*parser(char *str, char **envp)
 // 		}
 //       shell.cmd_list = shell.cmd_list->next;
 //   }
+
 	return NULL;
 }

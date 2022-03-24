@@ -62,6 +62,26 @@ int	main(int argc, char **argv, char **envp) {
 		// ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
 		exec(shell.cmd_list);
 		// shell.cmd_list = shell.cmd_list->next;
+				while(shell.cmd_list)
+		{
+			int i = 0;
+			while (shell.cmd_list->args[i])
+			{
+				free(shell.cmd_list->args[i]);
+				i++;
+			}
+			while (shell.cmd_list->redir_in)
+			{
+				free(shell.cmd_list->redir_in->filename);
+				shell.cmd_list->redir_in = shell.cmd_list->redir_in->next;
+			}
+			while (shell.cmd_list->redir_out)
+			{
+				free(shell.cmd_list->redir_out->filename);
+				shell.cmd_list->redir_out = shell.cmd_list->redir_out->next;
+			}
+			shell.cmd_list = shell.cmd_list->next;
+		}
 	}
 	return 0;
 }
