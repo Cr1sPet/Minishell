@@ -45,6 +45,14 @@ t_cmd	*custom_cmd(char **args, t_redir *redir_in, t_redir *redir_out, int pipe_i
 // 	return (0);
 // }
 
+void	try_fix_export()
+{
+	t_env_store	elem;
+
+	elem.key = "PWD";
+	elem.val = ft_strdup("WOW");
+	add_env_store(&elem, "1");
+}
 int	main(int argc, char **argv, char **envp) {
 	char *cmd;   
 
@@ -53,10 +61,11 @@ int	main(int argc, char **argv, char **envp) {
 		return (1);
 	// signal_init();
 	initialisation(envp);
+	try_fix_export();
 	while (1) {
 		cmd = get_cmd();
 		// cmd = ft_strdup("echo hello");
-		parser(cmd, envp);
+		parser(cmd, shell.env);
 
 		// if (str_cmd->args[0])
 		// 	puts(str_cmd->args[0]);
@@ -64,6 +73,7 @@ int	main(int argc, char **argv, char **envp) {
 		// ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
 		exec(shell.cmd_list);
 		// shell.cmd_list = shell.cmd_list->next;
+		clean_cmd_list();
 	}
 	return (0);
 }

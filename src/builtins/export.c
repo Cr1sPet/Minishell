@@ -26,7 +26,7 @@ void	add_val_by_index(t_env_store *env_store, char *val, int index)
 {
 	if (val)
 	{
-		// free (env_store[index].val);
+		free (env_store[index].val);
 		env_store[index].val = val;
 		env_store [index].equal = 1;
 	}
@@ -124,6 +124,7 @@ void	add_env_store(t_env_store *temp, char *flag)
 	add_elem_to_env_store(&shell.export, temp);
 	if (flag)
 	{
+		temp->val = ft_strdup(temp->val);
 		add_elem_to_env_store(&shell.env_store, temp);
 		shell.env_changed = 1;
 		if (shell.env_changed)
@@ -139,8 +140,10 @@ void	export(void)
 {
 	int			len;
 	int			i;
-	t_env_store	temp;
+	t_env_store	*temp;
+
 	i = 1;
+	temp = (t_env_store *)malloc (sizeof(t_env_store));
 	len = len_2d_str(shell.cmd_list->args);
 	shell.status = 0;
 	if (len == 1)
@@ -157,14 +160,13 @@ void	export(void)
 				i++;
 				continue ;
 			}
-			temp.key = NULL;
-			temp.val = NULL;
-			temp.key = get_key(shell.cmd_list->args[i]);
+			temp->val = NULL;
+			temp->key = get_key(shell.cmd_list->args[i]);
 			if (ft_strchr (shell.cmd_list->args[i], '='))
-			{
-				temp.val = ft_strdup(ft_strchr(shell.cmd_list->args[i], '=') + 1);
-			}
-			add_env_store(&temp, ft_strchr (shell.cmd_list->args[i], '='));
+				temp->val = ft_strdup(ft_strchr(shell.cmd_list->args[i], '=') + 1);
+			add_env_store(temp, ft_strchr (shell.cmd_list->args[i], '='));
+			temp->key = NULL;
+			temp->val = NULL;
 			i++;
 		}
 	}

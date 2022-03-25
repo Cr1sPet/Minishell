@@ -113,7 +113,14 @@ int	get_shlvl(void)
 		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
 		exit (1);
 	}
-	return (ft_atoi(val));
+	if (check_atoi(val))
+	{
+		if (val[0] == '-')
+			return (0);
+	}
+	else
+		return (1);
+	return (ft_atoi(val) + 1);
 }
 
 int	find_key_i_env_store(t_env_store *env_store, char *key)
@@ -130,7 +137,7 @@ int	find_key_i_env_store(t_env_store *env_store, char *key)
 	return (-1);
 }
 
-void	change_shlvl(int flag)
+void	change_shlvl(void)
 {
 	char		*val;
 	int			val_int;
@@ -138,10 +145,7 @@ void	change_shlvl(int flag)
 	t_env_store elem;
 
 	val_int = get_shlvl();
-	if (flag)
-		val = ft_itoa(++val_int);
-	else
-		val = ft_itoa(--val_int);
+	val = ft_itoa(val_int);
 	elem.key = "SHLVL";
 	elem.val = val;
 	add_env_store(&elem, "1");
@@ -159,7 +163,7 @@ void	initialisation(char **envp)
 	shell.export = get_export(envp);
 	shell.env = collect_env(&shell);
 	shell.env_changed = 1;
-	change_shlvl(1);
+	change_shlvl();
 	shell.status = 0;
 
 }

@@ -93,6 +93,6 @@ int	parse_cmds(t_cmd *cmd)
 	if (NULL == pathes)
 		return (0);
 	ok = get_cmd(cmd->args, pathes);
-	// arr_free(pathes);
+	memclean(pathes, len_2d_str(pathes) + 1);
 	return (ok);
 }

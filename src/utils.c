@@ -59,7 +59,7 @@ void	clean_cmd_list(void)
 			temp_list = shell.cmd_list->next;
 			clean_redir_list(shell.cmd_list->redir_in);
 			clean_redir_list(shell.cmd_list->redir_out);
-			memclean(shell.cmd_list->args, len_2d_str(shell.cmd_list->args));
+			memclean(shell.cmd_list->args, len_2d_str(shell.cmd_list->args) + 1);
 			free(shell.cmd_list);
 			shell.cmd_list = temp_list;
 		}

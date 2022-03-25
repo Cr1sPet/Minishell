@@ -55,17 +55,17 @@ int	try_builtin(char **args)
 int	set_fd(t_cmd *cmd_list, int *ok)
 {
 	*ok = 0;
-	if (cmd_list->redir_in)
-	{
-		*ok = 1;
-		if (!set_redir_in(cmd_list->redir_in))
-			return (-10);
-	}
-	else if (cmd_list->pipe_in == pipe_in)
+	// if (cmd_list->redir_in)
+	// {
+	// 	*ok = 1;
+	// 	if (!set_redir_in(cmd_list->redir_in))
+	// 		return (-10);
+	// }
+	if (cmd_list->pipe_in == pipe_in)
 	{
 		*ok = 1;
 		dup2(shell.fds[0], STDIN_FILENO);
-		close(shell.fds[1]);
+		close(shell.fds[0]);
 	}
 	if (cmd_list->redir_out)
 	{
@@ -79,6 +79,7 @@ int	set_fd(t_cmd *cmd_list, int *ok)
 	{
 		pipe (shell.fds);
 		dup2(shell.fds[1], STDOUT_FILENO);
+		close (shell.fds[1]);
 		if (*ok == 1)
 			*ok = 3;
 		else
