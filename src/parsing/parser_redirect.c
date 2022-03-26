@@ -98,11 +98,11 @@ void	redir(char **cmd)
     {
         if (ft_strncmp(cmd[i], "<<", 2) == 0)
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(cmd[i + 1], redir_in_2));
-        if (ft_strncmp(cmd[i], ">>", 2) == 0)
+        else if (ft_strncmp(cmd[i], ">>", 2) == 0)
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, ft_lstnew_redir(cmd[i + 1], redir_out_2));
-        if (ft_strncmp(cmd[i], ">", 1) == 0)
+        else if (ft_strncmp(cmd[i], ">", 1) == 0)
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, ft_lstnew_redir(cmd[i + 1], redir_out_1));
-        if (ft_strncmp(cmd[i], "<", 1) == 0)
+        else if (ft_strncmp(cmd[i], "<", 1) == 0)
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(cmd[i + 1], redir_in_1));
     }
 }
