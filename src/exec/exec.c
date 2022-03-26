@@ -55,12 +55,12 @@ int	try_builtin(char **args)
 int	set_fd(t_cmd *cmd_list, int *ok)
 {
 	*ok = 0;
-	// if (cmd_list->redir_in)
-	// {
-	// 	*ok = 1;
-	// 	if (!set_redir_in(cmd_list->redir_in))
-	// 		return (-10);
-	// }
+	if (cmd_list->redir_in)
+	{
+		*ok = 1;
+		if (!set_redir_in(cmd_list->redir_in))
+			return (-10);
+	}
 	if (cmd_list->pipe_in == pipe_in)
 	{
 		*ok = 1;

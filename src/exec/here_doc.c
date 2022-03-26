@@ -1,6 +1,6 @@
 #include "../../get_next_line/get_next_line.h"
 #include "minishell.h"
-void	work_here_doc(char *limiter, int f)
+int	work_here_doc(char *limiter, int f)
 {
 	char	*str;
 	int		ret;
@@ -15,14 +15,12 @@ void	work_here_doc(char *limiter, int f)
 		{
 			if (ft_strlen(str) - 1 == ft_strlen(limiter)
 				&& !ft_strncmp(limiter, str, ft_strlen(limiter)))
-					return ;
+					return (1);
 			write (f, str, ft_strlen(str));
 			free(str);
 		}
 		else if (-1 == ret)
-		{
-			puts("ERROR WITH GET_NEXT_LINE");
-			exit (1);
-		}
+			return (-1);
 	}
+	return (1);
 }

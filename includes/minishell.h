@@ -130,7 +130,7 @@ int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
 char	*get_env(char *point, char **envp);
 void	initialisation(char **envp);
-void	work_here_doc(char *limiter, int f);
+int	work_here_doc(char *limiter, int f);
 
 char	**collect_env(t_minishell *mshell);
 void	print_env_store(t_env_store *env_store);
