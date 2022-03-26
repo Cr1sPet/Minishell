@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envp) {
 	while (1) {
 		cmd = get_cmd();
 		// cmd = ft_strdup("echo hello");
-		parser(cmd, envp);
+		parser(cmd, shell.env);
 
 		// if (str_cmd->args[0])
 		// 	puts(str_cmd->args[0]);
