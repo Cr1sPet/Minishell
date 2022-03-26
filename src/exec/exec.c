@@ -5,18 +5,6 @@ int	exe(t_cmd *cmd_list)
 	pid_t	child;
 	int		status;
 
-//	if (cmd_list->redir_in != default_redir_in || cmd_list->redir_out != default_redir_out)
-//	{
-//		if (cmd_list->redir_in == redir_in_1)
-//			dup2(cmd_list->f1, STDIN_FILENO);
-//		else if (cmd_list->redir_in == redir_in_2)
-//		{
-//			work_here_doc(cmd_list->limiter, cmd_list->f1);
-//			dup2(cmd_list->f1, STDIN_FILENO);
-//		}
-//		if (cmd_list->redir_out == redir_out_1)
-//			dup2(cmd_list->f2, STDOUT_FILENO);
-//	}
 	child = fork();
 	if (-1 == child)
 	{
@@ -38,7 +26,7 @@ int	exe(t_cmd *cmd_list)
 		shell.status = WEXITSTATUS(status);
 		dup2(shell.stdin, STDIN_FILENO);
 		dup2(shell.stdout, STDOUT_FILENO);
-		ft_putnbr_fd(shell.status, shell.stdout);
+		// ft_putnbr_fd(shell.status, shell.stdout);
 	}
 	return (1);
 }
@@ -57,35 +45,41 @@ int	try_builtin(char **args)
 		export();
 	else if (!ft_strcmp(args[0], "unset"))
 		unset(args, shell.env);
+	else if (!ft_strcmp(args[0], "exit"))
+		ft_exit(args);
 	else
 		return (0);
 	return (1);
 }
-
-
 
 int	set_fd(t_cmd *cmd_list, int *ok)
 {
 	*ok = 0;
 	if (cmd_list->redir_in)
 	{
+		*ok = 1;
 		if (!set_redir_in(cmd_list->redir_in))
 			return (-10);
 	}
-	else if (cmd_list->pipe_in == pipe_in)
+	if (cmd_list->pipe_in == pipe_in)
 	{
 		*ok = 1;
 		dup2(shell.fds[0], STDIN_FILENO);
-		close(shell.fds[1]);
+		close(shell.fds[0]);
 	}
 	if (cmd_list->redir_out)
 	{
 		set_redir_out(cmd_list->redir_out);
+		if (*ok == 1)
+			*ok = 3;
+		else
+			*ok = 2;
 	}
 	else if (cmd_list->pipe_out == pipe_out)
 	{
 		pipe (shell.fds);
 		dup2(shell.fds[1], STDOUT_FILENO);
+		close (shell.fds[1]);
 		if (*ok == 1)
 			*ok = 3;
 		else

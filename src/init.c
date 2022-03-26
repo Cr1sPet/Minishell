@@ -2,13 +2,12 @@
 
 t_env_store	*get_env_store(char **envp)
 {
-
 	int			len;
 	int			i;
 	t_env_store	*env_store;
 
 	i = 0;
-	len = find_len(envp);
+	len = len_2d_str(envp);
 	env_store = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
 	if (NULL == env_store)
 	{
@@ -23,14 +22,13 @@ t_env_store	*get_env_store(char **envp)
 			ft_putendl_fd("MALLOC ERROR", shell.stdout);
 			exit (1);
 		}
-		env_store[i].val = ft_strchr(envp[i], '=') + 1;
+		env_store[i].val = ft_strdup(ft_strchr(envp[i], '=') + 1);
 		env_store[i].equal = 1;
 		i++;
 	}
 	env_store[i].val = NULL;
 	env_store[i].key = NULL;
 	env_store[i].equal = 0;
-	// mshell->env_store = env_store;
 	return (env_store);
 }
 
@@ -89,13 +87,12 @@ t_env_store	*get_export(char **envp)
 	t_env_store	*export;
 
 	i = 0;
-	len = find_len(envp);
+	len = len_2d_str(envp);
 	export = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
 	while (shell.env_store[i].key)
 	{
-		export[i].key = shell.env_store[i].key;
-		export[i].val = shell.env_store
-		[i].val;
+		export[i].key = ft_strdup(shell.env_store[i].key);
+		export[i].val =  ft_strdup(shell.env_store[i].val);
 		export[i].equal = 1;
 		i++;
 	}
@@ -106,19 +103,67 @@ t_env_store	*get_export(char **envp)
 	return (export);
 }
 
+int	get_shlvl(void)
+{
+	char	*val;
+
+	val = get_env("SHLVL", shell.env);
+	if (NULL == val)
+	{
+		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
+		exit (1);
+	}
+	if (check_atoi(val))
+	{
+		if (val[0] == '-')
+			return (0);
+	}
+	else
+		return (1);
+	return (ft_atoi(val) + 1);
+}
+
+int	find_key_i_env_store(t_env_store *env_store, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (env_store[i].key)
+	{
+		if (!ft_strcmp(env_store[i].key, key))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	change_shlvl(void)
+{
+	char		*val;
+	int			val_int;
+	int			i;
+	t_env_store elem;
+
+	val_int = get_shlvl();
+	val = ft_itoa(val_int);
+	elem.key = "SHLVL";
+	elem.val = val;
+	add_env_store(&elem, "1");
+	shell.env_changed = 0;
+}
+
 void	initialisation(char **envp)
 {
+	int	i;
+
+	i = 0;
 	shell.stdin = dup(STDIN_FILENO);
 	shell.stdout = dup (STDOUT_FILENO);
 	shell.env_store = get_env_store(envp);
 	shell.export = get_export(envp);
 	shell.env = collect_env(&shell);
-	// while (*mshell->env)
-	// {
-	// 	ft_putstr_fd(*mshell->env, 1);
-	// 	mshell->env++;
-	// }
+	shell.env_changed = 1;
+	change_shlvl();
 	shell.status = 0;
-	// shell.cmd_list->mshell = mshell;
-	
+
 }

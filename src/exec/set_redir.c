@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+int	fill_temp(t_redir *redir)
+{
+	int	fd;
+
+	fd = open(".temp_minishell", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (-1 == fd)
+		return (-1);
+	if (-1 == work_here_doc(redir->filename, fd))
+	{
+		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
+		exit (1);
+	}
+	close (fd);
+	fd = open(".temp_minishell", O_RDONLY);
+	return (fd);
+}
+
 int	set_redir_in(t_redir *redir)
 {
 	int	fd;
@@ -7,15 +24,15 @@ int	set_redir_in(t_redir *redir)
 	while (redir)
 	{
 		if (redir_in_1 == redir->type_redr)
-		{
 			fd = open(redir->filename, O_RDONLY);
-			if (-1 == fd)
-			{
-				ft_putendl_fd("No such file or directory", shell.stdout);
-				return (0);
-			}
-			dup2(fd, STDIN_FILENO);
+		else if (redir_in_2 == redir->type_redr)
+			fd = fill_temp(redir);
+		if (-1 == fd)
+		{
+			ft_putendl_fd("No such file or directory", shell.stdout);
+			return (0);
 		}
+		dup2(fd, STDIN_FILENO);
 		redir = redir->next;
 	}
 	return (1);
@@ -28,7 +45,7 @@ int	set_redir_out(t_redir *redir)
 	while (redir)
 	{
 		if (redir_out_1 == redir->type_redr)
-			fd = open(redir->filename, O_WRONLY | O_CREAT, 0644);
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (redir_out_2 == redir->type_redr)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (-1 == fd)
@@ -37,6 +54,7 @@ int	set_redir_out(t_redir *redir)
 			exit (1);
 		}
 		dup2(fd, STDOUT_FILENO);
+		close (fd);
 		redir = redir->next;
 	}
 }

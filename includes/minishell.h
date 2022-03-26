@@ -28,6 +28,7 @@ typedef struct s_minishell
 	int				status;
 	int				fds[2];
 	int				fds1[2];
+	int				env_changed;
 	void			*temp;
 	t_env_store		*env_store;
 	t_env_store		*export;
@@ -79,6 +80,18 @@ typedef struct s_cmd
 }				t_cmd;
 
 
+int		check_atoi(char *str);
+void	clean_cmd_list(void);
+void	clean_env_store(t_env_store *env_store, int len);
+void	ft_exit(char **args);
+void	change_shlvl(void);
+void	add_env_store(t_env_store *temp, char *flag);
+void	add_val_by_index (t_env_store *env_store, char *val, int index);
+// int		if_key_exists (t_env_store *env_store, t_env_store *elem, int len);
+int		get_shlvl(void);
+t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len);
+int		len_env_store(t_env_store *env_store);
+void	add_elem_to_env_store (t_env_store **env_store, t_env_store *elem);
 int		set_redir_in(t_redir *redir);
 int		set_redir_out(t_redir *redir);
 void	*parser(char *str, char **envp);
@@ -105,7 +118,7 @@ void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
 void	export();
-int		find_len(char **arr);
+int		len_2d_str(char **str);
 void	env(void);
 void	pwd();
 void	change_dir();
@@ -117,7 +130,7 @@ int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
 char	*get_env(char *point, char **envp);
 void	initialisation(char **envp);
-void	work_here_doc(char *limiter, int f);
+int	work_here_doc(char *limiter, int f);
 
 char	**collect_env(t_minishell *mshell);
 void	print_env_store(t_env_store *env_store);
