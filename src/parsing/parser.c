@@ -63,14 +63,13 @@ void	*parser(char *str, char **envp)
 		cmd_split(str, envp);
 		check_pipe();
 	}
-	// free(str);
 // 	while (shell.cmd_list)
 //   {
 //       int i = -1;
 // 	//   printf("%s<str %d<pipe_int %d<pipe_out \n", shell.cmd_list->args[0], shell.cmd_list->pipe_in, shell.cmd_list->pipe_out);
 //       while (shell.cmd_list->args[++i])
 // 		{
-// 			printf("%s\n", shell.cmd_list->args[i]);
+// 			printf("%s M--\n", shell.cmd_list->args[i]);
 // 			// free(shell.cmd_list->args[i]);
 // 		}
 // 		while (shell.cmd_list->redir_out)
@@ -80,7 +79,6 @@ void	*parser(char *str, char **envp)
 // 			// free(shell.cmd_list->redr_list->filename);
 // 			shell.cmd_list->redir_out= shell.cmd_list->redir_out->next;
 // 		}
-// 		 printf("--------------------------------------\n");
 // 				while (shell.cmd_list->redir_in)
 // 		{
 // 			printf("%s<struct\n", shell.cmd_list->redir_in->filename);
@@ -88,7 +86,9 @@ void	*parser(char *str, char **envp)
 // 			// free(shell.cmd_list->redr_list->filename);
 // 			shell.cmd_list->redir_in= shell.cmd_list->redir_in->next;
 // 		}
+// 		 printf("--------------------------------------\n");
 //       shell.cmd_list = shell.cmd_list->next;
 //   }
+
 	return NULL;
 }

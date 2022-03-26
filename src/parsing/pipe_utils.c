@@ -45,6 +45,5 @@ t_cmd	*ft_lstnew_parse(void *content)
 	new_list->redir_in = NULL;
 	new_list->redir_out = NULL;
 	new_list->next = (void *)0;
-	// new_list->mshell = &shell;
 	return (new_list);
 }

@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <wait.h>
+// # include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -29,6 +29,7 @@ typedef struct s_minishell
 	int				fds[2];
 	int				fds1[2];
 	int				env_changed;
+	void			*temp;
 	t_env_store		*env_store;
 	t_env_store		*export;
 	struct s_cmd	*cmd_list;
@@ -75,7 +76,6 @@ typedef struct s_cmd
 	int				pipe_out;
 	t_redir			*redir_in;
 	t_redir			*redir_out;
-	t_minishell		*mshell;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -111,7 +111,7 @@ void	ft_lstadd_back_parse(t_cmd **lst, t_cmd *new);
 void	ft_lstadd_back_redir(t_redir **lst, t_redir *new);
 char 	*right_redirect(char *str, int *i, char **envp);
 char *left_redirect(char *str, int *i, char **envp);
-void redir(char *str, char **envp);
+void redir(char **cmd);
 
 t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
