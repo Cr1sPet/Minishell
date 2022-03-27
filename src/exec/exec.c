@@ -15,7 +15,7 @@ int	exe(t_cmd *cmd_list)
 	{
 		if (-1 == execve(cmd_list->args[0], cmd_list->args, shell.env))
 		{
-			ft_putendl_fd("ERROR IN EXECVE", shell.stdout);
+			// ft_putendl_fd("ERROR IN EXECVE", STDERR_FILENO);
 			perror("ERROR");
 			exit (1);
 		}
@@ -64,6 +64,7 @@ int	set_fd(t_cmd *cmd_list, int *ok)
 	if (cmd_list->pipe_in == pipe_in)
 	{
 		*ok = 1;
+		close(shell.fds[1]);
 		dup2(shell.fds[0], STDIN_FILENO);
 		close(shell.fds[0]);
 	}
@@ -75,15 +76,18 @@ int	set_fd(t_cmd *cmd_list, int *ok)
 		else
 			*ok = 2;
 	}
-	else if (cmd_list->pipe_out == pipe_out)
+	if (cmd_list->pipe_out == pipe_out)
 	{
 		pipe (shell.fds);
-		dup2(shell.fds[1], STDOUT_FILENO);
-		close (shell.fds[1]);
-		if (*ok == 1)
-			*ok = 3;
-		else
-			*ok = 2;
+		if (!cmd_list->redir_out)
+		{
+			dup2(shell.fds[1], STDOUT_FILENO);
+			close (shell.fds[1]);
+			if (*ok == 1)
+				*ok = 3;
+			else
+				*ok = 2;
+		}
 	}
 	return (1);
 }
@@ -100,7 +104,7 @@ int	exec(void)
 			shell.cmd_list = shell.cmd_list->next;
 			continue ;
 		}
-		if (!try_builtin (shell.cmd_list->args))
+		if (shell.cmd_list->args[0] && !try_builtin (shell.cmd_list->args))
 		{
 			if ('/' == shell.cmd_list->args[0][0] || !ft_strncmp(shell.cmd_list->args[0], "../", 3)\
 				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2))
