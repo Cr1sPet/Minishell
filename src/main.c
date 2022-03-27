@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	puts(str_cmd->args[0]);
 		// echo(shell.cmd_list->args);
 		// ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
-		// exec(shell.cmd_list);
+		exec(shell.cmd_list);
 		// shell.cmd_list = shell.cmd_list->next;
 		clean_cmd_list();
 		// while(shell.cmd_list)
