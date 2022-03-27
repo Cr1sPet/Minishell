@@ -61,36 +61,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd = get_cmd();
-		// cmd = ft_strdup("echo hello");
 		parser(cmd, shell.env);
-
-		// if (str_cmd->args[0])
-		// 	puts(str_cmd->args[0]);
-		// echo(shell.cmd_list->args);
-		// ft_putstr_fd(*shell.cmd_list->mshell->env, 1);
 		exec(shell.cmd_list);
-		// shell.cmd_list = shell.cmd_list->next;
 		clean_cmd_list();
-		// while(shell.cmd_list)
-		// {
-		// 	int i = 0;
-		// 	while (shell.cmd_list->args[i])
-		// 	{
-		// 		free(shell.cmd_list->args[i]);
-		// 		i++;
-		// 	}
-		// 	while (shell.cmd_list->redir_in)
-		// 	{
-		// 		free(shell.cmd_list->redir_in->filename);
-		// 		shell.cmd_list->redir_in = shell.cmd_list->redir_in->next;
-		// 	}
-		// 	while (shell.cmd_list->redir_out)
-		// 	{
-		// 		free(shell.cmd_list->redir_out->filename);
-		// 		shell.cmd_list->redir_out = shell.cmd_list->redir_out->next;
-		// 	}
-		// 	shell.cmd_list = shell.cmd_list->next;
-		// }
 	}
 	return (0);
 }

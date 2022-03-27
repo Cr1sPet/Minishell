@@ -13,6 +13,7 @@ char	*get_cmds(char *str, int *i, int j)
 char	**command_split(char *str)
 {
 	char	**cmds;
+    char    ch;
     int     h;
     int     i; 
     int     j;
@@ -24,16 +25,31 @@ char	**command_split(char *str)
 	while (str[++i])
 	{
 		j = i;
-        while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
-            i++;
-		if ((str[i] == ' ' || str[i] == '\0') && j != i)
-		{
-			cmds[h++] = ft_substr(str, j, i - j);
-			if (str[i] == '\0')
-				break ;
-		}
-		if (str[i] == '\'' || str[i] == '\"')
-			cmds[h++] = get_cmds(str, &i, j);
+        if (str[i] == '>' || str[i] == '<')
+        {
+            ch = str[i];
+            if (str[i + 1] == ch)
+            {
+                cmds[h++] = ft_substr(str, j, 2);
+                i++;
+            }
+            else
+                cmds[h++] = ft_substr(str, j, 1);
+        }
+        else 
+        {
+            while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
+                        i++;
+		    if ((str[i] == ' ' || str[i] == '\0') && j != i)
+		    {
+			    cmds[h++] = ft_substr(str, j, i - j);
+			    if (str[i] == '\0')
+			        break ;
+		    }
+            if (str[i] == '\'' || str[i] == '\"')
+			    cmds[h++] = get_cmds(str, &i, j);
+        }
+
 	}
 	free(str);
 	return (cmds);
@@ -95,7 +111,7 @@ char	*pipe_parse(int *i,char *str, char **envp)
     cmd = ft_calloc(sizeof(char *), 100);
     while(temp_cmd[j])
     {
-        if (ft_strncmp(temp_cmd[j], ">", 1) == 0 || ft_strncmp(temp_cmd[j], ">>", 2) == 0 || ft_strncmp(temp_cmd[j], "<", 1) == 0 || ft_strncmp(temp_cmd[j], "<<", 2) == 0)
+        if ((ft_strncmp(temp_cmd[j], ">", 1) == 0 && ft_strlen(temp_cmd[j]) == 1) || (ft_strncmp(temp_cmd[j], ">>", 2) == 0 && ft_strlen(temp_cmd[j]) == 2) || (ft_strncmp(temp_cmd[j], "<", 1) == 0 && ft_strlen(temp_cmd[j]) == 1) || (ft_strncmp(temp_cmd[j], "<<", 2) == 0 && ft_strlen(temp_cmd[j]) == 2))
                 j++;
         else
         {
