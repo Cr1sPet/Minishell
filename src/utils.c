@@ -97,3 +97,11 @@ char	**collect_env (t_minishell *mshell)
 	env[i] = NULL;
 	return (env);
 }
+
+
+
+void	exit_with_error(char *str)
+{
+	ft_putendl_fd(str, STDERR_FILENO);
+	exit(1);
+}

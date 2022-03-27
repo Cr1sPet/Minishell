@@ -88,7 +88,10 @@ int	parse_cmds(t_cmd *cmd)
 	char	**pathes;
 	int		ok;
 
-	// ft_putstr_fd(*shell.env, 1);
+	if ('/' == shell.cmd_list->args[0][0] \
+		|| !ft_strncmp(shell.cmd_list->args[0], "../", 3) \
+				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2))
+		return (1);
 	pathes = get_pathes(shell.env);
 	if (NULL == pathes)
 		return (0);

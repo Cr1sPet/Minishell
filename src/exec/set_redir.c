@@ -33,6 +33,7 @@ int	set_redir_in(t_redir *redir)
 			return (0);
 		}
 		dup2(fd, STDIN_FILENO);
+		close (fd);
 		redir = redir->next;
 	}
 	return (1);

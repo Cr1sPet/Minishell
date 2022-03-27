@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// # include <wait.h>
+# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -26,10 +26,11 @@ typedef struct s_minishell
 	int				stdin;
 	int				stdout;
 	int				status;
-	int				fds[2];
-	int				fds1[2];
 	int				env_changed;
 	void			*temp;
+	int				**fds;
+	char			**builtins;
+	pid_t			*pids;
 	t_env_store		*env_store;
 	t_env_store		*export;
 	struct s_cmd	*cmd_list;
@@ -79,7 +80,8 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
-
+void	exit_with_error(char *str);
+void	get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
 void	clean_cmd_list(void);
 void	clean_env_store(t_env_store *env_store, int len);

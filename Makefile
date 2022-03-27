@@ -4,6 +4,7 @@ SRCS		=	./src/main.c\
 				./src/exec/exec.c\
 				./get_next_line/get_next_line.c\
 				./src/exec/here_doc.c\
+				./src/exec/exec_utils.c\
 				./src/init.c\
 				./src/builtins/exit.c\
 				./src/builtins/echo.c\

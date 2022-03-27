@@ -165,5 +165,4 @@ void	initialisation(char **envp)
 	shell.env_changed = 1;
 	change_shlvl();
 	shell.status = 0;
-
 }
