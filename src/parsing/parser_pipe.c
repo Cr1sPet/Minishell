@@ -125,6 +125,13 @@ char	*pipe_parse(int *i,char *str, char **envp)
     ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
     if (check_redir(str, *i))
         redir(temp_cmd);
+    j  = 0;
+    while (temp_cmd[j])
+    {
+        free(temp_cmd[j]);
+        j++;
+    }
+    free(temp_cmd);
     *i = 0;
     return ret;
 }

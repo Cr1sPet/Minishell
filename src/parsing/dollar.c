@@ -82,5 +82,7 @@ char	*ft_dollar(char *str, int *i, char **envp)
 	value = envp_value(key, envp);
 	ret = concat_str_value(str, value, j, i);
 	free(key);
+	free(value);
+	free(str);
 	return (ret);
 }

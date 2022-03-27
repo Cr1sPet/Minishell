@@ -49,7 +49,8 @@ void	cmd_split(char *str, char **envp)
 		if (str[i] == '|')
 			str = pipe_parse(&i, str, envp);
 	}
-	pipe_parse(&i, str, envp);
+	str = pipe_parse(&i, str, envp);
+	free(str);
 }
 
 void	*parser(char *str, char **envp)
