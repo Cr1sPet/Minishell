@@ -5,31 +5,32 @@ void	set_fd(t_cmd *cmd_list, int i)
 	if (cmd_list->redir_in)
 	{
 		dup2(shell.fd_read, STDIN_FILENO);
-		close(shell.fd_read);
+		// close(shell.fd_read);
 	}
 	else if (cmd_list->pipe_in == pipe_in)
 	{
 		if (i > 0)
+		{
 			dup2(shell.fds[i - 1][0], STDIN_FILENO);
-		// close(shell.fds[i - 1][0]);
+			close(shell.fds[i - 1][0]);
+		}
 	}
 	if (cmd_list->redir_out)
 	{
 		dup2(shell.fd_write, STDOUT_FILENO);
-		close(shell.fd_write);
+		// close(shell.fd_write);
 	}
 	if (cmd_list->pipe_out == pipe_out)
 	{
 		if (!cmd_list->redir_out)
 		{
-			if (!cmd_list->next)
-				dup2(shell.stdout, STDOUT_FILENO);
-			else
-			{
 				dup2(shell.fds[i][1], STDOUT_FILENO);
-				// close (shell.fds[i][1]);
-			}
+				close (shell.fds[i][1]);
 		}
+	}
+	if (!cmd_list->next)
+	{
+		dup2(shell.stdout, STDOUT_FILENO);
 	}
 }
 
@@ -81,11 +82,10 @@ void	cmd_end_works(int **fds, pid_t *pids, int i)
 
 int	exe(t_cmd *cmd_list, int i, int j)
 {
-	pid_t	child;
 	int		status;
 
 	shell.pids[i] = fork();
-	if (-1 == child)
+	if (-1 == shell.pids[i])
 		exit_with_error("Fork error");
 	else if (0 == shell.pids[i])
 	{
@@ -100,27 +100,29 @@ int	exe(t_cmd *cmd_list, int i, int j)
 
 int	try_builtin(char **args, int j)
 {
-	if (shell.fd_write == STDOUT_FILENO
-		&& is_builtin(args[0]) && shell.cmd_list->next)
-		shell.fd_write = shell.fds[j][1];
+	if (is_builtin(args[0]))
+		set_fd(shell.cmd_list, j);
 	if (!ft_strcmp(args[0], "echo"))
-		echo(args, shell.fd_write);
+		echo(args, 1);
 	else if (!ft_strcmp(args[0], "cd"))
 		change_dir();
 	else if (!ft_strcmp(args[0], "env"))
-		env(shell.fd_write);
+		env(1);
 	else if (!ft_strcmp(args[0], "pwd"))
-		pwd(shell.fd_write);
+		pwd(1);
 	else if (!ft_strcmp(args[0], "export"))
-		export(shell.fd_write);
+		export(1);
 	else if (!ft_strcmp(args[0], "unset"))
 		unset(args, shell.env);
 	else if (!ft_strcmp(args[0], "exit"))
 		ft_exit(args);
 	else
 		return (0);
-	if (shell.fd_write != STDOUT_FILENO)
-		close (shell.fd_write);
+	if (is_builtin(args[0]))
+	{
+		dup2(shell.stdin, STDIN_FILENO);
+		dup2(shell.stdout, STDOUT_FILENO);
+	}
 	return (1);
 }
 
@@ -146,16 +148,6 @@ int	exec(void)
 	get_pids_fds(shell.cmd_list);
 	while (shell.cmd_list)
 	{
-		if (shell.fd_read != STDIN_FILENO)
-		{
-			close (shell.fd_read);
-			shell.fd_read = 0;
-		}
-		if (shell.fd_write != STDOUT_FILENO)
-		{
-			close (shell.fd_write);
-			shell.fd_write = 1;
-		}
 		open_redirs(shell.cmd_list);
 		if (shell.cmd_list->args[0] && !try_builtin (shell.cmd_list->args, j))
 		{
@@ -167,6 +159,8 @@ int	exec(void)
 		}
 		j++;
 		shell.cmd_list = shell.cmd_list->next;
+		// dup2(shell.stdin, shell.fd_read);
+		// dup2(shell.stdout, shell.fd_write);
 	}
 	cmd_end_works(shell.fds, shell.pids, i);
 	return (0);
