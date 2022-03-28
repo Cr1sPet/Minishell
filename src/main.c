@@ -44,6 +44,30 @@ char	*get_cmd()
 // 	return (0);
 // }
 
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void) argc;
+// 	ft_strlen(argv[0]);
+// 	initialisation(envp);
+// 	char **args = malloc (sizeof(char *) * 3);
+// 	args[0] = ft_strdup("export");
+// 	args[1] = ft_strdup("AA=HELLO");
+// 	args[2] = NULL;
+
+// 	// unset(args, envp);
+// 	// print_env_list(shell.env_list);
+// 	export(&shell.env_list, args);
+// 	free(args[1]);
+// 	args[1] = ft_strdup("AA=HELLO");
+// 	export(&shell.env_list, args);
+// 	print_env_list(shell.env_list);
+// 	clean_env_list(shell.env_list);
+// 	free(args[0]);
+// 	free(args[1]);
+// 	free(args);
+// 	return (0);
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	char *cmd;   
@@ -58,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 		cmd = get_cmd();
 		parser(cmd, shell.env);
 		exec(shell.cmd_list);
-		clean_cmd_list();
+		// clean_cmd_list();
 		free(cmd);
 	}
 	return (0);

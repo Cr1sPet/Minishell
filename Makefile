@@ -27,6 +27,9 @@ SRCS		=	./src/main.c\
 				./src/lst_cmdadd_back.c\
 				./src/lst_cmdlast.c\
 				./src/lst_cmdnew.c\
+				./src/lst_envadd_back.c\
+				./src/lst_envlast.c\
+				./src/lst_envnew.c\
 				
 
 

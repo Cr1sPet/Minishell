@@ -16,64 +16,19 @@ void	memclean(char **s, size_t l)
 	}
 }
 
-int	get_ind_env(char *point, char **envp)
+char	*get_env(char *key, t_env_list *env_list)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
+	while (env_list)
 	{
-		if (!ft_strncmp(point, envp[i], ft_strlen(point)))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-// char	*get_env(char *point, char **envp)
-// {
-// 	int		i;
-// 	char	*key;
-
-// 	i = 0;
-// 	key = ft_strjoin(point, "=");
-// 	while (envp[i])
-// 	{
-// 		if (0 == ft_strncmp(envp[i], key, ft_strlen(key)))
-// 			return (&envp[i][ft_strlen(point) + 1]);
-// 		i++;
-// 	}
-// 	return (NULL);
-// }
-
-char	*get_env(char *point, char **envp)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	while (shell.env_store[i].key)
-	{
-		if (i == 77)
-			i = i;
-		key = shell.env_store[i].key; 
-		if (!ft_strcmp(key, point))
-		{
-			char *val = shell.env_store[i].val;
-			return (shell.env_store[i].val);
-		}
-		i++;
+		if (!ft_strcmp(key, env_list->key) && env_list->equal)
+			return (env_list->val);
+		env_list = env_list->next;
 	}
 	return (NULL);
 }
 
-void	env(int	fd)
+void	env(char **args, t_env_list *env_list)
 {
-	int	i;
-
-	i = 0;
-	if (!shell.env)
-		ft_putendl_fd("No such file or directory", STDERR_FILENO);
-	print_env_store(shell.env_store, fd);
 	shell.status = 0;
+	print_env_list(env_list);
 }

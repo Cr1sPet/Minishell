@@ -31,11 +31,6 @@ char	*change_value(char *str, char *val)
 	return (new_str);
 }
 
-void	change_old_pwd(t_minishell *mshell)
-{
-
-}
-
 void	change_pwd(char *dest)
 {
 	int		i;

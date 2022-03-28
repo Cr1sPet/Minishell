@@ -21,12 +21,12 @@ int	len_env_store(t_env_store *env_store)
 	return (i);
 }
 
-char	*collect_str_env (t_env_store *elem)
+char	*collect_str_env (t_env_list *elem)
 {
 	char	*str;
 	char	*temp;
 
-	temp =  ft_strjoin (elem->key, "=");
+	temp = ft_strjoin (elem->key, "=");
 	str = ft_strjoin (temp, elem->val);
 	free (temp);
 	return (str);
@@ -80,28 +80,24 @@ void	clean_env_store(t_env_store *env_store, int len)
 	free(env_store);
 }
 
-char	**collect_env (t_minishell *mshell)
-{
-	int		j;
-	int		i;
-	char	**env;
-
-	i = 0;
-	j = len_env_store(mshell->env_store);
-	env	= (char **)malloc (sizeof(char *) * (j + 1));
-	while (i < j)
-	{
-		env[i] = collect_str_env (&mshell->env_store[i]);
-		i++;
-	}
-	env[i] = NULL;
-	return (env);
-}
-
-
 
 void	exit_with_error(char *str)
 {
 	ft_putendl_fd(str, STDERR_FILENO);
 	exit(1);
+}
+
+void	clean_env_list(t_env_list *list)
+{
+	t_env_list	*temp_list;
+
+	while (list)
+	{
+		temp_list = list->next;
+		free(list->key);
+		if (list->equal)
+			free(list->val);
+		free (list);
+		list = temp_list;
+	}
 }

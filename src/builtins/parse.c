@@ -28,7 +28,7 @@ char	**get_pathes(char **envp)
 
 	i = 0;
 	path = NULL;
-	path = get_env("PATH", envp);
+	path = get_env("PATH", shell.env_list);
 	if (path)
 	{
 		pathes = ft_split(path, ':');

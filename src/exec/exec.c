@@ -82,7 +82,7 @@ void	cmd_end_works(int **fds, pid_t *pids, int i)
 
 int	exe(t_cmd *cmd_list, int i, int j)
 {
-	int		status;
+	// int		status;
 
 	shell.pids[i] = fork();
 	if (-1 == shell.pids[i])
@@ -107,13 +107,13 @@ int	try_builtin(char **args, int j)
 	else if (!ft_strcmp(args[0], "cd"))
 		change_dir();
 	else if (!ft_strcmp(args[0], "env"))
-		env(1);
+		env(args, shell.env_list);
 	else if (!ft_strcmp(args[0], "pwd"))
 		pwd(1);
 	else if (!ft_strcmp(args[0], "export"))
-		export(1);
+		export(&shell.env_list, args);
 	else if (!ft_strcmp(args[0], "unset"))
-		unset(args, shell.env);
+		unset(args, &shell.env_list);
 	else if (!ft_strcmp(args[0], "exit"))
 		ft_exit(args);
 	else

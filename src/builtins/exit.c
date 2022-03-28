@@ -19,10 +19,10 @@ unsigned long long int	ft_atoi_ull(const char *str)
 	while (ft_isdigit(str[i]))
 	{
 		res = (res * 10) + (str[i] - 48);
-		if (res > __LONG_MAX__ && res - __LONG_MAX__ > 1 && check_neg == -1)
+		if (res > __LONG_MAX__ && res - __LONG_MAX__ > 1 && check_neg == 2)
 			return (0);
 		if (res > __LONG_MAX__ && check_neg == 1)
-			return (-1);
+			return (1);
 		i++;
 	}
 	return (res * check_neg);
@@ -31,7 +31,8 @@ unsigned long long int	ft_atoi_ull(const char *str)
 int	check_atoi(char *str)
 {
 	int			i;
-	unsigned long long int	res;
+	
+	unsigned long long res;
 
 	i = 0;
 	while (str[i])
@@ -43,7 +44,7 @@ int	check_atoi(char *str)
 		i++;
 	}
 	res = ft_atoi_ull(str);
-	if ((2 < ft_strlen(str)) && (-1 == res || 0 == res))
+	if ((2 < ft_strlen(str)) && (1 == res || 0 == res))
 		return (0);
 	return (1);
 }
@@ -82,8 +83,8 @@ void	ft_exit(char **args)
 		// exit (ft_atoi(args[1]));
 	}
 	// memclean(shell.env, len_2d_str(shell.env) + 1);
-	clean_env_store(shell.env_store, len_env_store(shell.env_store) + 1);
-	clean_env_store(shell.export, len_env_store(shell.export) + 1);
-	clean_cmd_list();
+	// clean_env_store(shell.env_store, len_env_store(shell.env_store) + 1);
+	// clean_env_store(shell.export, len_env_store(shell.export) + 1);
+	// clean_cmd_list();
 	exit (shell.status);
 }

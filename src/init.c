@@ -1,57 +1,5 @@
 #include "minishell.h"
 
-t_env_store	*get_env_store(char **envp)
-{
-	int			len;
-	int			i;
-	t_env_store	*env_store;
-
-	i = 0;
-	len = len_2d_str(envp);
-	env_store = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
-	if (NULL == env_store)
-	{
-		ft_putendl_fd("MALLOC ERROR", shell.stdout);
-		exit (1);
-	}
-	while (envp[i])
-	{
-		env_store[i].key = get_key(envp[i]);
-		if (NULL == env_store)
-		{
-			ft_putendl_fd("MALLOC ERROR", shell.stdout);
-			exit (1);
-		}
-		env_store[i].val = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		env_store[i].equal = 1;
-		i++;
-	}
-	env_store[i].val = NULL;
-	env_store[i].key = NULL;
-	env_store[i].equal = 0;
-	return (env_store);
-}
-
-void	print_env_store(t_env_store *env_store, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (env_store[i].key)
-	{
-		ft_putstr_fd(env_store[i].key, fd);
-		if (env_store[i].equal)
-		{
-			ft_putstr_fd("=\"", fd);
-			if (env_store[i].val)
-				ft_putstr_fd(env_store[i].val, fd);
-			ft_putstr_fd("\"", fd);
-		}
-		ft_putendl_fd("", fd);
-		i++;
-	}
-}
-
 void	sort_export(t_env_store	*export, int len)
 {
 	int			i;
@@ -80,89 +28,147 @@ void	sort_export(t_env_store	*export, int len)
 	}
 }
 
-t_env_store	*get_export(char **envp)
+// int	get_shlvl(void)
+// {
+// 	char	*val;
+
+// 	val = get_env("SHLVL", shell.env);
+// 	if (NULL == val)
+// 	{
+// 		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
+// 		exit (1);
+// 	}
+// 	if (check_atoi(val))
+// 	{
+// 		if (val[0] == '-')
+// 			return (0);
+// 	}
+// 	else
+// 		return (1);
+// 	return (ft_atoi(val) + 1);
+// }
+
+// void	change_shlvl(void)
+// {
+// 	char		*val;
+// 	int			val_int;
+// 	int			i;
+// 	t_env_store elem;
+
+// 	val_int = get_shlvl();
+// 	val = ft_itoa(val_int);
+// 	elem.key = "SHLVL";
+// 	elem.val = val;
+// 	add_env_store(&elem, "1");
+// 	shell.env_changed = 0;
+// }
+
+t_env_list	*get_env_elem(char *input)
 {
-	int			i;
-	int			len;
-	t_env_store	*export;
+	t_env_list	*elem;
 
-	i = 0;
-	len = len_2d_str(envp);
-	export = (t_env_store *) malloc (sizeof(t_env_store) * (len + 1));
-	while (shell.env_store[i].key)
-	{
-		export[i].key = ft_strdup(shell.env_store[i].key);
-		export[i].val =  ft_strdup(shell.env_store[i].val);
-		export[i].equal = 1;
-		i++;
-	}
-	export[i].val = NULL;
-	export[i].key = NULL;
-	export[i].equal = 0;
-	sort_export(export, len);
-	return (export);
-}
 
-int	get_shlvl(void)
-{
-	char	*val;
-
-	val = get_env("SHLVL", shell.env);
-	if (NULL == val)
+	elem = (t_env_list *) malloc (sizeof(t_env_list));
+	elem->equal = 0;
+	if (NULL == elem)
+		exit_with_error("Malloc error");
+	elem->key = get_key(input);
+	if (NULL == elem->key)
+		exit_with_error("Malloc error");
+	if (ft_strchr(input, '='))
 	{
-		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
-		exit (1);
-	}
-	if (check_atoi(val))
-	{
-		if (val[0] == '-')
-			return (0);
+		elem->val = ft_strdup(ft_strchr(input, '=') + 1);
+		if (NULL == elem->val)
+			exit_with_error("Malloc error");
+		elem->equal = 1;
 	}
 	else
-		return (1);
-	return (ft_atoi(val) + 1);
+		elem->val = NULL;
+	elem->next = NULL;
+	return (elem);
 }
 
-int	find_key_i_env_store(t_env_store *env_store, char *key)
+void	get_env_list(t_env_list **env_list, char **envp)
+{
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+	{
+		lst_envadd_back(env_list, get_env_elem(envp[i]));
+	}
+}
+
+
+void	print_env_list(t_env_list *env_list)
+{
+	while (env_list)
+	{
+		ft_putstr_fd(env_list->key, 1);
+		if (env_list->equal)
+		{
+			ft_putstr_fd("=", 1);
+			ft_putendl_fd(env_list->val, 1);
+		}
+		env_list = env_list->next;
+	}
+}
+
+int	len_env_list(int mode, t_env_list *env_list)
 {
 	int	i;
+	int	j;
 
 	i = 0;
-	while (env_store[i].key)
+	j = 0;
+	while (env_list)
 	{
-		if (!ft_strcmp(env_store[i].key, key))
-			return (i);
+		if (!env_list->equal)
+			j++;
 		i++;
+		env_list = env_list->next;
 	}
-	return (-1);
+	if (1 == mode)
+		return (i);
+	else if (0 == mode)
+		return (i - j);
 }
 
-void	change_shlvl(void)
+char	**collect_env(t_env_list *env_list)
 {
-	char		*val;
-	int			val_int;
-	int			i;
-	t_env_store elem;
+	int		i;
+	int		len;
+	char	**env;
 
-	val_int = get_shlvl();
-	val = ft_itoa(val_int);
-	elem.key = "SHLVL";
-	elem.val = val;
-	add_env_store(&elem, "1");
-	shell.env_changed = 0;
+	i = 0;
+	len = len_env_list(0, shell.env_list);
+	env = (char **)malloc (sizeof(char *) * (len + 1));
+	while (i < len)
+	{
+		env[i] = collect_str_env (env_list);
+		i++;
+		env_list = env_list->next;
+	}
+	env[i] = NULL;
+	return (env);
 }
+
 
 void	initialisation(char **envp)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	shell.stdin = dup(STDIN_FILENO);
 	shell.stdout = dup (STDOUT_FILENO);
-	shell.env_store = get_env_store(envp);
-	shell.export = get_export(envp);
-	shell.env = collect_env(&shell);
-	shell.env_changed = 1;
-	change_shlvl();
-	shell.status = 0;
+	// get_env_list(&shell.env_list, envp);
+	// print_env_list(shell.env_list);
+	// clean_cmd_list(shell.env_list);
+	// shell.env_changed = 1;
+	// change_shlvl();
+	// shell.status = 0;
+	shell.env_list = NULL;
+	get_env_list(&shell.env_list, envp);
+	shell.env =  collect_env(shell.env_list);
+	// print_env_list(shell.env_list);
 }
