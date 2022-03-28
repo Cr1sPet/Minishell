@@ -25,22 +25,9 @@ char	**command_split(char *str)
 	while (str[++i])
 	{
 		j = i;
-        if (str[i] == '>' || str[i] == '<')
-        {
-            ch = str[i];
-            if (str[i + 1] == ch)
-            {
-                cmds[h++] = ft_substr(str, j, 2);
+            while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"' && str[i] != '>' && str[i] != '<')
                 i++;
-            }
-            else
-                cmds[h++] = ft_substr(str, j, 1);       
-        }
-        else 
-        {
-            while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"')
-                        i++;
-		    if ((str[i] == ' ' || str[i] == '\0') && j != i)
+		    if ((str[i] == ' ' || str[i] == '\0' || str[i] == '>' || str[i] == '<') && j != i)
 		    {
 			    cmds[h++] = ft_substr(str, j, i - j);
 			    if (str[i] == '\0')
@@ -48,8 +35,17 @@ char	**command_split(char *str)
 		    }
             if (str[i] == '\'' || str[i] == '\"')
 			    cmds[h++] = get_cmds(str, &i, j);
-        }
-
+            if (str[i] == '>' || str[i] == '<')
+            {
+                ch = str[i];
+                if (str[i + 1] == ch)
+                {
+                    cmds[h++] = ft_substr(str, i, 2);
+                    i++;
+                }
+                else
+                    cmds[h++] = ft_substr(str, i, 1);       
+            }
 	}
 	free(str);
 	return (cmds);

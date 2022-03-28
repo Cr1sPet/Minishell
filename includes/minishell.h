@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// # include <wait.h>
+# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
