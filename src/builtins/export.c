@@ -28,17 +28,19 @@ int	try_change_val(t_env_list *env_list, t_env_list *elem)
 	{
 		if (!ft_strcmp(env_list->key, elem->key))
 		{
-			if (elem->equal)
+			if (!elem->equal || (env_list->val && elem->val
+					&& !ft_strcmp(elem->val, env_list->val)))
+				return (1);
+			if (env_list->val)
+				free(env_list->val);
+			env_list->val = NULL;
+			env_list->equal = 0;
+			if (elem->val)
 			{
-				if (env_list->val && elem->val
-					&& !ft_strcmp(elem->val, env_list->val))
-					return (1);
-				if (env_list->val)
-					free(env_list->val);
-				if (elem->val)
-					env_list->val = ft_strdup(elem->val);
-				else
-					env_list->val = NULL;
+				env_list->val = ft_strdup(elem->val);
+				if (NULL == env_list->val)
+					exit_with_error("Malloc error");
+				env_list->equal = 1;
 			}
 			return (1);
 		}
@@ -66,8 +68,10 @@ void	export(t_env_list **env_list, char **args)
 			else
 				val = NULL;
 			if (!try_change_val(*env_list, elem))
+			{
 				lst_envadd_back(env_list,
 					lst_envnew(ft_strdup(elem->key), val));
+			}
 			else
 				free (val);
 			del_lst_env_elem(elem);

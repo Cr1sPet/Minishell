@@ -82,9 +82,8 @@ void	ft_exit(char **args)
 		return ;
 		// exit (ft_atoi(args[1]));
 	}
-	// memclean(shell.env, len_2d_str(shell.env) + 1);
-	// clean_env_store(shell.env_store, len_env_store(shell.env_store) + 1);
-	// clean_env_store(shell.export, len_env_store(shell.export) + 1);
-	// clean_cmd_list();
+	clean_cmd_list();
+	clean_env_list(shell.env_list);
+	memclean(shell.env, len_2d_str(shell.env));
 	exit (shell.status);
 }

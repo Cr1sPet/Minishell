@@ -28,40 +28,49 @@ void	sort_export(t_env_store	*export, int len)
 	}
 }
 
-// int	get_shlvl(void)
-// {
-// 	char	*val;
+int	get_shlvl(void)
+{
+	char	*val;
 
-// 	val = get_env("SHLVL", shell.env);
-// 	if (NULL == val)
-// 	{
-// 		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
-// 		exit (1);
-// 	}
-// 	if (check_atoi(val))
-// 	{
-// 		if (val[0] == '-')
-// 			return (0);
-// 	}
-// 	else
-// 		return (1);
-// 	return (ft_atoi(val) + 1);
-// }
+	val = get_env("SHLVL", shell.env_list);
+	if (NULL == val)
+		return (1);
+	if (check_atoi(val))
+	{
+		if (val[0] == '-')
+			return (0);
+	}
+	else
+		return (1);
+	return (ft_atoi(val) + 1);
+}
 
-// void	change_shlvl(void)
-// {
-// 	char		*val;
-// 	int			val_int;
-// 	int			i;
-// 	t_env_store elem;
+void	change_shlvl(void)
+{
+	char		*val;
+	int			val_int;
+	char		**args;
+	t_env_list	*elem;
 
-// 	val_int = get_shlvl();
-// 	val = ft_itoa(val_int);
-// 	elem.key = "SHLVL";
-// 	elem.val = val;
-// 	add_env_store(&elem, "1");
-// 	shell.env_changed = 0;
-// }
+	elem = malloc(sizeof(t_env_list));
+	if (NULL == elem)
+		exit_with_error("Malloc error");
+	val_int = get_shlvl();
+	val = ft_itoa(val_int);
+	if (NULL == val)
+		exit_with_error("Malloc error");
+	elem->key = ft_strdup("SHLVL");
+	elem->val = val;
+	args = malloc (sizeof(char *) * 3);
+	args[0] = ft_strdup("export");
+	if (NULL == args[0])
+		exit_with_error("Malloc error");
+	args[1] = collect_str_env(elem);
+	args[2] = NULL;
+	export(&shell.env_list, args);
+	memclean(args, len_2d_str(args));
+	del_lst_env_elem(elem);
+}
 
 t_env_list	*get_env_elem(char *input)
 {
@@ -145,7 +154,8 @@ char	**collect_env(t_env_list *env_list)
 	env = (char **)malloc (sizeof(char *) * (len + 1));
 	while (i < len)
 	{
-		env[i] = collect_str_env (env_list);
+		if (env_list->equal)
+			env[i] = collect_str_env (env_list);
 		i++;
 		env_list = env_list->next;
 	}
@@ -165,10 +175,10 @@ void	initialisation(char **envp)
 	// print_env_list(shell.env_list);
 	// clean_cmd_list(shell.env_list);
 	// shell.env_changed = 1;
-	// change_shlvl();
-	// shell.status = 0;
+	shell.status = 0;
 	shell.env_list = NULL;
 	get_env_list(&shell.env_list, envp);
+	change_shlvl();
 	shell.env =  collect_env(shell.env_list);
 	// print_env_list(shell.env_list);
 }
