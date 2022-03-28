@@ -34,7 +34,7 @@ char	**command_split(char *str)
                 i++;
             }
             else
-                cmds[h++] = ft_substr(str, j, 1);
+                cmds[h++] = ft_substr(str, j, 1);       
         }
         else 
         {
