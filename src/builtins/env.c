@@ -67,13 +67,13 @@ char	*get_env(char *point, char **envp)
 	return (NULL);
 }
 
-void	env(void)
+void	env(int	fd)
 {
 	int	i;
 
 	i = 0;
 	if (!shell.env)
-		ft_putendl_fd("Not such file or directory", 2);
-	print_env_store(shell.env_store);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+	print_env_store(shell.env_store, fd);
 	shell.status = 0;
 }

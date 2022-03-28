@@ -17,7 +17,11 @@ int	prepars(const char *str)
 			if (!str[i] || str[i] != ch)
 				return (0);
 		}
-        if (str[i] == '|')
+	}
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '|')
         {
 			while (str[++i] && str[i] == ' ')
                     ;
@@ -25,6 +29,7 @@ int	prepars(const char *str)
                 return (0);
         }
 	}
+
 	return (1);
 }
 

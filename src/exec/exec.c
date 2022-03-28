@@ -2,9 +2,21 @@
 
 void	set_fd(t_cmd *cmd_list, int i)
 {
-	if (!cmd_list->redir_in && cmd_list->pipe_in == pipe_in)
+	if (cmd_list->redir_in)
 	{
-		dup2(shell.fds[i - 1][0], STDIN_FILENO);
+		dup2(shell.fd_read, STDIN_FILENO);
+		close(shell.fd_read);
+	}
+	else if (cmd_list->pipe_in == pipe_in)
+	{
+		if (i > 0)
+			dup2(shell.fds[i - 1][0], STDIN_FILENO);
+		// close(shell.fds[i - 1][0]);
+	}
+	if (cmd_list->redir_out)
+	{
+		dup2(shell.fd_write, STDOUT_FILENO);
+		close(shell.fd_write);
 	}
 	if (cmd_list->pipe_out == pipe_out)
 	{
@@ -13,7 +25,10 @@ void	set_fd(t_cmd *cmd_list, int i)
 			if (!cmd_list->next)
 				dup2(shell.stdout, STDOUT_FILENO);
 			else
+			{
 				dup2(shell.fds[i][1], STDOUT_FILENO);
+				// close (shell.fds[i][1]);
+			}
 		}
 	}
 }
@@ -64,7 +79,7 @@ void	cmd_end_works(int **fds, pid_t *pids, int i)
 	dup2(shell.stdout, STDOUT_FILENO);
 }
 
-int	exe(t_cmd *cmd_list, int i)
+int	exe(t_cmd *cmd_list, int i, int j)
 {
 	pid_t	child;
 	int		status;
@@ -74,7 +89,7 @@ int	exe(t_cmd *cmd_list, int i)
 		exit_with_error("Fork error");
 	else if (0 == shell.pids[i])
 	{
-		set_fd(cmd_list, i);
+		set_fd(cmd_list, j);
 		close_fds(shell.fds);
 		execve(cmd_list->args[0], cmd_list->args, shell.env);
 		perror("ERROR");
@@ -83,24 +98,29 @@ int	exe(t_cmd *cmd_list, int i)
 	return (1);
 }
 
-int	try_builtin(char **args)
+int	try_builtin(char **args, int j)
 {
+	if (shell.fd_write == STDOUT_FILENO
+		&& is_builtin(args[0]) && shell.cmd_list->next)
+		shell.fd_write = shell.fds[j][1];
 	if (!ft_strcmp(args[0], "echo"))
-		echo(args);
+		echo(args, shell.fd_write);
 	else if (!ft_strcmp(args[0], "cd"))
 		change_dir();
 	else if (!ft_strcmp(args[0], "env"))
-		env();
+		env(shell.fd_write);
 	else if (!ft_strcmp(args[0], "pwd"))
-		pwd();
+		pwd(shell.fd_write);
 	else if (!ft_strcmp(args[0], "export"))
-		export();
+		export(shell.fd_write);
 	else if (!ft_strcmp(args[0], "unset"))
 		unset(args, shell.env);
 	else if (!ft_strcmp(args[0], "exit"))
 		ft_exit(args);
 	else
 		return (0);
+	if (shell.fd_write != STDOUT_FILENO)
+		close (shell.fd_write);
 	return (1);
 }
 
@@ -119,20 +139,33 @@ void	open_redirs(t_cmd *cmd_list)
 int	exec(void)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	get_pids_fds(shell.cmd_list);
 	while (shell.cmd_list)
 	{
+		if (shell.fd_read != STDIN_FILENO)
+		{
+			close (shell.fd_read);
+			shell.fd_read = 0;
+		}
+		if (shell.fd_write != STDOUT_FILENO)
+		{
+			close (shell.fd_write);
+			shell.fd_write = 1;
+		}
 		open_redirs(shell.cmd_list);
-		if (shell.cmd_list->args[0] && !try_builtin (shell.cmd_list->args))
+		if (shell.cmd_list->args[0] && !try_builtin (shell.cmd_list->args, j))
 		{
 			if (parse_cmds(shell.cmd_list))
 			{
-				exe(shell.cmd_list, i);
+				exe(shell.cmd_list, i, j);
 				i++;
 			}
 		}
+		j++;
 		shell.cmd_list = shell.cmd_list->next;
 	}
 	cmd_end_works(shell.fds, shell.pids, i);

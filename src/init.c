@@ -32,22 +32,22 @@ t_env_store	*get_env_store(char **envp)
 	return (env_store);
 }
 
-void	print_env_store(t_env_store *env_store)
+void	print_env_store(t_env_store *env_store, int fd)
 {
 	int	i;
 
 	i = 0;
 	while (env_store[i].key)
 	{
-		ft_putstr_fd(env_store[i].key, 1);
+		ft_putstr_fd(env_store[i].key, fd);
 		if (env_store[i].equal)
 		{
-			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd("=\"", fd);
 			if (env_store[i].val)
-				ft_putstr_fd(env_store[i].val, 1);
-			ft_putstr_fd("\"", 1);
+				ft_putstr_fd(env_store[i].val, fd);
+			ft_putstr_fd("\"", fd);
 		}
-		ft_putendl_fd("", 1);
+		ft_putendl_fd("", fd);
 		i++;
 	}
 }

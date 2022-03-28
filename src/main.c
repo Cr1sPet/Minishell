@@ -59,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		parser(cmd, shell.env);
 		exec(shell.cmd_list);
 		clean_cmd_list();
+		free(cmd);
 	}
 	return (0);
 }

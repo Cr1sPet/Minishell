@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	is_builtin(char *arg)
+int	is_builtin(char *arg)
 {
 	if (!ft_strcmp(arg, "echo") || !ft_strcmp(arg, "cd")
 		|| !ft_strcmp(arg, "pwd") || !ft_strcmp(arg, "export")
@@ -24,6 +24,42 @@ static int	get_exec_nmb(t_cmd *cmd)
 	return (i);
 }
 
+int	len_cmd_list(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd)
+	{
+		cmd = cmd->next;
+		i++;
+	}
+	return (i);
+}
+
+void	init_fds(t_minishell *shell)
+{
+	int	i;
+	int	len_cmd;
+
+	i = 0;
+	len_cmd = len_cmd_list(shell->cmd_list);
+	if (len_cmd > 1)
+	{
+		shell->fds = (int **)malloc(sizeof(int *) * len_cmd);
+		if (NULL == shell->fds)
+			exit_with_error("Malloc error");
+		while (i < len_cmd - 1)
+		{
+			shell->fds[i] = (int *)malloc(sizeof(int) * 2);
+			if (-1 == pipe(shell->fds[i]))
+				exit_with_error("Pipe error");
+			i++;
+		}
+		shell->fds[len_cmd - 1] = NULL;
+	}
+}
+
 void	get_pids_fds(t_cmd *cmd_list)
 {
 	int	exec_nmb;
@@ -32,22 +68,16 @@ void	get_pids_fds(t_cmd *cmd_list)
 	i = 0;
 	shell.pids = NULL;
 	shell.fds = NULL;
+	// if (shell.fd_read != STDIN_FILENO)
+	// 	shell.fd_read = 0;
+	// if (shell.fd_write != STDOUT_FILENO)
+	// 	shell.fd_write = 1;
 	exec_nmb = get_exec_nmb(cmd_list);
 	if (exec_nmb)
 	{
-		shell.pids = (pid_t *)malloc(sizeof(pid_t) * exec_nmb );
+		shell.pids = (pid_t *)malloc(sizeof(pid_t) * exec_nmb);
 		if (NULL == shell.pids)
 			exit_with_error("Malloc error");
-		shell.fds = (int **)malloc(sizeof(int *) * exec_nmb);
-		if (NULL == shell.pids)
-			exit_with_error("Malloc error");
-		while (i < exec_nmb - 1)
-		{
-			shell.fds[i] = (int *)malloc(sizeof(int) * 2);
-			if (-1 == pipe(shell.fds[i]))
-				exit_with_error("Pipe error");
-			i++;
-		}
-		shell.fds[exec_nmb - 1] = NULL;
 	}
+	init_fds(&shell);
 }

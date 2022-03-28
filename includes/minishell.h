@@ -30,6 +30,8 @@ typedef struct s_minishell
 	void			*temp;
 	int				**fds;
 	char			**builtins;
+	int				fd_write;
+	int				fd_read;
 	pid_t			*pids;
 	t_env_store		*env_store;
 	t_env_store		*export;
@@ -80,6 +82,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+int	is_builtin(char *arg);
 void	exit_with_error(char *str);
 void	get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
@@ -119,12 +122,12 @@ t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
-void	export();
+void	export(int fd);
 int		len_2d_str(char **str);
-void	env(void);
-void	pwd();
+void	env(int fd);
+void	pwd(int fd);
 void	change_dir();
-void	echo(char **args);
+void	echo(char **args, int fd);
 void	unset(char **args, char **env);
 int		exec();
 char	**cp_2d_arr(char **envp);
@@ -135,7 +138,7 @@ void	initialisation(char **envp);
 int	work_here_doc(char *limiter, int f);
 
 char	**collect_env(t_minishell *mshell);
-void	print_env_store(t_env_store *env_store);
+void	print_env_store(t_env_store *env_store, int fd);
 char	*get_key(char *var);
 int		parse_cmds(t_cmd *cmd);
 int		ft_strcmp(char const *s1, char const *s2);

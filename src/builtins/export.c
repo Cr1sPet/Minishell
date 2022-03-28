@@ -136,7 +136,7 @@ void	add_env_store(t_env_store *temp, char *flag)
 	}
 }
 
-void	export(void)
+void	export(int	fd)
 {
 	int			len;
 	int			i;
@@ -147,7 +147,7 @@ void	export(void)
 	len = len_2d_str(shell.cmd_list->args);
 	shell.status = 0;
 	if (len == 1)
-		print_env_store(shell.export);
+		print_env_store(shell.export, fd);
 	else if (len > 1)
 	{
 		while (i < len)
@@ -156,7 +156,7 @@ void	export(void)
 				'=' == shell.cmd_list->args[i][ft_strlen(shell.cmd_list->args[i]) - 1])
 			{
 				shell.status = 1;
-				ft_putendl_fd("not a valid identifier", 1);
+				ft_putendl_fd("not a valid identifier", STDERR_FILENO);
 				i++;
 				continue ;
 			}
