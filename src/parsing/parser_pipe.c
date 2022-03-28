@@ -34,7 +34,7 @@ char	**command_split(char *str)
                 i++;
             }
             else
-                cmds[h++] = ft_substr(str, j, 1);
+                cmds[h++] = ft_substr(str, j, 1);       
         }
         else 
         {
@@ -126,12 +126,12 @@ char	*pipe_parse(int *i,char *str, char **envp)
     if (check_redir(str, *i))
         redir(temp_cmd);
     j  = 0;
-    while (temp_cmd[j])
-    {
-        free(temp_cmd[j]);
-        j++;
-    }
-    free(temp_cmd);
+    // while (temp_cmd[j])
+    // {
+    //     free(temp_cmd[j]);
+    //     j++;
+    // }
+    // free(temp_cmd);
     *i = 0;
     return ret;
 }
