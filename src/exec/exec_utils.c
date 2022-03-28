@@ -68,10 +68,6 @@ void	get_pids_fds(t_cmd *cmd_list)
 	i = 0;
 	shell.pids = NULL;
 	shell.fds = NULL;
-	// if (shell.fd_read != STDIN_FILENO)
-	// 	shell.fd_read = 0;
-	// if (shell.fd_write != STDOUT_FILENO)
-	// 	shell.fd_write = 1;
 	exec_nmb = get_exec_nmb(cmd_list);
 	if (exec_nmb)
 	{

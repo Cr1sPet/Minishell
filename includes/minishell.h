@@ -18,10 +18,13 @@ typedef struct s_env_store
 	char	*key;
 	char	*val;
 	int		equal;
+	
 }				t_env_store;
 
 typedef struct s_minishell
 {
+	int				env_len;
+
 	char			**env;
 	int				stdin;
 	int				stdout;

@@ -28,7 +28,7 @@ void	set_fd(t_cmd *cmd_list, int i)
 				close (shell.fds[i][1]);
 		}
 	}
-	if (!cmd_list->next)
+	if (!cmd_list->next && !shell.cmd_list->redir_out)
 	{
 		dup2(shell.stdout, STDOUT_FILENO);
 	}
