@@ -7,7 +7,7 @@ char	*get_cmds(char *str, int *i, int j)
 	ch = str[(*i)];
 	while (str[++(*i)] && str[(*i)] != ch)
 		;
-	return (ft_substr(str, j, *i - j + 1));
+	return (ft_substr(str, j + 1, *i - j - 1));
 }
 
 char	**command_split(char *str)
@@ -103,7 +103,6 @@ char	*pipe_parse(int *i,char *str, char **envp)
     k = 0;
     temp = ft_substr(str, 0, *i);
     temp_cmd = command_split(temp);
-    temp_cmd = correct_str(temp_cmd,envp);
     cmd = ft_calloc(sizeof(char *), 100);
     while(temp_cmd[j])
     {

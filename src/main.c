@@ -25,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 		parser(cmd, shell.env);
 		exec(shell.cmd_list);
 		clean_cmd_list();
-		free(cmd);
 		memclean(shell.env, len_2d_str(shell.env));
 		shell.env = collect_env(shell.env_list);
 	}
