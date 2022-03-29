@@ -49,7 +49,7 @@ void	change_shlvl(void)
 {
 	char		*val;
 	int			val_int;
-	char		**args;
+	char		*item;
 	t_env_list	*elem;
 
 	elem = malloc(sizeof(t_env_list));
@@ -61,14 +61,11 @@ void	change_shlvl(void)
 		exit_with_error("Malloc error");
 	elem->key = ft_strdup("SHLVL");
 	elem->val = val;
-	args = malloc (sizeof(char *) * 3);
-	args[0] = ft_strdup("export");
-	if (NULL == args[0])
+	item = collect_str_env(elem);
+	if (NULL == item)
 		exit_with_error("Malloc error");
-	args[1] = collect_str_env(elem);
-	args[2] = NULL;
-	export(&shell.env_list, args);
-	memclean(args, len_2d_str(args));
+	change_env_val(item, &shell.env_list);
+	free (item);
 	del_lst_env_elem(elem);
 }
 

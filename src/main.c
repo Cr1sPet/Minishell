@@ -31,3 +31,19 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env_list	*list;
+// 	t_env_list	*elem;
+// 	list = NULL;
+// 	elem = get_env_elem("ZZZ=AAAA");
+// 	lst_envadd_back(&list, elem);
+// 	elem = get_env_elem("UUU=sadg");
+// 	lst_envadd_back(&list, elem);
+// 	elem = get_env_elem("IUHIUGUGU=sadg");
+// 	lst_envadd_back(&list, elem);
+// 	print_env_list(list);
+// 	print_export(list);
+// 	return (0);
+// }

@@ -30,6 +30,7 @@ SRCS		=	./src/main.c\
 				./src/lst_envadd_back.c\
 				./src/lst_envlast.c\
 				./src/lst_envnew.c\
+				./src/lst_envadd_front.c\
 				
 
 

@@ -88,6 +88,8 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+void	print_export(t_env_list *env_list);
+int			len_env_list(int mode, t_env_list *env_list);
 t_env_list	*lst_envnew(char *key, char *val);
 t_env_list	*lst_envlast(t_env_list *lst);
 void		lst_envadd_back(t_env_list **list, t_env_list *new);
@@ -96,6 +98,8 @@ void		get_env_list(t_env_list **env_list, char **envp);
 void		print_env_list(t_env_list *env_list);
 t_env_list	*get_env_elem(char *input);
 void	del_lst_env_elem(t_env_list *env_list);
+void	lst_env_pop(t_env_list **list, char *key);
+void	lst_envadd_front(t_env_list **lst, t_env_list *new);
 
 int	is_builtin(char *arg);
 void	exit_with_error(char *str);
@@ -137,6 +141,7 @@ t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
+void	change_env_val(char *input, t_env_list **env_list);
 void	export(t_env_list **env_list, char **args);
 int		len_2d_str(char **str);
 void	env(char **args, t_env_list *env_list);
