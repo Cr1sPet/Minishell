@@ -61,8 +61,10 @@ void	*parser(char *str, char **envp)
 		ft_putendl_fd("Error", 1);
 	else
 	{
+		str = correct_str(str, envp);
 		cmd_split(str, envp);
 		check_pipe();
+		free(str);
 	}
 // 	while (shell.cmd_list)
 //   {

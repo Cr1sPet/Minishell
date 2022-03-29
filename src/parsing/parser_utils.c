@@ -33,24 +33,29 @@ int	prepars(const char *str)
 	return (1);
 }
 
-char	**correct_str(char **str, char **envp)
+char	*correct_str(char *str, char **envp)
 {
 	int		i;
-    int     j;
+	int		ok;
 
 	i = -1;
-	while (str[++i])
-	{
-        j = -1;
-        while (str[i][++j]) 
-        {
-            if (str[i][j] == '\'')
-			    str[i] = ft_quotes(str[i], &j);
-		    if (str[i][j] == '\"')
-			    str[i] = ft_quotes_2(str[i], &j, envp);
-		    if (str[i][j] == '$')
-			    str[i] = ft_dollar(str[i], &j, envp);
-        }
-	}
+	ok = 0;
+    while (str[++i]) 
+    {
+		if (str[i] == '\"' && !ok)
+		{
+			i++;
+			ok += 1;
+		}
+		if (str[i] == '\"' && ok)
+			ok--;
+		if (str[i] == '\'' && ok != 1)
+		{
+			while (str[++i] && str[i] != '\'')
+					;
+		}
+		if (str[i] == '$')
+			str = ft_dollar(str, &i, envp);
+    }	
 	return (str);
 }

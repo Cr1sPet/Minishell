@@ -125,7 +125,7 @@ char	*ft_quotes_2(char *str, int *i, char **envp);
 // char	*ft_space(char *str, int i);
 void	signal_init();
 char 	*pipe_parse(int *i,char *str, char **envp);
-char	**correct_str(char **str, char **envp);
+char	*correct_str(char *str, char **envp);
 int		prepars(const char *str);
 t_cmd	*ft_lstnew_parse(void *content);
 t_cmd	*ft_lstlast_parse(t_cmd *lst);
