@@ -15,23 +15,32 @@
 
 typedef struct s_env_store
 {
-	char	*key;
-	char	*val;
-	int		equal;
+	char				*key;
+	char				*val;
+	int					equal;
+	// struct s_env_store	*next;
 }				t_env_store;
 
+typedef struct s_env_list
+{
+	char				*key;
+	char				*val;
+	int					equal;
+	struct s_env_list	*next;
+}				t_env_list;
 typedef struct s_minishell
 {
-	char			**env;
 	int				stdin;
 	int				stdout;
+	char			**env;
 	int				status;
-	int				fds[2];
-	int				fds1[2];
 	int				env_changed;
 	void			*temp;
-	t_env_store		*env_store;
-	t_env_store		*export;
+	int				**fds;
+	int				fd_write;
+	int				fd_read;
+	pid_t			*pids;
+	t_env_list		*env_list;
 	struct s_cmd	*cmd_list;
 }				t_minishell;
 
@@ -79,7 +88,18 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+t_env_list	*lst_envnew(char *key, char *val);
+t_env_list	*lst_envlast(t_env_list *lst);
+void		lst_envadd_back(t_env_list **list, t_env_list *new);
+void		clean_env_list(t_env_list *list);
+void		get_env_list(t_env_list **env_list, char **envp);
+void		print_env_list(t_env_list *env_list);
+t_env_list	*get_env_elem(char *input);
+void	del_lst_env_elem(t_env_list *env_list);
 
+int	is_builtin(char *arg);
+void	exit_with_error(char *str);
+void	get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
 void	clean_cmd_list(void);
 void	clean_env_store(t_env_store *env_store, int len);
@@ -117,23 +137,24 @@ t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
-void	export();
+void	export(t_env_list **env_list, char **args);
 int		len_2d_str(char **str);
-void	env(void);
-void	pwd();
+void	env(char **args, t_env_list *env_list);
+void	pwd(int fd);
 void	change_dir();
-void	echo(char **args);
-void	unset(char **args, char **env);
+void	echo(char **args, int fd);
+void	unset(char **args, t_env_list **env_list);
 int		exec();
 char	**cp_2d_arr(char **envp);
 int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
-char	*get_env(char *point, char **envp);
+char	*get_env(char *key, t_env_list *env_list);
 void	initialisation(char **envp);
 int	work_here_doc(char *limiter, int f);
 
-char	**collect_env(t_minishell *mshell);
-void	print_env_store(t_env_store *env_store);
+char	*collect_str_env (t_env_list *elem);
+char	**collect_env(t_env_list *env_list);
+void	print_env_store(t_env_store *env_store, int fd);
 char	*get_key(char *var);
 int		parse_cmds(t_cmd *cmd);
 int		ft_strcmp(char const *s1, char const *s2);

@@ -4,6 +4,7 @@ SRCS		=	./src/main.c\
 				./src/exec/exec.c\
 				./get_next_line/get_next_line.c\
 				./src/exec/here_doc.c\
+				./src/exec/exec_utils.c\
 				./src/init.c\
 				./src/builtins/exit.c\
 				./src/builtins/echo.c\
@@ -26,6 +27,9 @@ SRCS		=	./src/main.c\
 				./src/lst_cmdadd_back.c\
 				./src/lst_cmdlast.c\
 				./src/lst_cmdnew.c\
+				./src/lst_envadd_back.c\
+				./src/lst_envlast.c\
+				./src/lst_envnew.c\
 				
 
 

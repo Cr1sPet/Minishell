@@ -28,7 +28,7 @@ char	**get_pathes(char **envp)
 
 	i = 0;
 	path = NULL;
-	path = get_env("PATH", envp);
+	path = get_env("PATH", shell.env_list);
 	if (path)
 	{
 		pathes = ft_split(path, ':');
@@ -88,7 +88,10 @@ int	parse_cmds(t_cmd *cmd)
 	char	**pathes;
 	int		ok;
 
-	// ft_putstr_fd(*shell.env, 1);
+	if ('/' == shell.cmd_list->args[0][0] \
+		|| !ft_strncmp(shell.cmd_list->args[0], "../", 3) \
+				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2))
+		return (1);
 	pathes = get_pathes(shell.env);
 	if (NULL == pathes)
 		return (0);
