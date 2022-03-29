@@ -36,13 +36,18 @@ int	main(int argc, char **argv, char **envp)
 // 	t_env_list	*list;
 // 	t_env_list	*elem;
 // 	list = NULL;
-// 	elem = get_env_elem("ZZZ=AAAA");
-// 	lst_envadd_back(&list, elem);
-// 	elem = get_env_elem("UUU=sadg");
-// 	lst_envadd_back(&list, elem);
-// 	elem = get_env_elem("IUHIUGUGU=sadg");
-// 	lst_envadd_back(&list, elem);
-// 	print_env_list(list);
-// 	print_export(list);
+
+// 	lst_envadd_back(&list, get_env_elem("PATH=hello"));
+// 	// lst_envadd_back(&list, get_env_elem("BASH=MARK"));
+// 	// lst_envadd_back(&list, get_env_elem("HIG=FIG"));
+// 	shell.env_list = list;
+// 	char	**args = malloc(sizeof(char *) * 5);
+// 	args[0] = ft_strdup("export");
+// 	args[1] = ft_strdup("AA=CAA");
+// 	args[2] = ft_strdup("BB=BB");
+// 	args[3] = ft_strdup("CC=CC");
+// 	args[4] = NULL;
+// 	export(&shell.env_list, args);
+// 	print_export(shell.env_list);
 // 	return (0);
 // }

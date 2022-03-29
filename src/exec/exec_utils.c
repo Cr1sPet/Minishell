@@ -64,6 +64,7 @@ void	get_pids_fds(t_cmd *cmd_list)
 {
 	int	exec_nmb;
 
+	exec_nmb = 0;
 	shell.pids = NULL;
 	shell.fds = NULL;
 	exec_nmb = get_exec_nmb(cmd_list);

@@ -95,7 +95,7 @@ t_env_list	*lst_envlast(t_env_list *lst);
 void		lst_envadd_back(t_env_list **list, t_env_list *new);
 void		clean_env_list(t_env_list *list);
 void		get_env_list(t_env_list **env_list, char **envp);
-void		print_env_list(t_env_list *env_list);
+void	print_env_list(t_env_list *env_list, int flag);
 t_env_list	*get_env_elem(char *input);
 void	del_lst_env_elem(t_env_list *env_list);
 void	lst_env_pop(t_env_list **list, char *key);

@@ -30,5 +30,5 @@ char	*get_env(char *key, t_env_list *env_list)
 void	env(char **args, t_env_list *env_list)
 {
 	shell.status = 0;
-	print_env_list(env_list);
+	print_env_list(env_list, 0);
 }

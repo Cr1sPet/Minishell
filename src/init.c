@@ -106,16 +106,29 @@ void	get_env_list(t_env_list **env_list, char **envp)
 }
 
 
-void	print_env_list(t_env_list *env_list)
+void	print_env_list(t_env_list *env_list, int flag)
 {
 	while (env_list)
 	{
+		if (flag)
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		if (!env_list->equal && !flag)
+		{
+			env_list = env_list->next;
+			continue ;
+		}
 		ft_putstr_fd(env_list->key, 1);
 		if (env_list->equal)
 		{
-			ft_putstr_fd("=", 1);
-			ft_putendl_fd(env_list->val, 1);
+			ft_putstr_fd("=", STDOUT_FILENO);
+			if (flag)
+				ft_putchar_fd('\"', STDOUT_FILENO);
+			if (env_list->val)
+				ft_putstr_fd(env_list->val, STDOUT_FILENO);
+			if (flag)
+				ft_putchar_fd('\"', STDOUT_FILENO);
 		}
+		ft_putendl_fd("", STDOUT_FILENO);
 		env_list = env_list->next;
 	}
 }

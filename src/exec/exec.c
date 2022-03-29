@@ -5,7 +5,7 @@ void	set_fd(t_cmd *cmd_list, int i)
 	if (cmd_list->redir_in)
 	{
 		dup2(shell.fd_read, STDIN_FILENO);
-		// close(shell.fd_read);
+		close(shell.fd_read);
 	}
 	else if (cmd_list->pipe_in == pipe_in)
 	{
@@ -18,7 +18,7 @@ void	set_fd(t_cmd *cmd_list, int i)
 	if (cmd_list->redir_out)
 	{
 		dup2(shell.fd_write, STDOUT_FILENO);
-		// close(shell.fd_write);
+		close(shell.fd_write);
 	}
 	if (cmd_list->pipe_out == pipe_out)
 	{
@@ -62,7 +62,7 @@ void	wait_pids(pid_t	*pids, int nmb)
 	i = 0;
 	if (pids)
 	{
-		while (i <= nmb)
+		while (i < nmb)
 		{
 			waitpid(pids[i], &status, 0);
 			i++;

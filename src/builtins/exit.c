@@ -82,6 +82,8 @@ void	ft_exit(char **args)
 		return ;
 		// exit (ft_atoi(args[1]));
 	}
+	close(shell.stdout);
+	close(shell.stdin);
 	clean_cmd_list();
 	clean_env_list(shell.env_list);
 	memclean(shell.env, len_2d_str(shell.env));
