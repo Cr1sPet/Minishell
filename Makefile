@@ -5,7 +5,11 @@ SRCS		=	./src/main.c\
 				./get_next_line/get_next_line.c\
 				./src/exec/here_doc.c\
 				./src/exec/exec_utils.c\
+				./src/exec/exec_utils2.c\
+				./src/builtins/export_utils.c\
 				./src/init.c\
+				./src/ch_shlvl.c\
+				./src/ft_strcmp.c\
 				./src/builtins/exit.c\
 				./src/builtins/echo.c\
 				./src/builtins/pwd.c\
@@ -15,6 +19,7 @@ SRCS		=	./src/main.c\
 				./src/builtins/export.c\
 				./src/builtins/parse.c\
 				./src/utils.c\
+				./src/utils2.c\
 				./src/exec/set_redir.c\
 				./src/parsing/parser.c ./src/parsing/dollar.c\
                 				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\

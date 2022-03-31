@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-unsigned long long int	ft_atoi_ull(const char *str)
+unsigned long long	ft_atoi_ull(const char *str)
 {
-	int						i;
-	int						check_neg;
-	long long unsigned int	res;
+	int					i;
+	int					check_neg;
+	unsigned long long	res;
 
 	i = 0;
 	res = 0;
@@ -30,9 +30,8 @@ unsigned long long int	ft_atoi_ull(const char *str)
 
 int	check_atoi(char *str)
 {
-	int			i;
-	
-	unsigned long long res;
+	int					i;
+	unsigned long long	res;
 
 	i = 0;
 	while (str[i])
@@ -49,43 +48,39 @@ int	check_atoi(char *str)
 	return (1);
 }
 
+void	clear_all(t_minishell *shell)
+{
+	close(shell->stdout);
+	close(shell->stdin);
+	clean_cmd_list();
+	clean_env_list(shell->env_list);
+	memclean(shell->env, len_2d_str(shell->env));
+}
+
 void	ft_exit(char **args)
 {
-	if (len_2d_str(args) > 2)
+	if (len_2d_str(args) > 2 && check_atoi(args[1]))
 	{
-		if (check_atoi(args[1]))
-		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd("exit: ", STDERR_FILENO);
-			ft_putendl_fd("too many arguments", STDERR_FILENO);
-			shell.status = 1;
-			return ;
-		}
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		print_error("exit: ", "too many arguments");
+		shell.status = 1;
+		return ;
 	}
 	if (args[1])
 	{
 		if (check_atoi(args[1]))
 		{
-
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			exit (ft_atoi_ull(args[1]));
+			clear_all(&shell);
+			shell.status = ft_atoi_ull(args[1]);
 		}
 		else
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd("exit: ", STDERR_FILENO);
-			ft_putendl_fd("numeric argement required", STDERR_FILENO);
-			exit (2);
+			print_error("exit: ", "numeric argement required");
+			shell.status = 2;
 		}
-		return ;
-		// exit (ft_atoi(args[1]));
 	}
-	close(shell.stdout);
-	close(shell.stdin);
-	clean_cmd_list();
-	clean_env_list(shell.env_list);
-	memclean(shell.env, len_2d_str(shell.env));
+	clear_all(&shell);
 	exit (shell.status);
 }

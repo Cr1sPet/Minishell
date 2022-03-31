@@ -1,34 +1,35 @@
 #include "minishell.h"
 
-
-
-
-void	echo(char **args, int fd)
+void	echo_work(char **args, int len)
 {
-	int	i;
 	int	j;
 
-	i = 0;
 	j = 1;
-	shell.status = 0;
-	while (args[i])
-		i++;
-	if (1 == i)
+	if (!strcmp(args[1], "-n"))
+		j++;
+	while (args[j])
 	{
-		write(fd, "\n", fd);
+		ft_putstr_fd(args[j], STDOUT_FILENO);
+		if (j++ < len - 1)
+			write(STDOUT_FILENO, " ", STDOUT_FILENO);
+	}
+}
+
+void	echo(char **args)
+{
+	int	len;
+
+	len = 0;
+	shell.status = 0;
+	while (args[len])
+		len++;
+	if (1 == len)
+	{
+		write(STDOUT_FILENO, "\n", 1);
 		return ;
 	}
-	if (i >= 2)
-	{
-		if (!strcmp(args[1], "-n"))
-			j++;
-		while (args[j])
-		{
-			ft_putstr_fd(args[j], fd);
-			if (j++ < i - 1)
-				write(fd, " ", fd);
-		}
-	}
+	if (len >= 2)
+		echo_work(args, len);
 	if (strcmp(args[1], "-n"))
-		write(fd, "\n", fd);
+		write(STDOUT_FILENO, "\n", 1);
 }

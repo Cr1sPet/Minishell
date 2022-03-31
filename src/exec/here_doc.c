@@ -1,7 +1,6 @@
-#include "../../get_next_line/get_next_line.h"
 #include "minishell.h"
 
-static char *change_dollar(char *str)
+static char	*change_dollar(char *str)
 {
 	int		i;
 	char	*temp;
@@ -13,13 +12,12 @@ static char *change_dollar(char *str)
 	{
 		if ('$' == str[i])
 		{
-		 	temp = ft_dollar(str, &(i), shell.env);
+			temp = ft_dollar(str, &(i), shell.env);
 			if (!ft_strcmp(save, temp))
 			{
 				free(save);
 				return (temp);
 			}
-			// free(str);
 			str = temp;
 		}
 		i++;

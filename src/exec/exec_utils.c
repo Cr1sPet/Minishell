@@ -37,7 +37,7 @@ int	len_cmd_list(t_cmd *cmd)
 	return (i);
 }
 
-void	init_fds(t_minishell *shell)
+int	init_fds(t_minishell *shell)
 {
 	int	i;
 	int	len_cmd;
@@ -48,21 +48,27 @@ void	init_fds(t_minishell *shell)
 	{
 		shell->fds = (int **)malloc(sizeof(int *) * len_cmd);
 		if (NULL == shell->fds)
-			exit_with_error("Malloc error");
+			exit_with_error("minishell: malloc error");
 		while (i < len_cmd - 1)
 		{
 			shell->fds[i] = (int *)malloc(sizeof(int) * 2);
 			if (-1 == pipe(shell->fds[i]))
-				exit_with_error("Pipe error");
+			{
+				print_error("-", ": pipe() error");
+				shell->fds[i] = NULL;
+				return (-1);
+			}
 			i++;
 		}
 		shell->fds[len_cmd - 1] = NULL;
 	}
+	return (1);
 }
 
-void	get_pids_fds(t_cmd *cmd_list)
+int	get_pids_fds(t_cmd *cmd_list)
 {
 	int	exec_nmb;
+	int	i;
 
 	exec_nmb = 0;
 	shell.pids = NULL;
@@ -72,7 +78,17 @@ void	get_pids_fds(t_cmd *cmd_list)
 	{
 		shell.pids = (pid_t *)malloc(sizeof(pid_t) * exec_nmb);
 		if (NULL == shell.pids)
-			exit_with_error("Malloc error");
+			exit_with_error("minishell : malloc error");
 	}
-	init_fds(&shell);
+	if (-1 == init_fds(&shell))
+	{
+		i = 0;
+		free (shell.pids);
+		close_fds(shell.fds);
+		while (shell.fds[i])
+			free(shell.fds[i++]);
+		free(shell.fds);
+		return (0);
+	}
+	return (1);
 }

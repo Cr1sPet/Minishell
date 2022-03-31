@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void	del_lst_env_elem(t_env_list *env_list)
 {
 	free(env_list->key);
@@ -8,7 +7,6 @@ void	del_lst_env_elem(t_env_list *env_list)
 		free(env_list->val);
 	free (env_list);
 }
-
 
 void	lst_env_pop(t_env_list **list, char *key)
 {
@@ -36,7 +34,6 @@ void	lst_env_pop(t_env_list **list, char *key)
 		temp = temp->next;
 	}
 }
-
 
 int	valid_unset(char *arg)
 {

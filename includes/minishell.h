@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <sys/stat.h>
 # include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -88,6 +89,16 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+void	cmd_end_works(int **fds, pid_t *pids, int i);
+void	change_shlvl(void);
+t_env_list	*cp_env(t_env_list *env_list);
+int			valid_export(char *arg);
+int			ft_strcmp(char const *s1, char const *s2);
+t_env_list	*sort_env_list(t_env_list *start);
+int		open_redirs(t_cmd *cmd_list);
+void	close_fds(int	**fds);
+void	print_error(char *arg, char *err_name);
+int		file_check(char *file_path, int mode);
 void	print_export(t_env_list *env_list);
 int			len_env_list(int mode, t_env_list *env_list);
 t_env_list	*lst_envnew(char *key, char *val);
@@ -101,18 +112,15 @@ void	del_lst_env_elem(t_env_list *env_list);
 void	lst_env_pop(t_env_list **list, char *key);
 void	lst_envadd_front(t_env_list **lst, t_env_list *new);
 
-int	is_builtin(char *arg);
+int		is_builtin(char *arg);
 void	exit_with_error(char *str);
-void	get_pids_fds(t_cmd *cmd_list);
+int		get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
 void	clean_cmd_list(void);
 void	clean_env_store(t_env_store *env_store, int len);
 void	ft_exit(char **args);
-void	change_shlvl(void);
 void	add_env_store(t_env_store *temp, char *flag);
 void	add_val_by_index (t_env_store *env_store, char *val, int index);
-// int		if_key_exists (t_env_store *env_store, t_env_store *elem, int len);
-int		get_shlvl(void);
 t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len);
 int		len_env_store(t_env_store *env_store);
 void	add_elem_to_env_store (t_env_store **env_store, t_env_store *elem);
@@ -147,7 +155,7 @@ int		len_2d_str(char **str);
 void	env(char **args, t_env_list *env_list);
 void	pwd(int fd);
 void	change_dir();
-void	echo(char **args, int fd);
+void	echo(char **args);
 void	unset(char **args, t_env_list **env_list);
 int		exec();
 char	**cp_2d_arr(char **envp);

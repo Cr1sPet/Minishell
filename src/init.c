@@ -1,78 +1,8 @@
 #include "minishell.h"
 
-void	sort_export(t_env_store	*export, int len)
-{
-	int			i;
-	int			j;
-	t_env_store	temp;
-	char		*a;
-	char		*b;
-
-	i = 0;
-	while (i < len)
-	{
-		j = 0;
-		while (j < len - 1 - i)
-		{
-			a = export[j].key;
-			b = export[j + 1].key;
-			if (ft_strcmp(a, b) > 0)
-			{
-				temp = export[j];
-				export[j] = export[j + 1];
-				export[j + 1] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-int	get_shlvl(void)
-{
-	char	*val;
-
-	val = get_env("SHLVL", shell.env_list);
-	if (NULL == val)
-		return (1);
-	if (check_atoi(val))
-	{
-		if (val[0] == '-')
-			return (0);
-	}
-	else
-		return (1);
-	return (ft_atoi(val) + 1);
-}
-
-void	change_shlvl(void)
-{
-	char		*val;
-	int			val_int;
-	char		*item;
-	t_env_list	*elem;
-
-	elem = malloc(sizeof(t_env_list));
-	if (NULL == elem)
-		exit_with_error("Malloc error");
-	val_int = get_shlvl();
-	val = ft_itoa(val_int);
-	if (NULL == val)
-		exit_with_error("Malloc error");
-	elem->key = ft_strdup("SHLVL");
-	elem->val = val;
-	item = collect_str_env(elem);
-	if (NULL == item)
-		exit_with_error("Malloc error");
-	change_env_val(item, &shell.env_list);
-	free (item);
-	del_lst_env_elem(elem);
-}
-
 t_env_list	*get_env_elem(char *input)
 {
 	t_env_list	*elem;
-
 
 	elem = (t_env_list *) malloc (sizeof(t_env_list));
 	elem->equal = 0;
@@ -102,34 +32,6 @@ void	get_env_list(t_env_list **env_list, char **envp)
 	while (envp[++i])
 	{
 		lst_envadd_back(env_list, get_env_elem(envp[i]));
-	}
-}
-
-
-void	print_env_list(t_env_list *env_list, int flag)
-{
-	while (env_list)
-	{
-		if (flag)
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		if (!env_list->equal && !flag)
-		{
-			env_list = env_list->next;
-			continue ;
-		}
-		ft_putstr_fd(env_list->key, 1);
-		if (env_list->equal)
-		{
-			ft_putstr_fd("=", STDOUT_FILENO);
-			if (flag)
-				ft_putchar_fd('\"', STDOUT_FILENO);
-			if (env_list->val)
-				ft_putstr_fd(env_list->val, STDOUT_FILENO);
-			if (flag)
-				ft_putchar_fd('\"', STDOUT_FILENO);
-		}
-		ft_putendl_fd("", STDOUT_FILENO);
-		env_list = env_list->next;
 	}
 }
 
@@ -173,22 +75,13 @@ char	**collect_env(t_env_list *env_list)
 	return (env);
 }
 
-
 void	initialisation(char **envp)
 {
-	// int	i;
-
-	// i = 0;
 	shell.stdin = dup(STDIN_FILENO);
-	shell.stdout = dup (STDOUT_FILENO);
-	// get_env_list(&shell.env_list, envp);
-	// print_env_list(shell.env_list);
-	// clean_cmd_list(shell.env_list);
-	// shell.env_changed = 1;
+	shell.stdout = dup(STDOUT_FILENO);
 	shell.status = 0;
 	shell.env_list = NULL;
 	get_env_list(&shell.env_list, envp);
 	change_shlvl();
-	shell.env =  collect_env(shell.env_list);
-	// print_env_list(shell.env_list);
+	shell.env = collect_env(shell.env_list);
 }
