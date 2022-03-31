@@ -58,7 +58,7 @@ void	*parser(char *str, char **envp)
 	if (str && str[0] == '\0')
 		return NULL;
 	if (!prepars(str) || str[0] == '|')
-		ft_putendl_fd("Error", 1);
+		error_parser("Syntax Error");
 	else
 	{
 		str = correct_str(str, envp);
