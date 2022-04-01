@@ -6,9 +6,9 @@ static char	*change_dollar(char *str)
 	char	*temp;
 	char	*save;
 
-	i = 0;
+	i = -1;
 	save = ft_strdup(str);
-	while (str[i])
+	while (str[++i])
 	{
 		if ('$' == str[i])
 		{
@@ -22,7 +22,6 @@ static char	*change_dollar(char *str)
 			}
 			str = temp;
 		}
-		i++;
 	}
 	free(save);
 	return (str);
@@ -42,8 +41,9 @@ int	work_here_doc(char *limiter, int *f)
 			break ;
 		str = change_dollar(str);
 		if (!str)
-			exit ()
+			return (-1);
 		ft_putendl_fd(str, f[1]);
+		free (str);
 	}
 	close (f[0]);
 	close (f[1]);

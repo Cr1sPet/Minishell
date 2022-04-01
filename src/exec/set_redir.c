@@ -17,23 +17,29 @@ int	open_redirs(t_cmd *cmd_list)
 
 int	fill_temp(t_redir *redir)
 {
+	int		status;
 	int		fds[2];
 	pid_t	pid;
 
 	if (-1 == pipe(fds))
 		return (-1);
 	pid = fork();
+	if (pid < 0)
+	{
+		close (fds[0]);
+		close (fds[1]);
+		return (-1);
+	}
 	if (0 == pid)
 	{
 		if (-1 == work_here_doc(redir->filename, fds))
-			exit_with_error("minishell: -: malloc error");
+			exit(1);
 		exit(0);
 	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		close (fds[1]);
-	}
+	waitpid(pid, &status, 0);
+	close (fds[1]);
+	if (1 == status)
+		exit_with_error("minishell: -: malloc error");
 	return (fds[0]);
 }
 

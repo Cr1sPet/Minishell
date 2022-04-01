@@ -3,6 +3,7 @@
 void	exit_with_error(char *str)
 {
 	ft_putendl_fd(str, STDERR_FILENO);
+	clear_all(&shell);
 	exit(1);
 }
 
