@@ -2,7 +2,7 @@
 # define MINISHELL_H
 
 # include <sys/stat.h>
-# include <wait.h>
+// # include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -127,7 +127,7 @@ char	*ft_dollar(char *str, int *i, char **envp);
 char	*ft_quotes(char *str, int *i);
 char	*ft_quotes_2(char *str, int *i, char **envp);
 void	signal_init();
-char 	*pipe_parse(int *i,char *str, char **envp);
+char 	*pipe_parse(int *i,char *str, int j, int k);
 char	*correct_str(char *str, char **envp);
 int		prepars(const char *str);
 t_cmd	*ft_lstnew_parse(void *content);
@@ -138,8 +138,10 @@ void	ft_lstadd_back_parse(t_cmd **lst, t_cmd *new);
 void	ft_lstadd_back_redir(t_redir **lst, t_redir *new);
 char 	*right_redirect(char *str, int *i, char **envp);
 char *left_redirect(char *str, int *i, char **envp);
-void redir(char **cmd);
+void redir(char **cmd, int i);
 void error_parser(char *cmd);
+char	*get_cmds(char *str, int *i, int j);
+char	*get_redir(char *str, int *i, char ch);
 
 t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
