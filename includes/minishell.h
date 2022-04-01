@@ -144,6 +144,7 @@ void	ft_lstadd_back_redir(t_redir **lst, t_redir *new);
 char 	*right_redirect(char *str, int *i, char **envp);
 char *left_redirect(char *str, int *i, char **envp);
 void redir(char **cmd);
+void error_parser(char *cmd);
 
 t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);

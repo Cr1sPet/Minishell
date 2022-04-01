@@ -1,16 +1,14 @@
 # include "minishell.h"
-void signal_INT()
+void	sig_INT()
 {
-    printf("CTRL + C\n");
-}
-
-void signal_QUIT()
-{
-    printf("CTRL + D\n");
+		rl_on_new_line();
+		write(2, "  \n", 3);
+		rl_on_new_line();
+		rl_redisplay();
 }
 
 void signal_init()
 {
-    signal(SIGINT, signal_INT);
-    signal(SIGQUIT, signal_QUIT);
+    signal(SIGQUIT, SIG_IGN);
+    signal(SIGINT, sig_INT);
 }
