@@ -81,14 +81,12 @@ void	exe(t_cmd *cmd_list, int i, int j)
 	{
 		set_fd(cmd_list, j);
 		close_fds(shell.fds);
-		close(shell.fd_read);
 		execve(cmd_list->args[0], cmd_list->args, shell.env);
 		str = ft_strjoin("minishell: ", cmd_list->args[0]);
 		perror(str);
 		free (str);
 		exit (126);
 	}
-	close(shell.fd_read);
 }
 
 int	exec(void)

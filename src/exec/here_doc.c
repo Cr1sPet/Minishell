@@ -37,12 +37,7 @@ int	work_here_doc(char *limiter, int *f)
 		if (str && *str)
 			add_history(str);
 		if (!ft_strcmp(str, limiter))
-		{
-			ft_putendl_fd("SUKA", 2);
-			close (f[0]);
-			close (f[1]);
-			return (1);
-		}
+			break ;
 		str = change_dollar(str);
 		ft_putendl_fd(str, f[1]);
 	}

@@ -31,7 +31,7 @@ int	fill_temp(t_redir *redir)
 		}
 		exit(0);
 	}
-	else 
+	else
 	{
 		waitpid(pid, NULL, 0);
 		close (fds[1]);
