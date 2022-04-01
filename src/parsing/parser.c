@@ -34,10 +34,8 @@ void	cmd_split(char *str, char **envp)
 {
 	int		i;
 	char	ch;
-	int		k;
 
 	i = -1;
-	(void)envp;
 	while (str[++i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')

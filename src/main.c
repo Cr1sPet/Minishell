@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	(void) argv;
 	if (1 != argc)
 		return (1);
-	// signal_init();
+	signal_init();
 	initialisation(envp);
 	while (1)
 	{
