@@ -62,7 +62,7 @@ void	ft_exit(char **args)
 	if (len_2d_str(args) > 2 && check_atoi(args[1]))
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
-		print_error("exit: ", "too many arguments");
+		print_error("exit", "too many arguments");
 		shell.status = 1;
 		return ;
 	}
@@ -71,13 +71,12 @@ void	ft_exit(char **args)
 		if (check_atoi(args[1]))
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			clear_all(&shell);
 			shell.status = ft_atoi_ull(args[1]);
 		}
 		else
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			print_error("exit: ", "numeric argement required");
+			print_error("exit", "numeric argement required");
 			shell.status = 2;
 		}
 	}

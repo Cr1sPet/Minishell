@@ -13,6 +13,8 @@ static char	*change_dollar(char *str)
 		if ('$' == str[i])
 		{
 			temp = ft_dollar(str, &(i), shell.env);
+			if (!temp)
+				return (NULL);
 			if (!ft_strcmp(save, temp))
 			{
 				free(save);
@@ -39,6 +41,8 @@ int	work_here_doc(char *limiter, int *f)
 		if (!ft_strcmp(str, limiter))
 			break ;
 		str = change_dollar(str);
+		if (!str)
+			exit ()
 		ft_putendl_fd(str, f[1]);
 	}
 	close (f[0]);

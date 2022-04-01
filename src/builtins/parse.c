@@ -70,8 +70,7 @@ static int	get_cmd(char **args, char **pathes)
 	ok = set_path (&args[0], pathes);
 	if (0 == ok)
 	{
-		ft_putendl_fd("MALLOC ERROR", 2);
-		exit (1);
+		exit_with_error("minishell: -: malloc error");
 	}
 	else if (-1 == ok)
 	{

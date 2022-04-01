@@ -74,7 +74,7 @@ void	exe(t_cmd *cmd_list, int i, int j)
 	shell.pids[i] = fork();
 	if (-1 == shell.pids[i])
 	{
-		print_error("-", ": fork() error");
+		print_error("-", "fork() error");
 		return ;
 	}
 	else if (0 == shell.pids[i])

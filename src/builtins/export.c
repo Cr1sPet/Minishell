@@ -29,7 +29,7 @@ int	try_change_val(t_env_list *env_list, t_env_list *elem)
 			{
 				env_list->val = ft_strdup(elem->val);
 				if (NULL == env_list->val)
-					exit_with_error("Malloc error");
+					exit_with_error("minishell: -: malloc error");
 				env_list->equal = 1;
 			}
 			return (1);

@@ -26,16 +26,16 @@ void	change_shlvl(void)
 
 	elem = malloc(sizeof(t_env_list));
 	if (NULL == elem)
-		exit_with_error("Malloc error");
+		exit_with_error("minishell: -: malloc error");
 	val_int = get_shlvl();
 	val = ft_itoa(val_int);
 	if (NULL == val)
-		exit_with_error("Malloc error");
+		exit_with_error("minishell: -: malloc error");
 	elem->key = ft_strdup("SHLVL");
 	elem->val = val;
 	item = collect_str_env(elem);
 	if (NULL == item)
-		exit_with_error("Malloc error");
+		exit_with_error("minishell: -: malloc error");
 	change_env_val(item, &shell.env_list);
 	free (item);
 	del_lst_env_elem(elem);
