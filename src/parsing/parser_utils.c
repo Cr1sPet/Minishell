@@ -29,47 +29,51 @@ int	prepars(const char *str)
                 return (0);
         }
 	}
-
 	return (1);
+}
+
+char	*test(char *str)
+{
+	char *ret;
+
+	ret = ft_strdup(str);
+	free(str);
+	return (ret);
 }
 
 char	*correct_str(char *str, char **envp)
 {
 	int		i;
 	int		ok;
-	char	*temp;
-	char	*save;
+	char *temp;
+	char *temp_2;
 
 	i = -1;
 	ok = 0;
-	save = ft_strdup(str);
-    while (str[++i]) 
+	temp = ft_strdup(str);
+	free(str);
+    while (temp[++i]) 
     {
-		if (str[i] == '\"' && !ok)
+		if (temp[i] == '\"' && !ok)
 		{
 			i++;
 			ok += 1;
 		}
-		if (str[i] == '\"' && ok)
+		if (temp[i] == '\"' && ok)
 			ok--;
-		if (str[i] == '\'' && ok != 1)
+		if (temp[i] == '\'' && ok != 1)
 		{
-			while (str[++i] && str[i] != '\'')
+			while (temp[++i] && temp[i] != '\'')
 					;
 		}
-		if ('$' == str[i])
+		if ('$' == temp[i])
 		{
-			temp = ft_dollar(str, &(i), envp);
-			if (!ft_strcmp(save, temp))
-			{
-				free(save);
-				return (temp);
-			}
-			str = temp;
+			temp_2 = ft_strdup(temp);
+			free(temp);
+			temp = ft_dollar(temp_2, &(i), shell.env);
 		}
     }
-	free(save);
-	return (str);
+	return (temp);
 }
 
 void error_parser(char *cmd)

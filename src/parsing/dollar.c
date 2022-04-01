@@ -55,11 +55,13 @@ char *envp_value(char *key, char **envp)
 			value = ft_substr(envp[k], 0, z);
 			if (z == (int)ft_strlen(key))
 			{
+				free(value);
 				value = ft_substr(envp[k], z + 1, ft_strlen(envp[k]) - z);
 				return (value);
 			}
 		}
 	}
+	free(value);
 	return NULL;
 }
 
