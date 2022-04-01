@@ -52,7 +52,7 @@ void	clear_all(t_minishell *shell)
 {
 	close(shell->stdout);
 	close(shell->stdin);
-	clean_cmd_list();
+	clean_cmd_list(shell->cmd_list_head);
 	clean_env_list(shell->env_list);
 	memclean(shell->env, len_2d_str(shell->env));
 }

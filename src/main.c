@@ -23,8 +23,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		cmd = get_cmd();
 		parser(cmd, shell.env);
+		shell.cmd_list_head = shell.cmd_list;
 		exec(shell.cmd_list);
-		clean_cmd_list();
+		clean_cmd_list(shell.cmd_list_head);
 		memclean(shell.env, len_2d_str(shell.env));
 		shell.env = collect_env(shell.env_list);
 	}

@@ -11,27 +11,28 @@ void	clean_redir_list(t_redir *redir)
 			temp_list = redir->next;
 			free(redir->filename);
 			free(redir);
-			redir = redir->next;
+			redir = temp_list;
 		}
 	}
 }
 
-void	clean_cmd_list(void)
+void	clean_cmd_list(t_cmd *cmd_list)
 {
 	t_cmd	*temp_list;
 
-	if (shell.cmd_list)
+	if (cmd_list)
 	{
-		while (shell.cmd_list)
+		while (cmd_list)
 		{
-			temp_list = shell.cmd_list->next;
-			clean_redir_list(shell.cmd_list->redir_in);
-			clean_redir_list(shell.cmd_list->redir_out);
-			memclean(shell.cmd_list->args, len_2d_str(shell.cmd_list->args));
-			free(shell.cmd_list);
-			shell.cmd_list = temp_list;
+			temp_list = cmd_list->next;
+			clean_redir_list(cmd_list->redir_in);
+			clean_redir_list(cmd_list->redir_out);
+			memclean(cmd_list->args, len_2d_str(cmd_list->args));
+			free(cmd_list);
+			cmd_list = temp_list;
 		}
 	}
+	cmd_list = NULL;
 }
 
 void	clean_env_store(t_env_store *env_store, int len)

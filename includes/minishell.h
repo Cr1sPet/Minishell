@@ -43,6 +43,7 @@ typedef struct s_minishell
 	pid_t			*pids;
 	t_env_list		*env_list;
 	struct s_cmd	*cmd_list;
+	struct s_cmd	*cmd_list_head;
 }				t_minishell;
 
 
@@ -89,6 +90,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }				t_cmd;
 
+void	clear_all(t_minishell *shell);
 void	cmd_end_works(int **fds, pid_t *pids, int i);
 void	change_shlvl(void);
 t_env_list	*cp_env(t_env_list *env_list);
@@ -116,7 +118,7 @@ int		is_builtin(char *arg);
 void	exit_with_error(char *str);
 int		get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
-void	clean_cmd_list(void);
+void	clean_cmd_list(t_cmd *cmd_list);
 void	clean_env_store(t_env_store *env_store, int len);
 void	ft_exit(char **args);
 void	add_env_store(t_env_store *temp, char *flag);
