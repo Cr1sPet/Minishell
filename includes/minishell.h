@@ -163,7 +163,7 @@ int		get_ind_env(char *point, char **envp);
 void	memclean(char **s, size_t l);
 char	*get_env(char *key, t_env_list *env_list);
 void	initialisation(char **envp);
-int	work_here_doc(char *limiter, int f);
+int	work_here_doc(char *limiter, int *f);
 
 char	*collect_str_env (t_env_list *elem);
 char	**collect_env(t_env_list *env_list);

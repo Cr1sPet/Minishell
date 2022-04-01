@@ -38,6 +38,8 @@ void	wait_pids(pid_t	*pids, int nmb)
 
 void	cmd_end_works(int **fds, pid_t *pids, int i)
 {
+	// close (shell.fd_write);
+	// close (shell.fd_read);
 	close_fds(fds);
 	wait_pids(pids, i);
 	dup2(shell.stdin, STDIN_FILENO);

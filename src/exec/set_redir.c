@@ -17,19 +17,26 @@ int	open_redirs(t_cmd *cmd_list)
 
 int	fill_temp(t_redir *redir)
 {
-	int	fd;
+	int		fds[2];
+	pid_t	pid;
 
-	fd = open(".temp_minishell", O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (-1 == fd)
-		return (-1);
-	if (-1 == work_here_doc(redir->filename, fd))
+	pipe(fds);
+	pid = fork();
+	if (0 == pid)
 	{
-		ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
-		exit (1);
+		if (-1 == work_here_doc(redir->filename, fds))
+		{
+			ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
+			exit (1);
+		}
+		exit(0);
 	}
-	close (fd);
-	fd = open(".temp_minishell", O_RDONLY);
-	return (fd);
+	else 
+	{
+		waitpid(pid, NULL, 0);
+		close (fds[1]);
+	}
+	return (fds[0]);
 }
 
 int	set_redir_in(t_redir *redir)
@@ -40,8 +47,6 @@ int	set_redir_in(t_redir *redir)
 	fd = -2;
 	while (redir)
 	{
-		if (-2 != fd)
-			close(fd);
 		if (redir_in_1 == redir->type_redr)
 			fd = open(redir->filename, O_RDONLY);
 		else if (redir_in_2 == redir->type_redr)
@@ -55,7 +60,8 @@ int	set_redir_in(t_redir *redir)
 			free (str);
 			return (0);
 		}
-		shell.fd_read = fd;
+		shell.fd_read = dup(fd);
+		close (fd);
 		redir = redir->next;
 	}
 	return (1);
