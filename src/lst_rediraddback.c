@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	lst_rediradd_back(t_redir **redir, t_redir *new)

@@ -3,7 +3,7 @@
 void	pwd(int fd)
 {
 	char	*pwd;
-	char	buf[2048];
+	char	buf[4096];
 
 	pwd = getcwd(buf, sizeof(buf));
 	if (pwd)
@@ -13,8 +13,7 @@ void	pwd(int fd)
 	}
 	else
 	{
-		perror("Error");
-		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		perror("minishell: pwd: ");
 		shell.status = 127;
 	}
 }

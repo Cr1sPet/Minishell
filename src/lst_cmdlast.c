@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 t_cmd	*lst_cmdlast(t_cmd *lst)

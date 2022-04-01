@@ -1,77 +1,54 @@
 #include "minishell.h"
 
-char	*change_value(char *str, char *val)
+int	envlist_chr(char *key, t_env_list *env_list)
 {
-	int		i;
-	int		j;
-	int		new_size;
-	char	*new_str;
+	int	i;
 
 	i = 0;
-	j = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	i++;
-	new_size = i + ft_strlen(val) + 1;
-	new_str = (char *)malloc(sizeof(char) * new_size);
-	if (NULL == new_str)
+	while (env_list)
 	{
-		ft_putendl_fd("ERROR IN MALLOC", 2);
-		exit(1);
+		if (!ft_strcmp(key, env_list->key))
+			return (1);
+		env_list = env_list->next;
 	}
-	while (j < i) {
-		new_str[j] = str[j];
-		j++;
-	}
-	i = 0;
-	while (j < new_size)
-		new_str[j++] = val[i++];
-	new_str[j] = 0;
-	free(str);
-	return (new_str);
+	return (0);
 }
 
 void	change_pwd(char *dest)
 {
-	int		i;
-	char	*pwd;
-	char	buf[500];
+	char		*pwd;
+	char		*str;
+	t_env_list	temp;
+	char		buf[4096];
 
 	pwd = getcwd(buf, sizeof(buf));
 	if (!pwd)
-	{
-		ft_putendl_fd("ERROR WITH GETCWD", 1);
 		return ;
-	}
-	i = 0;
-	while (shell.env[i])
-	{
-		if (!ft_strncmp(dest, shell.env[i], 3))
-		{
-			shell.env[i] = change_value(shell.env[i], buf);
-			return ;
-		}
-		i++;
-	}
+	temp.key = dest;
+	temp.val = pwd;
+	str = collect_str_env(&temp);
+	change_env_val(str, &shell.env_list);
+	free(str);
 }
 
-void	change_dir()
+void	change_dir(char **args)
 {
 	int	len;
 
-	len = len_2d_str(shell.cmd_list->args);
+	len = len_2d_str(args);
 	shell.status = 0;
 	if (len > 2)
 	{
-		ft_putendl_fd("No such file or directory", 1);
+		ft_putendl_fd("minishell: cd: too many arguments", 1);
 		shell.status = 1;
 	}
 	else if (2 == len)
 	{
-		change_pwd("OLDPWD");
-		if (-1 == chdir(shell.cmd_list->args[1]))
+		if (envlist_chr("OLDPWD", shell.env_list))
+			change_pwd("OLDPWD");
+		if (-1 == chdir(args[1]))
 		{
-			perror("Error");
+			perror(ft_strjoin("minishell: cd: ", args[1]));
 			shell.status = 1;
 		}
 		change_pwd("PWD");

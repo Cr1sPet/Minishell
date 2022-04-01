@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*get_cmd()
+char	*get_cmd(void)
 {
 	char	*str;
 

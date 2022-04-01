@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	lst_cmdadd_back(t_cmd **lst, t_cmd *new)

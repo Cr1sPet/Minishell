@@ -12,16 +12,6 @@ char	*get_key(char *var)
 	return (ft_substr(var, 0, i));
 }
 
-int	ft_strcmp(char const *s1, char const *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-		++i;
-	return (s1[i] - s2[i]);
-}
-
 int	try_change_val(t_env_list *env_list, t_env_list *elem)
 {
 	while (env_list)
@@ -49,32 +39,56 @@ int	try_change_val(t_env_list *env_list, t_env_list *elem)
 	return (0);
 }
 
+void	change_env_val(char *input, t_env_list **env_list)
+{
+	t_env_list	*elem;
+	char		*val;
+
+	elem = get_env_elem(input);
+	if (elem->val)
+		val = ft_strdup(elem->val);
+	else
+		val = NULL;
+	if (!try_change_val(*env_list, elem))
+	{
+		lst_envadd_back(env_list,
+			lst_envnew(ft_strdup(elem->key), val));
+	}
+	else
+		free (val);
+	del_lst_env_elem(elem);
+}
+
+void	print_export(t_env_list *env_list)
+{
+	t_env_list	*export;
+
+	export = cp_env(env_list);
+	print_env_list(export, 1);
+	clean_env_list(export);
+}
+
 void	export(t_env_list **env_list, char **args)
 {
 	int			i;
 	int			len;
-	t_env_list	*elem;
-	char		*val;
 
 	i = 0;
+	shell.status = 0;
 	len = len_2d_str(args);
+	if (1 == len)
+		print_export(*env_list);
 	if (len > 1)
 	{
 		while (args[++i])
 		{
-			elem = get_env_elem(args[i]);
-			if (elem->val)
-				val = ft_strdup(elem->val);
-			else
-				val = NULL;
-			if (!try_change_val(*env_list, elem))
+			if (!valid_export(args[i]))
 			{
-				lst_envadd_back(env_list,
-					lst_envnew(ft_strdup(elem->key), val));
+				ft_putendl_fd("not a valid identifier", STDERR_FILENO);
+				shell.status = 1;
 			}
 			else
-				free (val);
-			del_lst_env_elem(elem);
+				change_env_val(args[i], env_list);
 		}
 	}
 }
