@@ -1,10 +1,22 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/01 19:11:15 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/01 19:17:18 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	ifkey(char c)
 {
 	if (c == '_' || ft_isalnum(c) || c == '*' || c == '!' || c == '?')
 		return (1);
-	return 0;
+	return (0);
 }
 
 char	*concat_str_value(char *str, char *value, int j, int *i)
@@ -35,14 +47,10 @@ char	*concat_str_value(char *str, char *value, int j, int *i)
 	return (line_new);
 }
 
-char *envp_value(char *key, char **envp)
+char	*envp_value(char *key, char **envp, int z, int k)
 {
-	int		z;
-	int		k;
 	char	*value;
 
-	z = 0;
-	k = -1;
 	if (key[0] == '?' && ft_strlen(key) == 1)
 		return (value = ft_itoa(shell.status));
 	while (envp[++k])
@@ -62,7 +70,7 @@ char *envp_value(char *key, char **envp)
 		}
 	}
 	free(value);
-	return NULL;
+	return (NULL);
 }
 
 char	*ft_dollar(char *str, int *i, char **envp)
@@ -81,7 +89,7 @@ char	*ft_dollar(char *str, int *i, char **envp)
 	if (*i == j + 1)
 		return (str);
 	key = ft_substr(str, j + 1, *i - j - 1);
-	value = envp_value(key, envp);
+	value = envp_value(key, envp, 0, -1);
 	ret = concat_str_value(str, value, j, i);
 	free(key);
 	free(value);
