@@ -1,5 +1,40 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/01 20:28:14 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/01 20:29:11 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
+
+char	*get_cmds(char *str, int *i, int j)
+{
+	char	ch;
+
+	ch = str[(*i)];
+	while (str[++(*i)] && str[(*i)] != ch)
+		;
+	return (ft_substr(str, j + 1, *i - j - 1));
+}
+
+char	*get_redir(char *str, int *i, char ch)
+{
+	char	*ret;
+
+	if (str[*i + 1] == ch)
+	{
+		ret = ft_substr(str, *i, 2);
+		++(*i);
+	}
+	else
+		ret = (ft_substr(str, *i, 1));
+	return (ret);
+}
 
 void	ft_lstadd_back_parse(t_cmd **lst, t_cmd *new)
 {

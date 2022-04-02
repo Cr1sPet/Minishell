@@ -1,156 +1,105 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_pipe.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/01 19:55:59 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/01 20:33:03 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*get_cmds(char *str, int *i, int j)
-{
-	char	ch;
+#include "minishell.h"
 
-	ch = str[(*i)];
-	while (str[++(*i)] && str[(*i)] != ch)
-		;
-	return (ft_substr(str, j + 1, *i - j - 1));
-}
-
-char	**command_split(char *str)
+char	**command_split(char *str, int i, int j, int h)
 {
 	char	**cmds;
-    char    ch;
-    int     h;
-    int     i; 
-    int     j;
+	char	ch;
 
-    i = -1;
-    j = 0;
-    h = 0;
 	cmds = ft_calloc(sizeof(char *), 100);
 	while (str[++i])
 	{
 		j = i;
-            while (str[i] && str[i] != ' ' && str[i] != '\'' && str[i] != '\"' && str[i] != '>' && str[i] != '<')
-                i++;
-		    if ((str[i] == ' ' || str[i] == '\0' || str[i] == '>' || str[i] == '<') && j != i)
-		    {
-			    cmds[h++] = ft_substr(str, j, i - j);
-			    if (str[i] == '\0')
-			        break ;
-		    }
-            if (str[i] == '\'' || str[i] == '\"')
-			    cmds[h++] = get_cmds(str, &i, j);
-            if (str[i] == '>' || str[i] == '<')
-            {
-                ch = str[i];
-                if (str[i + 1] == ch)
-                {
-                    cmds[h++] = ft_substr(str, i, 2);
-                    i++;
-                }
-                else
-                    cmds[h++] = ft_substr(str, i, 1);       
-            }
+		while (str[i] && str[i] != ' ' && str[i] != '\'' && \
+		str[i] != '\"' && str[i] != '>' && str[i] != '<')
+			i++;
+		if ((str[i] == ' ' || str[i] == '\0' || \
+		str[i] == '>' || str[i] == '<') && j != i)
+		{
+			cmds[h++] = ft_substr(str, j, i - j);
+			if (str[i] == '\0')
+				break ;
+		}
+		if (str[i] == '\'' || str[i] == '\"')
+			cmds[h++] = get_cmds(str, &i, j);
+		if (str[i] == '>' || str[i] == '<')
+			cmds[h++] = get_redir(str, &i, str[i]);
 	}
 	free(str);
 	return (cmds);
 }
 
-int check_redir(char *str, int i)
+int	check_redir(char *str, int i)
 {
-    int j;
-    char ch;
+	int		j;
+	char	ch;
 
-    j = -1;
-    if (str[0] == '>' ||  str[0] == '<')
-        return 1;
-    while(++j < i)
-    {
-        if (str[j] == '\'' || str[j] == '\"')
+	j = -1;
+	if (str[0] == '>' || str[0] == '<')
+		return (1);
+	while (++j < i)
+	{
+		if (str[j] == '\'' || str[j] == '\"')
 		{
 			ch = str[j];
 			while (str[++j] && str[j] != ch)
 				;
 		}
-        if (str[j] == '>' ||  str[j] == '<')
-            return j;
-    }
-    return 0;
+		if (str[j] == '>' || str[j] == '<')
+			return (j);
+	}
+	return (0);
 }
 
-char *helper(char *str)
+void	clear_list(char **cmd)
 {
-    char *ret;
-    int j;
-    int i;
+	int	i;
 
-    j = -1;
-    while (str[++j] == '<' || str[j] == '>' || str[j] == ' ')
-        ;
-    i = j;
-    while (str[i] && str[i] != ' ')
-        i++; 
-    ret =  ft_substr(str, 0, i);
-    ret = ft_strtrim(ret, " ");
-    return ret;
+	i = 0;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
 }
 
-char	*pipe_parse(int *i,char *str, char **envp)
+char	*pipe_parse(int *i, char *str, int j, int k)
 {
-    char    *temp;
-    char    *ret;
-    char    **temp_cmd;
-    char    **cmd;
-    int j;
-    int k;
+	char	**temp_cmd;
+	char	**cmd;
 
-    j = 0;
-    k = 0;
-    temp = ft_substr(str, 0, *i);
-    temp_cmd = command_split(temp);
-    cmd = ft_calloc(sizeof(char *), 100);
-    while(temp_cmd[j])
-    {
-        if ((ft_strncmp(temp_cmd[j], ">", 1) == 0 && ft_strlen(temp_cmd[j]) == 1) || (ft_strncmp(temp_cmd[j], ">>", 2) == 0 && ft_strlen(temp_cmd[j]) == 2) || (ft_strncmp(temp_cmd[j], "<", 1) == 0 && ft_strlen(temp_cmd[j]) == 1) || (ft_strncmp(temp_cmd[j], "<<", 2) == 0 && ft_strlen(temp_cmd[j]) == 2))
-                j++;
-        else
-        {
-            cmd[k] = ft_strdup(temp_cmd[j]);
-            k++;
-        }
-        j++; 
-    }
-    cmd[k] = NULL;
-    ret =  ft_substr(str, *i + 1, ft_strlen(str));
-    ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
-    if (check_redir(str, *i))
-        redir(temp_cmd);
-    j  = 0;
-    while (temp_cmd[j])
-    {
-        free(temp_cmd[j]);
-        j++;
-    }
-    free(temp_cmd);
-    *i = 0;
-    return ret;
+	temp_cmd = command_split(ft_substr(str, 0, *i), -1, 0, 0);
+	cmd = ft_calloc(sizeof(char *), 100);
+	while (temp_cmd[j])
+	{
+		if ((ft_strncmp(temp_cmd[j], ">", 1) == 0 && \
+		ft_strlen(temp_cmd[j]) == 1) || \
+		(ft_strncmp(temp_cmd[j], ">>", 2) == 0 && \
+		ft_strlen(temp_cmd[j]) == 2) || \
+		(ft_strncmp(temp_cmd[j], "<", 1) == 0 && \
+		ft_strlen(temp_cmd[j]) == 1) || \
+		(ft_strncmp(temp_cmd[j], "<<", 2) == 0 && ft_strlen(temp_cmd[j]) == 2))
+			j++;
+		else
+			cmd[k++] = ft_strdup(temp_cmd[j]);
+		j++;
+	}
+	ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
+	if (check_redir(str, *i))
+		redir(temp_cmd, -1);
+	clear_list(temp_cmd);
+	*i = 0;
+	return (ft_substr(str, *i + 1, ft_strlen(str)));
 }
-
-
-// char	*pipe_parse(int *i,char *str, char **envp)
-// {
-//     char    *temp;
-//     char    *temp_2;
-//     char    *ret;
-//     char    **cmd;
-
-//     temp = ft_substr(str, 0, *i);
-//     if (check_redir(str, *i))
-//     {
-//         temp = ft_substr(str, 0, check_redir(str, *i));
-//         temp_2 = ft_substr(str,  check_redir(str, *i), ft_strlen(str) - check_redir(str, *i));
-//     }
-//     cmd = command_split(temp);
-//     cmd = correct_str(cmd,envp);
-//     ret =  ft_substr(str, *i + 1, ft_strlen(str));
-//     ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
-//     if (check_redir(str, *i))
-//         redir(temp_2, envp);
-//     *i = 0;
-//     return ret;
-// }

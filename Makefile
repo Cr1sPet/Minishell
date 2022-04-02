@@ -21,16 +21,10 @@ SRCS		=	./src/main.c\
 				./src/utils2.c\
 				./src/exec/set_redir.c\
 				./src/parsing/parser.c ./src/parsing/dollar.c\
-                				./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
-                				./src/signal/signal.c ./src/parsing/parser_pipe.c\
-                				./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
-                				./src/parsing/pipe_utils.c\
-				./src/lst_rediraddback.c\
-				./src/lst_redirlast.c\
-				./src/lst_redirnew.c\
-				./src/lst_cmdadd_back.c\
-				./src/lst_cmdlast.c\
-				./src/lst_cmdnew.c\
+                ./src/parsing/qoutes.c ./src/parsing/parser_utils.c\
+                ./src/signal/signal.c ./src/parsing/parser_pipe.c\
+                ./src/parsing/parser_redirect.c ./src/parsing/redirect_utils.c\
+                ./src/parsing/pipe_utils.c\
 				./src/lst_envadd_back.c\
 				./src/lst_envlast.c\
 				./src/lst_envnew.c\

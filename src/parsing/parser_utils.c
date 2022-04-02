@@ -1,4 +1,16 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/01 21:50:56 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/01 21:53:55 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	prepars(const char *str)
 {
@@ -22,38 +34,29 @@ int	prepars(const char *str)
 	while (str[++i])
 	{
 		if (str[i] == '|')
-        {
+		{
 			while (str[++i] && str[i] == ' ')
-                    ;
-            if (str[i + 1] == ' ' || str[i + 1] == '\0')
-                return (0);
-        }
+				;
+			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+				return (0);
+		}
 	}
 	return (1);
-}
-
-char	*test(char *str)
-{
-	char *ret;
-
-	ret = ft_strdup(str);
-	free(str);
-	return (ret);
 }
 
 char	*correct_str(char *str, char **envp)
 {
 	int		i;
 	int		ok;
-	char *temp;
-	char *temp_2;
+	char	*temp;
+	char	*temp_2;
 
 	i = -1;
 	ok = 0;
 	temp = ft_strdup(str);
 	free(str);
-    while (temp[++i]) 
-    {
+	while (temp[++i])
+	{
 		if (temp[i] == '\"' && !ok)
 		{
 			i++;
@@ -64,7 +67,7 @@ char	*correct_str(char *str, char **envp)
 		if (temp[i] == '\'' && ok != 1)
 		{
 			while (temp[++i] && temp[i] != '\'')
-					;
+				;
 		}
 		if ('$' == temp[i])
 		{
@@ -72,12 +75,12 @@ char	*correct_str(char *str, char **envp)
 			free(temp);
 			temp = ft_dollar(temp_2, &(i), shell.env);
 		}
-    }
+	}
 	return (temp);
 }
 
-void error_parser(char *cmd)
+void	error_parser(char *cmd)
 {
 	ft_putendl_fd(cmd, 2);
-	clean_cmd_list(shell.cmd_list_head);
+	clean_cmd_list(shell.cmd_list);
 }
