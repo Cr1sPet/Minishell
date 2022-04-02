@@ -54,6 +54,7 @@ void	clear_all(t_minishell *shell)
 	close(shell->stdin);
 	clean_cmd_list(shell->cmd_list_head);
 	clean_env_list(shell->env_list);
+	memclean(shell->builtin_names, len_2d_str(shell->builtin_names));
 	memclean(shell->env, len_2d_str(shell->env));
 }
 

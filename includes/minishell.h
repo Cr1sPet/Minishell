@@ -146,7 +146,7 @@ t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
-void	change_env_val(char *input, t_env_list **env_list);
+void	change_env_val(t_env_list *elem, t_env_list **env_list);
 void	export(char **args);
 int		len_2d_str(char **str);
 void	env(char **args);

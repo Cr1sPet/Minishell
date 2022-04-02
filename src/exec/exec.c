@@ -49,7 +49,7 @@ int	try_builtin(char **args, int j)
 	if (shell.builtin_names[i])
 	{
 		set_fd(shell.cmd_list, j);
-		(*shell.builtin_funcs[i])(args, &shell.env_list);
+		(*shell.builtin_funcs[i])(args);
 		dup2(shell.stdin, STDIN_FILENO);
 		dup2(shell.stdout, STDOUT_FILENO);
 		return (1);

@@ -39,23 +39,13 @@ int	try_change_val(t_env_list *env_list, t_env_list *elem)
 	return (0);
 }
 
-void	change_env_val(char *input, t_env_list **env_list)
+void	change_env_val(t_env_list *elem, t_env_list **env_list)
 {
-	t_env_list	*elem;
-	char		*val;
-
-	elem = get_env_elem(input);
-	if (elem->val)
-		val = ft_strdup(elem->val);
-	else
-		val = NULL;
 	if (!try_change_val(*env_list, elem))
 	{
 		lst_envadd_back(env_list,
-			lst_envnew(ft_strdup(elem->key), val));
+			lst_envnew(ft_strdup(elem->key), elem->val));
 	}
-	else
-		free (val);
 	del_lst_env_elem(elem);
 }
 
@@ -71,6 +61,7 @@ void	print_export(t_env_list *env_list)
 void	export(char **args)
 {
 	int			i;
+	t_env_list	*elem;
 	int			len;
 
 	i = 0;
@@ -78,17 +69,19 @@ void	export(char **args)
 	len = len_2d_str(args);
 	if (1 == len)
 		print_export(shell.env_list);
-	if (len > 1)
+	while (len > 1 && args[++i])
 	{
-		while (args[++i])
+		if (!valid_export(args[i]))
 		{
-			if (!valid_export(args[i]))
-			{
-				ft_putendl_fd("not a valid identifier", STDERR_FILENO);
-				shell.status = 1;
-			}
-			else
-				change_env_val(args[i], &shell.env_list);
+			ft_putendl_fd("not a valid identifier", STDERR_FILENO);
+			shell.status = 1;
+		}
+		else
+		{
+			elem = get_env_elem(args[i]);
+			if (!elem)
+				exit_with_error("minishell: -: malloc error");
+			change_env_val(elem, &shell.env_list);
 		}
 	}
 }
