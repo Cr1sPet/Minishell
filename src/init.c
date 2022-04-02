@@ -51,7 +51,7 @@ int	len_env_list(int mode, t_env_list *env_list)
 	}
 	if (1 == mode)
 		return (i);
-	else if (0 == mode)
+	else
 		return (i - j);
 }
 
@@ -84,4 +84,6 @@ void	initialisation(char **envp)
 	get_env_list(&shell.env_list, envp);
 	change_shlvl();
 	shell.env = collect_env(shell.env_list);
+	set_builtin_funcs(&shell);
+	set_builtin_names(&shell);
 }

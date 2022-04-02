@@ -41,30 +41,20 @@ void	set_fd(t_cmd *cmd_list, int i)
 
 int	try_builtin(char **args, int j)
 {
-	if (is_builtin(args[0]))
-		set_fd(shell.cmd_list, j);
-	if (!ft_strcmp(args[0], "echo"))
-		echo(args);
-	else if (!ft_strcmp(args[0], "cd"))
-		change_dir();
-	else if (!ft_strcmp(args[0], "env"))
-		env(args, shell.env_list);
-	else if (!ft_strcmp(args[0], "pwd"))
-		pwd(1);
-	else if (!ft_strcmp(args[0], "export"))
-		export(&shell.env_list, args);
-	else if (!ft_strcmp(args[0], "unset"))
-		unset(args, &shell.env_list);
-	else if (!ft_strcmp(args[0], "exit"))
-		ft_exit(args);
-	else
-		return (0);
-	if (is_builtin(args[0]))
+	int	i;
+
+	i = 0;
+	while (shell.builtin_names[i] && ft_strcmp(shell.builtin_names[i], args[0]))
+		i++;
+	if (shell.builtin_names[i])
 	{
+		set_fd(shell.cmd_list, j);
+		(*shell.builtin_funcs[i])(args, &shell.env_list);
 		dup2(shell.stdin, STDIN_FILENO);
 		dup2(shell.stdout, STDOUT_FILENO);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	exe(t_cmd *cmd_list, int i, int j)

@@ -2,9 +2,6 @@
 
 int	envlist_chr(char *key, t_env_list *env_list)
 {
-	int	i;
-
-	i = 0;
 	while (env_list)
 	{
 		if (!ft_strcmp(key, env_list->key))

@@ -68,7 +68,7 @@ void	print_export(t_env_list *env_list)
 	clean_env_list(export);
 }
 
-void	export(t_env_list **env_list, char **args)
+void	export(char **args)
 {
 	int			i;
 	int			len;
@@ -77,7 +77,7 @@ void	export(t_env_list **env_list, char **args)
 	shell.status = 0;
 	len = len_2d_str(args);
 	if (1 == len)
-		print_export(*env_list);
+		print_export(shell.env_list);
 	if (len > 1)
 	{
 		while (args[++i])
@@ -88,7 +88,7 @@ void	export(t_env_list **env_list, char **args)
 				shell.status = 1;
 			}
 			else
-				change_env_val(args[i], env_list);
+				change_env_val(args[i], &shell.env_list);
 		}
 	}
 }

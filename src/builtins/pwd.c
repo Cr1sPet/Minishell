@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void	pwd(int fd)
+void	pwd(char **args)
 {
 	char	*pwd;
 	char	buf[4096];
 
 	pwd = getcwd(buf, sizeof(buf));
-	if (pwd)
+	if (pwd && args)
 	{
-		ft_putendl_fd(buf, fd);
+		ft_putendl_fd(buf, STDOUT_FILENO);
 		shell.status = 0;
 	}
 	else

@@ -54,8 +54,9 @@ char	*get_env(char *key, t_env_list *env_list)
 	return (NULL);
 }
 
-void	env(char **args, t_env_list *env_list)
+void	env(char **args)
 {
 	shell.status = 0;
-	print_env_list(env_list, 0);
+	if (args)
+		print_env_list(shell.env_list, 0);
 }

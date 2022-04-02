@@ -20,15 +20,13 @@ static int	add_slash(char ***pathes)
 	return (1);
 }
 
-char	**get_pathes(char **envp)
+char	**get_pathes(t_env_list *env_list)
 {
-	int		i;
 	char	*path;
 	char	**pathes;
 
-	i = 0;
 	path = NULL;
-	path = get_env("PATH", shell.env_list);
+	path = get_env("PATH", env_list);
 	if (path)
 	{
 		pathes = ft_split(path, ':');
@@ -93,7 +91,7 @@ int	parse_cmds(t_cmd *cmd)
 		|| !ft_strncmp(shell.cmd_list->args[0], "../", 3) \
 				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2)))
 	{
-		pathes = get_pathes(shell.env);
+		pathes = get_pathes(shell.env_list);
 		if (NULL == pathes)
 			return (0);
 		ok = get_cmd(cmd->args, pathes);

@@ -41,16 +41,6 @@ int	len_2d_str(char **str)
 	return (i);
 }
 
-int	len_env_store(t_env_store *env_store)
-{
-	int	i;
-
-	i = 0;
-	while (env_store[i].key)
-		i++;
-	return (i);
-}
-
 char	*collect_str_env(t_env_list *elem)
 {
 	char	*str;
