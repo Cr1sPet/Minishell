@@ -79,8 +79,10 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 {
 	char	**temp_cmd;
 	char	**cmd;
+	char	*ret;
 
 	temp_cmd = command_split(ft_substr(str, 0, *i), -1, 0, 0);
+	ret = ft_substr(str, *i + 1, ft_strlen(str));
 	cmd = ft_calloc(sizeof(char *), 100);
 	while (temp_cmd[j])
 	{
@@ -101,5 +103,5 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 		redir(temp_cmd, -1);
 	clear_list(temp_cmd);
 	*i = 0;
-	return (ft_substr(str, *i + 1, ft_strlen(str)));
+	return (ret);
 }

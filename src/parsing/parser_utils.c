@@ -83,5 +83,6 @@ int	error_parser(char *cmd)
 {
 	ft_putendl_fd(cmd, 2);
 	clean_cmd_list(shell.cmd_list);
+	shell.cmd_list = NULL;
 	return (-1);
 }
