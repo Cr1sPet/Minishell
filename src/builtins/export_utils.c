@@ -72,12 +72,12 @@ t_env_list	*cp_env(t_env_list *env_list)
 	{
 		key = ft_strdup(env_list->key);
 		if (NULL == key)
-			exit_with_error("Malloc error");
+			exit_with_error("minishell: -: malloc error");
 		if (env_list->val)
 		{
 			val = ft_strdup(env_list->val);
 			if (NULL == val)
-				exit_with_error("Malloc error");
+				exit_with_error("minishell: -: malloc error");
 		}
 		else
 			val = NULL;

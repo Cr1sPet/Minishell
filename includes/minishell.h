@@ -2,7 +2,7 @@
 # define MINISHELL_H
 
 # include <sys/stat.h>
-// # include <wait.h>
+# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -14,13 +14,13 @@
 #include "../libft/libft.h"
 #include "parser.h"
 
-typedef struct s_env_store
+
+typedef struct s_redir
 {
-	char				*key;
-	char				*val;
-	int					equal;
-	// struct s_env_store	*next;
-}				t_env_store;
+	int					type_redr;
+	char				*filename;
+	struct s_redir		*next;
+}				t_redir;
 
 typedef struct s_env_list
 {
@@ -29,6 +29,17 @@ typedef struct s_env_list
 	int					equal;
 	struct s_env_list	*next;
 }				t_env_list;
+
+typedef struct s_cmd
+{
+	char			**args;
+	int				pipe_in;
+	int				pipe_out;
+	t_redir			*redir_in;
+	t_redir			*redir_out;
+	struct s_cmd	*next;
+}				t_cmd;
+
 typedef struct s_minishell
 {
 	int				stdin;
@@ -40,12 +51,13 @@ typedef struct s_minishell
 	int				**fds;
 	int				fd_write;
 	int				fd_read;
+	char			**builtin_names;
+	void			(*builtin_funcs[7])(char **args);
 	pid_t			*pids;
 	t_env_list		*env_list;
 	struct s_cmd	*cmd_list;
 	struct s_cmd	*cmd_list_head;
 }				t_minishell;
-
 
 //typedef struct s_cmd
 //{
@@ -73,23 +85,10 @@ typedef enum e_stat
 	redir_out_2
 }					t_stat;
 
-typedef struct s_redir
-{
-	int					type_redr;
-	char				*filename;
-	struct s_redir		*next;
-}				t_redir;
 
-typedef struct s_cmd
-{
-	char			**args;
-	int				pipe_in;
-	int				pipe_out;
-	t_redir			*redir_in;
-	t_redir			*redir_out;
-	struct s_cmd	*next;
-}				t_cmd;
 
+void	set_builtin_funcs(t_minishell *shell);
+void	set_builtin_names(t_minishell *shell);
 void	clear_all(t_minishell *shell);
 void	cmd_end_works(int **fds, pid_t *pids, int i);
 void	change_shlvl(void);
@@ -119,20 +118,13 @@ void	exit_with_error(char *str);
 int		get_pids_fds(t_cmd *cmd_list);
 int		check_atoi(char *str);
 void	clean_cmd_list(t_cmd *cmd_list);
-void	clean_env_store(t_env_store *env_store, int len);
 void	ft_exit(char **args);
-void	add_env_store(t_env_store *temp, char *flag);
-void	add_val_by_index (t_env_store *env_store, char *val, int index);
-t_env_store	*add_elem_by_index (t_env_store *env_store, t_env_store *elem, int index, int len);
-int		len_env_store(t_env_store *env_store);
-void	add_elem_to_env_store (t_env_store **env_store, t_env_store *elem);
 int		set_redir_in(t_redir *redir);
 int		set_redir_out(t_redir *redir);
 void	*parser(char *str, char **envp);
 char	*ft_dollar(char *str, int *i, char **envp);
 char	*ft_quotes(char *str, int *i);
 char	*ft_quotes_2(char *str, int *i, char **envp);
-// char	*ft_space(char *str, int i);
 void	signal_init();
 char 	*pipe_parse(int *i,char *str, int j, int k);
 char	*correct_str(char *str, char **envp);
@@ -145,8 +137,8 @@ void	ft_lstadd_back_parse(t_cmd **lst, t_cmd *new);
 void	ft_lstadd_back_redir(t_redir **lst, t_redir *new);
 char 	*right_redirect(char *str, int *i, char **envp);
 char *left_redirect(char *str, int *i, char **envp);
-void redir(char **cmd, int i);
-void error_parser(char *cmd);
+int redir(char **cmd, int i);
+int error_parser(char *cmd);
 char	*get_cmds(char *str, int *i, int j);
 char	*get_redir(char *str, int *i, char ch);
 
@@ -154,14 +146,13 @@ t_redir	*lst_redirlast(t_redir *lst);
 void	lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir	*lst_redirnew(char *file, int type);
 
-void	change_env_val(char *input, t_env_list **env_list);
-void	export(t_env_list **env_list, char **args);
+void	change_env_val(t_env_list *elem, t_env_list **env_list);
+void	export(char **args);
 int		len_2d_str(char **str);
-void	env(char **args, t_env_list *env_list);
-void	pwd(int fd);
-void	change_dir();
-void	echo(char **args);
-void	unset(char **args, t_env_list **env_list);
+void	env(char **args);
+void	pwd(char **args);
+void	change_dir(char **args);
+void	unset(char **args);
 int		exec();
 char	**cp_2d_arr(char **envp);
 int		get_ind_env(char *point, char **envp);
@@ -170,9 +161,9 @@ char	*get_env(char *key, t_env_list *env_list);
 void	initialisation(char **envp);
 int	work_here_doc(char *limiter, int *f);
 
+void	echo(char **args);
 char	*collect_str_env (t_env_list *elem);
 char	**collect_env(t_env_list *env_list);
-void	print_env_store(t_env_store *env_store, int fd);
 char	*get_key(char *var);
 int		parse_cmds(t_cmd *cmd);
 int		ft_strcmp(char const *s1, char const *s2);

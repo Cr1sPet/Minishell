@@ -17,25 +17,29 @@ int	open_redirs(t_cmd *cmd_list)
 
 int	fill_temp(t_redir *redir)
 {
+	int		status;
 	int		fds[2];
 	pid_t	pid;
 
-	pipe(fds);
+	if (-1 == pipe(fds))
+		return (-1);
 	pid = fork();
+	if (pid < 0)
+	{
+		close (fds[0]);
+		close (fds[1]);
+		return (-1);
+	}
 	if (0 == pid)
 	{
 		if (-1 == work_here_doc(redir->filename, fds))
-		{
-			ft_putendl_fd("ERROR WITH MALLOC", shell.stdout);
-			exit (1);
-		}
+			exit(1);
 		exit(0);
 	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		close (fds[1]);
-	}
+	waitpid(pid, &status, 0);
+	close (fds[1]);
+	if (1 == status)
+		exit_with_error("minishell: -: malloc error");
 	return (fds[0]);
 }
 
@@ -53,11 +57,7 @@ int	set_redir_in(t_redir *redir)
 			fd = fill_temp(redir);
 		if (-1 == fd)
 		{
-			str = ft_strjoin("minishell: ", redir->filename);
-			if (NULL == str)
-				exit_with_error("Malloc error");
-			perror(str);
-			free (str);
+			print_error(redir->filename, strerror(errno));
 			return (0);
 		}
 		shell.fd_read = dup(fd);
@@ -83,11 +83,7 @@ int	set_redir_out(t_redir *redir)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (-1 == fd)
 		{
-			str = ft_strjoin("minishell: ", redir->filename);
-			if (NULL == str)
-				exit_with_error("Malloc error");
-			perror(str);
-			free (str);
+			print_error(redir->filename, strerror(errno));
 			return (0);
 		}
 		shell.fd_write = fd;

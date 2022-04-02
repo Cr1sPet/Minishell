@@ -7,15 +7,15 @@ t_env_list	*get_env_elem(char *input)
 	elem = (t_env_list *) malloc (sizeof(t_env_list));
 	elem->equal = 0;
 	if (NULL == elem)
-		exit_with_error("Malloc error");
+		exit_with_error("minishell: -: malloc error");
 	elem->key = get_key(input);
 	if (NULL == elem->key)
-		exit_with_error("Malloc error");
+		exit_with_error("minishell: -: malloc error");
 	if (ft_strchr(input, '='))
 	{
 		elem->val = ft_strdup(ft_strchr(input, '=') + 1);
 		if (NULL == elem->val)
-			exit_with_error("Malloc error");
+			exit_with_error("minishell: -: malloc error");
 		elem->equal = 1;
 	}
 	else
@@ -51,7 +51,7 @@ int	len_env_list(int mode, t_env_list *env_list)
 	}
 	if (1 == mode)
 		return (i);
-	else if (0 == mode)
+	else
 		return (i - j);
 }
 
@@ -84,4 +84,6 @@ void	initialisation(char **envp)
 	get_env_list(&shell.env_list, envp);
 	change_shlvl();
 	shell.env = collect_env(shell.env_list);
+	set_builtin_funcs(&shell);
+	set_builtin_names(&shell);
 }

@@ -35,20 +35,6 @@ void	clean_cmd_list(t_cmd *cmd_list)
 	cmd_list = NULL;
 }
 
-void	clean_env_store(t_env_store *env_store, int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free(env_store[i].val);
-		free(env_store[i].key);
-		i++;
-	}
-	free(env_store);
-}
-
 void	clean_env_list(t_env_list *list)
 {
 	t_env_list	*temp_list;
@@ -66,7 +52,8 @@ void	clean_env_list(t_env_list *list)
 
 void	print_error(char *arg, char *err_name)
 {
-	ft_putstr_fd("minishell : ", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putendl_fd(err_name, STDERR_FILENO);
 }

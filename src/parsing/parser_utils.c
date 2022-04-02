@@ -79,8 +79,9 @@ char	*correct_str(char *str, char **envp)
 	return (temp);
 }
 
-void	error_parser(char *cmd)
+int	error_parser(char *cmd)
 {
 	ft_putendl_fd(cmd, 2);
 	clean_cmd_list(shell.cmd_list);
+	return (-1);
 }

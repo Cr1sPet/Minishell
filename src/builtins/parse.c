@@ -20,15 +20,13 @@ static int	add_slash(char ***pathes)
 	return (1);
 }
 
-char	**get_pathes(char **envp)
+char	**get_pathes(t_env_list *env_list)
 {
-	int		i;
 	char	*path;
 	char	**pathes;
 
-	i = 0;
 	path = NULL;
-	path = get_env("PATH", shell.env_list);
+	path = get_env("PATH", env_list);
 	if (path)
 	{
 		pathes = ft_split(path, ':');
@@ -70,8 +68,7 @@ static int	get_cmd(char **args, char **pathes)
 	ok = set_path (&args[0], pathes);
 	if (0 == ok)
 	{
-		ft_putendl_fd("MALLOC ERROR", 2);
-		exit (1);
+		exit_with_error("minishell: -: malloc error");
 	}
 	else if (-1 == ok)
 	{
@@ -94,7 +91,7 @@ int	parse_cmds(t_cmd *cmd)
 		|| !ft_strncmp(shell.cmd_list->args[0], "../", 3) \
 				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2)))
 	{
-		pathes = get_pathes(shell.env);
+		pathes = get_pathes(shell.env_list);
 		if (NULL == pathes)
 			return (0);
 		ok = get_cmd(cmd->args, pathes);

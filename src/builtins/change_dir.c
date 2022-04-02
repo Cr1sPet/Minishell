@@ -2,9 +2,6 @@
 
 int	envlist_chr(char *key, t_env_list *env_list)
 {
-	int	i;
-
-	i = 0;
 	while (env_list)
 	{
 		if (!ft_strcmp(key, env_list->key))
@@ -26,9 +23,7 @@ void	change_pwd(char *dest)
 		return ;
 	temp.key = dest;
 	temp.val = pwd;
-	str = collect_str_env(&temp);
-	change_env_val(str, &shell.env_list);
-	free(str);
+	change_env_val(&temp, &shell.env_list);
 }
 
 void	change_dir(char **args)

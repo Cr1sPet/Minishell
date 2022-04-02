@@ -54,7 +54,7 @@ int	init_fds(t_minishell *shell)
 			shell->fds[i] = (int *)malloc(sizeof(int) * 2);
 			if (-1 == pipe(shell->fds[i]))
 			{
-				print_error("-", ": pipe() error");
+				print_error("-", "pipe error");
 				shell->fds[i] = NULL;
 				return (-1);
 			}

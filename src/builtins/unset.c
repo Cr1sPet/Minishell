@@ -51,7 +51,7 @@ int	valid_unset(char *arg)
 	return (1);
 }
 
-void	unset(char **args, t_env_list **env_list)
+void	unset(char **args)
 {
 	int		i;
 
@@ -65,7 +65,7 @@ void	unset(char **args, t_env_list **env_list)
 			shell.status = 1;
 		}
 		else
-			lst_env_pop(env_list, args[i]);
+			lst_env_pop(&shell.env_list, args[i]);
 		i++;
 	}
 }

@@ -3,6 +3,7 @@
 void	exit_with_error(char *str)
 {
 	ft_putendl_fd(str, STDERR_FILENO);
+	clear_all(&shell);
 	exit(1);
 }
 
@@ -36,16 +37,6 @@ int	len_2d_str(char **str)
 
 	i = 0;
 	while (str[i])
-		i++;
-	return (i);
-}
-
-int	len_env_store(t_env_store *env_store)
-{
-	int	i;
-
-	i = 0;
-	while (env_store[i].key)
 		i++;
 	return (i);
 }

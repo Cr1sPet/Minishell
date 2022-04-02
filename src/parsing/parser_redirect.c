@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 // void	add_redir_list(char **cmd, int i, t_redir *redir, int type)
 // {
 // 	if (!cmd[i + 1])
@@ -41,7 +40,7 @@
 // }
 
 
-void	redir(char **cmd, int i)
+int	redir(char **cmd, int i)
 {
 	while(cmd[++i])
     {
@@ -70,4 +69,5 @@ void	redir(char **cmd, int i)
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_in_1));
         }
     }
+	return 1;
 }
