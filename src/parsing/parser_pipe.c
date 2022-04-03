@@ -103,5 +103,6 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 		redir(temp_cmd, -1);
 	clear_list(temp_cmd);
 	*i = 0;
+	free(str);
 	return (ret);
 }
