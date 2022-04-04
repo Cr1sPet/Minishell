@@ -101,8 +101,8 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 	ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
 	if (check_redir(str, *i))
 		redir(temp_cmd, -1);
+	free(str);
 	clear_list(temp_cmd);
 	*i = 0;
-	free(str);
 	return (ret);
 }

@@ -72,16 +72,21 @@ void	*parser(char *str, char **envp)
 		exit(shell.status);			
 		return NULL;
 	}
-	if (str && str[0] == '\0')
+	else if (str && str[0] == '\0')
+	{
+		free(str);
 		return (NULL);
-	if (!prepars(str) || str[0] == '|')
+	}
+	else if (!prepars(str) || str[0] == '|')
+	{
+		free(str);
 		error_parser("Syntax Error");
+	}
 	else
 	{
 		str = correct_str(str, envp);
 		cmd_split(str, envp);
 		check_pipe();
-		free(str);
 	}
 // 	while (shell.cmd_list)
 //   {

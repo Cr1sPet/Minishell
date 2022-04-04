@@ -3,7 +3,7 @@ void	sig_INT()
 {
 		rl_on_new_line();
 		write(2, "  \n", 3);
-		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 }
 
