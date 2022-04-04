@@ -26,15 +26,19 @@ int	envlist_chr(char *key, t_env_list *env_list)
 void	change_pwd(char *dest)
 {
 	char		*pwd;
-	t_env_list	temp;
+	t_env_list	*temp;
 	char		buf[4096];
 
+	temp = (t_env_list *) malloc(sizeof(t_env_list));
+	if (NULL == temp)
+		exit_with_error("minishell: -: malloc error");
 	pwd = getcwd(buf, sizeof(buf));
 	if (!pwd)
 		return ;
-	temp.key = dest;
-	temp.val = pwd;
-	change_env_val(&temp, &g_shell.env_list);
+	temp->key = ft_strdup(dest);
+	temp->val = ft_strdup(pwd);
+	temp->equal = 1;
+	change_env_val(temp, &g_shell.env_list);
 }
 
 void	change_dir(char **args)

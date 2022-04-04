@@ -16,7 +16,7 @@ void	set_builtin_names(t_minishell *shell)
 {
 	char	*all_builtins;
 
-	all_builtins = ft_strdup("change_dir env echo exit export pwd unset");
+	all_builtins = ft_strdup("cd env echo exit export pwd unset");
 	if (NULL == all_builtins)
 		exit_with_error("minishell: -: malloc error");
 	shell->builtin_names = ft_split(all_builtins, ' ');

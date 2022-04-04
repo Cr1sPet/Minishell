@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <sys/stat.h>
-// # include <wait.h>
+# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
