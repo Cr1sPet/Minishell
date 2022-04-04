@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 19:05:32 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:43:43 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	memclean(char **s, size_t l)
@@ -56,7 +68,7 @@ char	*get_env(char *key, t_env_list *env_list)
 
 void	env(char **args)
 {
-	shell.status = 0;
+	g_shell.status = 0;
 	if (args)
-		print_env_list(shell.env_list, 0);
+		print_env_list(g_shell.env_list, 0);
 }

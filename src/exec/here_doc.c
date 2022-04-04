@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 18:59:35 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:41:08 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*change_dollar(char *str)
@@ -12,7 +24,7 @@ static char	*change_dollar(char *str)
 	{
 		if ('$' == str[i])
 		{
-			temp = ft_dollar(str, &(i), shell.env);
+			temp = ft_dollar(str, &(i), g_shell.env);
 			if (!temp)
 				return (NULL);
 			if (!ft_strcmp(save, temp))
@@ -31,6 +43,7 @@ int	work_here_doc(char *limiter, int *f)
 {
 	char	*str;
 
+	signal_init_here();
 	while (1)
 	{
 		str = readline("> ");

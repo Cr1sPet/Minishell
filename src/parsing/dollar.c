@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 19:11:15 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/01 19:17:18 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:45:32 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*envp_value(char *key, char **envp, int z, int k)
 	char	*value;
 
 	if (key[0] == '?' && ft_strlen(key) == 1)
-		return (value = ft_itoa(shell.status));
+		return (value = ft_itoa(g_shell.status));
 	while (envp[++k])
 	{
 		z = 0;

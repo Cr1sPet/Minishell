@@ -1,14 +1,40 @@
-# include "minishell.h"
-void	sig_INT()
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 18:56:30 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:45:49 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	sig_init(int sig)
 {
-		rl_on_new_line();
-		write(2, "  \n", 3);
-		rl_on_new_line();
-		rl_redisplay();
+	(void)sig;
+	write(2, "  \n", 3);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_shell.status = 130;
 }
 
-void signal_init()
+void	signal_init(void)
 {
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGINT, sig_INT);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+}
+
+void	signal_init_main(void)
+{
+	signal(SIGINT, sig_init);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	signal_init_here(void)
+{
+	signal(SIGINT, SIG_DFL);
 }

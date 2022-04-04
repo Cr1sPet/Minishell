@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 19:13:43 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:43:51 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	del_lst_env_elem(t_env_list *env_list)
@@ -56,16 +68,16 @@ void	unset(char **args)
 	int		i;
 
 	i = 0;
-	shell.status = 0;
+	g_shell.status = 0;
 	while (args[i])
 	{
 		if (!valid_unset(args[i]))
 		{
 			ft_putendl_fd("not a valid identifier", STDERR_FILENO);
-			shell.status = 1;
+			g_shell.status = 1;
 		}
 		else
-			lst_env_pop(&shell.env_list, args[i]);
+			lst_env_pop(&g_shell.env_list, args[i]);
 		i++;
 	}
 }

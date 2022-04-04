@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 19:05:46 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:44:37 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	add_slash(char ***pathes)
@@ -74,7 +86,7 @@ static int	get_cmd(char **args, char **pathes)
 	{
 		ft_putstr_fd(args[0], STDERR_FILENO);
 		ft_putendl_fd(": command not found ", STDERR_FILENO);
-		shell.status = 127;
+		g_shell.status = 127;
 		ok = 0;
 	}
 	return (ok);
@@ -87,11 +99,11 @@ int	parse_cmds(t_cmd *cmd)
 	int			ok;
 
 	ok = 1;
-	if (!('/' == shell.cmd_list->args[0][0] \
-		|| !ft_strncmp(shell.cmd_list->args[0], "../", 3) \
-				|| !ft_strncmp(shell.cmd_list->args[0], "./", 2)))
+	if (!('/' == g_shell.cmd_list->args[0][0] \
+		|| !ft_strncmp(g_shell.cmd_list->args[0], "../", 3) \
+				|| !ft_strncmp(g_shell.cmd_list->args[0], "./", 2)))
 	{
-		pathes = get_pathes(shell.env_list);
+		pathes = get_pathes(g_shell.env_list);
 		if (NULL == pathes)
 			return (0);
 		ok = get_cmd(cmd->args, pathes);
@@ -100,7 +112,7 @@ int	parse_cmds(t_cmd *cmd)
 	ret = file_check(cmd->args[0], 0);
 	if (ret != 0)
 	{
-		shell.status = ret;
+		g_shell.status = ret;
 		ok = 0;
 	}
 	return (ok);
