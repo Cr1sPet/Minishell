@@ -47,25 +47,25 @@ int	redir(char **cmd, int i)
         if (ft_strncmp(cmd[i], "<<", 2) == 0 && ft_strlen(cmd[i]) == 2)
         {
             if (!cmd[i + 1])
-                return (error_parser("Syntax Error"));
+                return (error_parser("minishell: syntax error near unexpected token `newline'"));
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_in_2));
         }
         else if (ft_strncmp(cmd[i], ">>", 2) == 0 && ft_strlen(cmd[i]) == 2)
         {
             if (!cmd[i + 1])
-                return (error_parser("Syntax Error"));
+                return (error_parser("minishell: syntax error near unexpected token `newline'"));
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_out_2));
         }
         else if (ft_strncmp(cmd[i], ">", 1) == 0 && ft_strlen(cmd[i]) == 1)
         {
             if (!cmd[i + 1])
-                return (error_parser("Syntax Error"));
+                return (error_parser("minishell: syntax error near unexpected token `newline'"));
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_out_1));
         }
         else if (ft_strncmp(cmd[i], "<", 1) == 0 && ft_strlen(cmd[i]) == 1)
         {
             if (!cmd[i + 1])
-                return (error_parser("Syntax Error"));
+                return (error_parser("minishell: syntax error near unexpected token `newline'"));
             ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_in_1));
         }
     }

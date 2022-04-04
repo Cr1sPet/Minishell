@@ -24,6 +24,7 @@ int	fill_temp(t_redir *redir)
 	if (-1 == pipe(fds))
 		return (-1);
 	pid = fork();
+	signal_init();
 	if (pid < 0)
 	{
 		close (fds[0]);

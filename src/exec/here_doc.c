@@ -30,7 +30,8 @@ static char	*change_dollar(char *str)
 int	work_here_doc(char *limiter, int *f)
 {
 	char	*str;
-
+	
+	signal_init_here();
 	while (1)
 	{
 		str = readline("> ");

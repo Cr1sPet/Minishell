@@ -171,4 +171,6 @@ void	lst_cmdadd_back(t_cmd **lst, t_cmd *new);
 t_cmd	*lst_cmdnew(t_minishell *mshell);
 t_cmd	*lst_cmdlast(t_cmd *lst);
 t_minishell	shell;
+void signal_init_main();
+void signal_init_here();
 #endif
