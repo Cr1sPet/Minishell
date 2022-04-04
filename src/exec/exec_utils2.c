@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 18:59:26 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:13:15 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	close_fds(int	**fds)
@@ -38,8 +50,6 @@ void	wait_pids(pid_t	*pids, int nmb)
 
 void	cmd_end_works(int **fds, pid_t *pids, int i)
 {
-	// close (shell.fd_write);
-	// close (shell.fd_read);
 	close_fds(fds);
 	wait_pids(pids, i);
 	dup2(shell.stdin, STDIN_FILENO);

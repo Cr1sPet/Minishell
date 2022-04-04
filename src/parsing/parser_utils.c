@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:50:56 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/01 21:53:55 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 18:48:27 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ int	prepars(const char *str)
 			if (!str[i] || str[i] != ch)
 				return (0);
 		}
-	}
-	i = -1;
-	while (str[++i])
-	{
 		if (str[i] == '|')
 		{
 			while (str[++i] && str[i] == ' ')
@@ -44,15 +40,11 @@ int	prepars(const char *str)
 	return (1);
 }
 
-char	*correct_str(char *str, char **envp)
+char	*correct_str(char *str, char **envp, int i, int ok)
 {
-	int		i;
-	int		ok;
 	char	*temp;
 	char	*temp_2;
 
-	i = -1;
-	ok = 0;
 	temp = ft_strdup(str);
 	free(str);
 	while (temp[++i])
@@ -65,10 +57,8 @@ char	*correct_str(char *str, char **envp)
 		if (temp[i] == '\"' && ok)
 			ok--;
 		if (temp[i] == '\'' && ok != 1)
-		{
 			while (temp[++i] && temp[i] != '\'')
 				;
-		}
 		if ('$' == temp[i])
 		{
 			temp_2 = ft_strdup(temp);

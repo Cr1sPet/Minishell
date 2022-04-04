@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/04 18:59:30 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/04 19:10:12 by spurple          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	set_fd_out(t_cmd *cmd_list, int i)
@@ -62,6 +74,7 @@ void	exe(t_cmd *cmd_list, int i, int j)
 	char	*str;
 
 	shell.pids[i] = fork();
+	signal_init();
 	if (-1 == shell.pids[i])
 	{
 		print_error("-", "fork() error");
@@ -69,6 +82,7 @@ void	exe(t_cmd *cmd_list, int i, int j)
 	}
 	else if (0 == shell.pids[i])
 	{
+		signal_init_here();
 		set_fd(cmd_list, j);
 		close_fds(shell.fds);
 		execve(cmd_list->args[0], cmd_list->args, shell.env);

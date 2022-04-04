@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 19:55:59 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/01 20:33:03 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 18:25:25 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,19 @@ void	clear_list(char **cmd)
 	free(cmd);
 }
 
+int	check_redir_cmd(char *cmd)
+{
+	if ((ft_strncmp(cmd, ">", 1) == 0 && \
+		ft_strlen(cmd) == 1) || \
+		(ft_strncmp(cmd, ">>", 2) == 0 && \
+		ft_strlen(cmd) == 2) || \
+		(ft_strncmp(cmd, "<", 1) == 0 && \
+		ft_strlen(cmd) == 1) || \
+		(ft_strncmp(cmd, "<<", 2) == 0 && ft_strlen(cmd) == 2))
+		return (1);
+	return (0);
+}
+
 char	*pipe_parse(int *i, char *str, int j, int k)
 {
 	char	**temp_cmd;
@@ -86,13 +99,7 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 	cmd = ft_calloc(sizeof(char *), 100);
 	while (temp_cmd[j])
 	{
-		if ((ft_strncmp(temp_cmd[j], ">", 1) == 0 && \
-		ft_strlen(temp_cmd[j]) == 1) || \
-		(ft_strncmp(temp_cmd[j], ">>", 2) == 0 && \
-		ft_strlen(temp_cmd[j]) == 2) || \
-		(ft_strncmp(temp_cmd[j], "<", 1) == 0 && \
-		ft_strlen(temp_cmd[j]) == 1) || \
-		(ft_strncmp(temp_cmd[j], "<<", 2) == 0 && ft_strlen(temp_cmd[j]) == 2))
+		if (check_redir_cmd(temp_cmd[j]))
 			j++;
 		else
 			cmd[k++] = ft_strdup(temp_cmd[j]);
