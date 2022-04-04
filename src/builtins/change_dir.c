@@ -14,7 +14,6 @@ int	envlist_chr(char *key, t_env_list *env_list)
 void	change_pwd(char *dest)
 {
 	char		*pwd;
-	char		*str;
 	t_env_list	temp;
 	char		buf[4096];
 

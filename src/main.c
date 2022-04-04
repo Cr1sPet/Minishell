@@ -22,6 +22,12 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		cmd = get_cmd();
+		if (!cmd)
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
+			clear_all(&shell);
+			exit (shell.status);
+		}
 		parser(cmd, shell.env);
 		shell.cmd_list_head = shell.cmd_list;
 		exec(shell.cmd_list);
