@@ -16,13 +16,11 @@ void signal_init()
 
 void signal_init_main()
 {
-	signal(SIGTERM, SIG_IGN);
 	signal(SIGINT, sig_INT);
 	signal(SIGQUIT, SIG_IGN);
 }
 
 void signal_init_here()
 {
-	signal(SIGTERM, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 }
