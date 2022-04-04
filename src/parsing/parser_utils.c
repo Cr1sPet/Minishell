@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:50:56 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:45:43 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 20:08:10 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int	error_parser(char *cmd)
 	ft_putendl_fd(cmd, 2);
 	clean_cmd_list(g_shell.cmd_list);
 	g_shell.cmd_list = NULL;
+	g_shell.status = 1;
 	return (-1);
 }

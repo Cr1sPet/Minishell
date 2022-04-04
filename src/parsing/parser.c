@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:52:05 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:45:25 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 20:06:19 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	*parser(char *str)
 	{
 		free(str);
 		error_parser("minishell: syntax error near unexpected token");
+		g_shell.status = 1;
 	}
 	else
 	{
