@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:41 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:05:42 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:44:21 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,23 @@ void	export(char **args)
 	int			len;
 
 	i = 0;
-	shell.status = 0;
+	g_shell.status = 0;
 	len = len_2d_str(args);
 	if (1 == len)
-		print_export(shell.env_list);
+		print_export(g_shell.env_list);
 	while (len > 1 && args[++i])
 	{
 		if (!valid_export(args[i]))
 		{
 			ft_putendl_fd("not a valid identifier", STDERR_FILENO);
-			shell.status = 1;
+			g_shell.status = 1;
 		}
 		else
 		{
 			elem = get_env_elem(args[i]);
 			if (!elem)
 				exit_with_error("minishell: -: malloc error");
-			change_env_val(elem, &shell.env_list);
+			change_env_val(elem, &g_shell.env_list);
 		}
 	}
 }

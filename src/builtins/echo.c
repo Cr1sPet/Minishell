@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:29 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:05:30 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:43:28 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	echo(char **args)
 	int	len;
 
 	len = 0;
-	shell.status = 0;
+	g_shell.status = 0;
 	while (args[len])
 		len++;
 	if (1 == len)

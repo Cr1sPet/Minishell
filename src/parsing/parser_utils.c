@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:50:56 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 18:48:27 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:45:43 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	prepars(const char *str)
 	return (1);
 }
 
-char	*correct_str(char *str, char **envp, int i, int ok)
+char	*correct_str(char *str, int i, int ok)
 {
 	char	*temp;
 	char	*temp_2;
@@ -63,7 +63,7 @@ char	*correct_str(char *str, char **envp, int i, int ok)
 		{
 			temp_2 = ft_strdup(temp);
 			free(temp);
-			temp = ft_dollar(temp_2, &(i), shell.env);
+			temp = ft_dollar(temp_2, &(i), g_shell.env);
 		}
 	}
 	return (temp);
@@ -72,7 +72,7 @@ char	*correct_str(char *str, char **envp, int i, int ok)
 int	error_parser(char *cmd)
 {
 	ft_putendl_fd(cmd, 2);
-	clean_cmd_list(shell.cmd_list);
-	shell.cmd_list = NULL;
+	clean_cmd_list(g_shell.cmd_list);
+	g_shell.cmd_list = NULL;
 	return (-1);
 }

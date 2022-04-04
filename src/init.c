@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:14:00 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:14:01 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:42:15 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**collect_env(t_env_list *env_list)
 	char	**env;
 
 	i = 0;
-	len = len_env_list(0, shell.env_list);
+	len = len_env_list(0, g_shell.env_list);
 	env = (char **)malloc (sizeof(char *) * (len + 1));
 	while (i < len)
 	{
@@ -89,13 +89,13 @@ char	**collect_env(t_env_list *env_list)
 
 void	initialisation(char **envp)
 {
-	shell.stdin = dup(STDIN_FILENO);
-	shell.stdout = dup(STDOUT_FILENO);
-	shell.status = 0;
-	shell.env_list = NULL;
-	get_env_list(&shell.env_list, envp);
+	g_shell.stdin = dup(STDIN_FILENO);
+	g_shell.stdout = dup(STDOUT_FILENO);
+	g_shell.status = 0;
+	g_shell.env_list = NULL;
+	get_env_list(&g_shell.env_list, envp);
 	change_shlvl();
-	shell.env = collect_env(shell.env_list);
-	set_builtin_funcs(&shell);
-	set_builtin_names(&shell);
+	g_shell.env = collect_env(g_shell.env_list);
+	set_builtin_funcs(&g_shell);
+	set_builtin_names(&g_shell);
 }

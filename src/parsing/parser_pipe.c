@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 19:55:59 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 18:25:25 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:45:54 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	**command_split(char *str, int i, int j, int h)
 {
 	char	**cmds;
-	char	ch;
 
 	cmds = ft_calloc(sizeof(char *), 100);
 	while (str[++i])
@@ -105,7 +104,7 @@ char	*pipe_parse(int *i, char *str, int j, int k)
 			cmd[k++] = ft_strdup(temp_cmd[j]);
 		j++;
 	}
-	ft_lstadd_back_parse(&shell.cmd_list, ft_lstnew_parse(cmd));
+	ft_lstadd_back_parse(&g_shell.cmd_list, ft_lstnew_parse(cmd));
 	if (check_redir(str, *i))
 		redir(temp_cmd, -1);
 	free(str);

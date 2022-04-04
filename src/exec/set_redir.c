@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 18:59:43 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:02:44 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:45:00 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	fill_temp(t_redir *redir)
 int	set_redir_in(t_redir *redir)
 {
 	int		fd;
-	char	*str;
 
 	fd = -2;
 	while (redir)
@@ -73,7 +72,7 @@ int	set_redir_in(t_redir *redir)
 			print_error(redir->filename, strerror(errno));
 			return (0);
 		}
-		shell.fd_read = dup(fd);
+		g_shell.fd_read = dup(fd);
 		close (fd);
 		redir = redir->next;
 	}
@@ -83,7 +82,6 @@ int	set_redir_in(t_redir *redir)
 int	set_redir_out(t_redir *redir)
 {
 	int		fd;
-	char	*str;
 
 	fd = -2;
 	while (redir)
@@ -99,7 +97,7 @@ int	set_redir_out(t_redir *redir)
 			print_error(redir->filename, strerror(errno));
 			return (0);
 		}
-		shell.fd_write = fd;
+		g_shell.fd_write = fd;
 		redir = redir->next;
 	}
 	return (1);

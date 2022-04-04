@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:13:53 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:13:54 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:42:21 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	get_shlvl(void)
 {
 	char	*val;
 
-	val = get_env("SHLVL", shell.env_list);
+	val = get_env("SHLVL", g_shell.env_list);
 	if (NULL == val)
 		return (1);
 	if (check_atoi(val))
@@ -45,5 +45,5 @@ void	change_shlvl(void)
 	elem->key = ft_strdup("SHLVL");
 	elem->val = val;
 	elem->equal = 1;
-	change_env_val(elem, &shell.env_list);
+	change_env_val(elem, &g_shell.env_list);
 }

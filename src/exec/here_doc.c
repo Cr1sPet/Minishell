@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 18:59:35 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:09:38 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:41:08 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*change_dollar(char *str)
 	{
 		if ('$' == str[i])
 		{
-			temp = ft_dollar(str, &(i), shell.env);
+			temp = ft_dollar(str, &(i), g_shell.env);
 			if (!temp)
 				return (NULL);
 			if (!ft_strcmp(save, temp))

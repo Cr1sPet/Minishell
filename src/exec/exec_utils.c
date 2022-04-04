@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 18:59:15 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 18:59:17 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:41:42 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,30 @@ int	len_cmd_list(t_cmd *cmd)
 	return (i);
 }
 
-int	init_fds(t_minishell *shell)
+int	init_fds(t_minishell *g_shell)
 {
 	int	i;
 	int	len_cmd;
 
 	i = 0;
-	len_cmd = len_cmd_list(shell->cmd_list);
+	len_cmd = len_cmd_list(g_shell->cmd_list);
 	if (len_cmd > 1)
 	{
-		shell->fds = (int **)malloc(sizeof(int *) * len_cmd);
-		if (NULL == shell->fds)
+		g_shell->fds = (int **)malloc(sizeof(int *) * len_cmd);
+		if (NULL == g_shell->fds)
 			exit_with_error("minishell: malloc error");
 		while (i < len_cmd - 1)
 		{
-			shell->fds[i] = (int *)malloc(sizeof(int) * 2);
-			if (-1 == pipe(shell->fds[i]))
+			g_shell->fds[i] = (int *)malloc(sizeof(int) * 2);
+			if (-1 == pipe(g_shell->fds[i]))
 			{
 				print_error("-", "pipe error");
-				shell->fds[i] = NULL;
+				g_shell->fds[i] = NULL;
 				return (-1);
 			}
 			i++;
 		}
-		shell->fds[len_cmd - 1] = NULL;
+		g_shell->fds[len_cmd - 1] = NULL;
 	}
 	return (1);
 }
@@ -83,23 +83,23 @@ int	get_pids_fds(t_cmd *cmd_list)
 	int	i;
 
 	exec_nmb = 0;
-	shell.pids = NULL;
-	shell.fds = NULL;
+	g_shell.pids = NULL;
+	g_shell.fds = NULL;
 	exec_nmb = get_exec_nmb(cmd_list);
 	if (exec_nmb)
 	{
-		shell.pids = (pid_t *)malloc(sizeof(pid_t) * exec_nmb);
-		if (NULL == shell.pids)
+		g_shell.pids = (pid_t *)malloc(sizeof(pid_t) * exec_nmb);
+		if (NULL == g_shell.pids)
 			exit_with_error("minishell : malloc error");
 	}
-	if (-1 == init_fds(&shell))
+	if (-1 == init_fds(&g_shell))
 	{
 		i = 0;
-		free (shell.pids);
-		close_fds(shell.fds);
-		while (shell.fds[i])
-			free(shell.fds[i++]);
-		free(shell.fds);
+		free (g_shell.pids);
+		close_fds(g_shell.fds);
+		while (g_shell.fds[i])
+			free(g_shell.fds[i++]);
+		free(g_shell.fds);
 		return (0);
 	}
 	return (1);

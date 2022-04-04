@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:18:27 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 18:55:42 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:46:05 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	add_redir_in_2(char **cmd, int i)
 	if (!cmd[i + 1])
 		return (error_parser(\
 		"minishell: syntax error near unexpected token `newline'"));
-	ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, \
+	ft_lstadd_back_redir(&ft_lstlast_parse(g_shell.cmd_list)->redir_in, \
 	ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_in_2));
 	return (1);
 }
@@ -27,7 +27,7 @@ int	add_redir_out_2(char **cmd, int i)
 	if (!cmd[i + 1])
 		return (error_parser(\
 		"minishell: syntax error near unexpected token `newline'"));
-	ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, \
+	ft_lstadd_back_redir(&ft_lstlast_parse(g_shell.cmd_list)->redir_out, \
 	ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_out_2));
 	return (1);
 }
@@ -37,7 +37,7 @@ int	add_redir_out_1(char **cmd, int i)
 	if (!cmd[i + 1])
 		return (error_parser(\
 		"minishell: syntax error near unexpected token `newline'"));
-	ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_out, \
+	ft_lstadd_back_redir(&ft_lstlast_parse(g_shell.cmd_list)->redir_out, \
 	ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_out_1));
 	return (1);
 }
@@ -47,7 +47,7 @@ int	add_redir_in_1(char **cmd, int i)
 	if (!cmd[i + 1])
 		return (error_parser(\
 		"minishell: syntax error near unexpected token `newline'"));
-	ft_lstadd_back_redir(&ft_lstlast_parse(shell.cmd_list)->redir_in, \
+	ft_lstadd_back_redir(&ft_lstlast_parse(g_shell.cmd_list)->redir_in, \
 	ft_lstnew_redir(ft_strdup(cmd[i + 1]), redir_in_1));
 	return (1);
 }

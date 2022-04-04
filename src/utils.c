@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:14:28 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:14:43 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:44:46 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	exit_with_error(char *str)
 {
 	ft_putendl_fd(str, STDERR_FILENO);
-	clear_all(&shell);
+	clear_all(&g_shell);
 	exit(1);
 }
 

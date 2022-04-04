@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:36 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:05:37 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/04 19:43:21 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_exit(char **args)
 	{
 		ft_putendl_fd("exit", STDOUT_FILENO);
 		print_error("exit", "too many arguments");
-		shell.status = 1;
+		g_shell.status = 1;
 		return ;
 	}
 	if (args[1])
@@ -84,15 +84,15 @@ void	ft_exit(char **args)
 		if (check_atoi(args[1]))
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			shell.status = ft_atoi_ull(args[1]);
+			g_shell.status = ft_atoi_ull(args[1]);
 		}
 		else
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			print_error("exit", "numeric argement required");
-			shell.status = 2;
+			g_shell.status = 2;
 		}
 	}
-	clear_all(&shell);
-	exit (shell.status);
+	clear_all(&g_shell);
+	exit (g_shell.status);
 }
