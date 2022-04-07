@@ -56,13 +56,14 @@ int	try_builtin(char **args, int j)
 	int	i;
 
 	i = 0;
+	g_shell.status = 0;
 	while (g_shell.builtin_names[i] && \
 	ft_strcmp(g_shell.builtin_names[i], args[0]))
 		i++;
 	if (g_shell.builtin_names[i])
 	{
 		set_fd(g_shell.cmd_list, j);
-		(*g_shell.builtin_funcs[i])(args);
+		(*g_shell.builtin_funcs[i])();
 		dup2(g_shell.stdin, STDIN_FILENO);
 		dup2(g_shell.stdout, STDOUT_FILENO);
 		return (1);

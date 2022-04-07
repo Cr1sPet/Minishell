@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <sys/stat.h>
-// # include <wait.h>
+# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -24,6 +24,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+
+# define ENV_MODE 0
+# define EXPORT_MODE 1
 
 typedef struct s_redir
 {
@@ -62,7 +65,7 @@ typedef struct s_minishell
 	int				fd_write;
 	int				fd_read;
 	char			**builtin_names;
-	void			(*builtin_funcs[7])(char **args);
+	void			(*builtin_funcs[7])(void);
 	pid_t			*pids;
 	t_env_list		*env_list;
 	struct s_cmd	*cmd_list;
@@ -112,7 +115,7 @@ void		exit_with_error(char *str);
 int			get_pids_fds(t_cmd *cmd_list);
 int			check_atoi(char *str);
 void		clean_cmd_list(t_cmd *cmd_list);
-void		ft_exit(char **args);
+void		ft_exit(void);
 int			set_redir_in(t_redir *redir);
 int			set_redir_out(t_redir *redir);
 void		*parser(char *str);
@@ -139,20 +142,20 @@ t_redir		*lst_redirlast(t_redir *lst);
 void		lst_rediradd_back(t_redir **redir, t_redir *new);
 t_redir		*lst_redirnew(char *file, int type);
 void		change_env_val(t_env_list *elem, t_env_list **env_list);
-void		export(char **args);
 int			len_2d_str(char **str);
-void		env(char **args);
-void		pwd(char **args);
-void		change_dir(char **args);
-void		unset(char **args);
+void		export(void);
+void		env(void);
+void		pwd(void);
+void		change_dir(void);
+void		unset(void);
 int			exec(void);
+void		echo(void);
 char		**cp_2d_arr(char **envp);
 int			get_ind_env(char *point, char **envp);
 void		memclean(char **s, size_t l);
 char		*get_env(char *key, t_env_list *env_list);
 void		initialisation(char **envp);
 int			work_here_doc(char *limiter, int *f);
-void		echo(char **args);
 char		*collect_str_env(t_env_list *elem);
 char		**collect_env(t_env_list *env_list);
 char		*get_key(char *var);

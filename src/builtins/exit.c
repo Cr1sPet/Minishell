@@ -70,11 +70,14 @@ void	clear_all(t_minishell *shell)
 	memclean(shell->env, len_2d_str(shell->env));
 }
 
-void	ft_exit(char **args)
+void	ft_exit(void)
 {
+	char	**args;
+
+	args = g_shell.cmd_list->args;
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (len_2d_str(args) > 2 && check_atoi(args[1]))
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
 		print_error("exit", "too many arguments");
 		g_shell.status = 1;
 		return ;
@@ -82,13 +85,9 @@ void	ft_exit(char **args)
 	if (args[1])
 	{
 		if (check_atoi(args[1]))
-		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
 			g_shell.status = ft_atoi_ull(args[1]);
-		}
 		else
 		{
-			ft_putendl_fd("exit", STDOUT_FILENO);
 			print_error("exit", "numeric argement required");
 			g_shell.status = 2;
 		}

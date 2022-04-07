@@ -71,28 +71,26 @@ void	print_export(t_env_list *env_list)
 	t_env_list	*export;
 
 	export = cp_env(env_list);
-	print_env_list(export, 1);
+	print_env_list(export, EXPORT_MODE);
 	clean_env_list(export);
 }
 
-void	export(char **args)
+void	export(void)
 {
 	int			i;
 	t_env_list	*elem;
 	int			len;
+	char		**args;
 
 	i = 0;
-	g_shell.status = 0;
+	args = g_shell.cmd_list->args;
 	len = len_2d_str(args);
 	if (1 == len)
 		print_export(g_shell.env_list);
 	while (len > 1 && args[++i])
 	{
 		if (!valid_export(args[i]))
-		{
-			ft_putendl_fd("not a valid identifier", STDERR_FILENO);
-			g_shell.status = 1;
-		}
+			return ;
 		else
 		{
 			elem = get_env_elem(args[i]);

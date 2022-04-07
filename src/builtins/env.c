@@ -32,9 +32,9 @@ void	print_env_list(t_env_list *env_list, int flag)
 {
 	while (env_list)
 	{
-		if (flag)
+		if (EXPORT_MODE == flag)
 			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		if (!env_list->equal && !flag)
+		if (!env_list->equal && ENV_MODE == flag)
 		{
 			env_list = env_list->next;
 			continue ;
@@ -43,11 +43,11 @@ void	print_env_list(t_env_list *env_list, int flag)
 		if (env_list->equal)
 		{
 			ft_putstr_fd("=", STDOUT_FILENO);
-			if (flag)
+			if (EXPORT_MODE == flag)
 				ft_putchar_fd('\"', STDOUT_FILENO);
 			if (env_list->val)
 				ft_putstr_fd(env_list->val, STDOUT_FILENO);
-			if (flag)
+			if (EXPORT_MODE == flag)
 				ft_putchar_fd('\"', STDOUT_FILENO);
 		}
 		ft_putendl_fd("", STDOUT_FILENO);
@@ -66,9 +66,8 @@ char	*get_env(char *key, t_env_list *env_list)
 	return (NULL);
 }
 
-void	env(char **args)
+void	env(void)
 {
 	g_shell.status = 0;
-	if (args)
-		print_env_list(g_shell.env_list, 0);
+	print_env_list(g_shell.env_list, ENV_MODE);
 }

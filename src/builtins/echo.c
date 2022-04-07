@@ -27,12 +27,13 @@ void	echo_work(char **args, int len)
 	}
 }
 
-void	echo(char **args)
+void	echo(void)
 {
-	int	len;
+	int		len;
+	char	**args;
 
 	len = 0;
-	g_shell.status = 0;
+	args = g_shell.cmd_list->args;
 	while (args[len])
 		len++;
 	if (1 == len)

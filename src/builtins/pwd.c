@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void	pwd(char **args)
+void	pwd(void)
 {
 	char	*pwd;
 	char	buf[4096];
 
 	pwd = getcwd(buf, sizeof(buf));
-	if (pwd && args)
+	if (pwd)
 	{
 		ft_putendl_fd(buf, STDOUT_FILENO);
 		g_shell.status = 0;

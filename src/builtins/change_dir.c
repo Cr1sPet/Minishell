@@ -23,44 +23,74 @@ int	envlist_chr(char *key, t_env_list *env_list)
 	return (0);
 }
 
-void	change_pwd(char *dest)
+void	change_pwd(char *dest, char *pwd)
 {
-	char		*pwd;
 	t_env_list	*temp;
-	char		buf[4096];
 
 	temp = (t_env_list *) malloc(sizeof(t_env_list));
 	if (NULL == temp)
 		exit_with_error("minishell: -: malloc error");
-	pwd = getcwd(buf, sizeof(buf));
-	if (!pwd)
-		return ;
 	temp->key = ft_strdup(dest);
 	temp->val = ft_strdup(pwd);
 	temp->equal = 1;
 	change_env_val(temp, &g_shell.env_list);
 }
 
-void	change_dir(char **args)
+char	*get_pwd(void)
 {
-	int	len;
+	char		*pwd;
+	char		buf[4096];
 
+	pwd = getcwd(buf, sizeof(buf));
+	if (!pwd)
+	{
+		g_shell.status = 1;
+		perror("minishell: cd: ");
+		return (NULL);
+	}
+	return (pwd);
+}
+
+void	change_dir_core(char **args)
+{
+	char	*temp_pwd;
+	char	*error_message;
+
+	temp_pwd = get_pwd();
+	if (NULL == temp_pwd)
+		return ;
+	if (-1 == chdir(args[1]))
+	{
+		g_shell.status = 1;
+		error_message = ft_strjoin("minishell: cd: ", args[1]);
+		if (NULL == error_message)
+			exit_with_error("minishell: -: malloc error");
+		perror(error_message);
+		free(error_message);
+		return ;
+	}
+	change_pwd("OLDPWD", temp_pwd);
+	temp_pwd = get_pwd();
+	if (NULL == temp_pwd)
+		return ;
+	change_pwd("PWD", temp_pwd);
+}
+
+void	change_dir(void)
+{
+	int		len;
+	char	**args;
+
+	args = g_shell.cmd_list->args;
 	len = len_2d_str(args);
-	g_shell.status = 0;
 	if (len > 2)
 	{
-		ft_putendl_fd("minishell: cd: too many arguments", 1);
+		print_error("cd", "too many arguments");
 		g_shell.status = 1;
+		return ;
 	}
 	else if (2 == len)
 	{
-		if (envlist_chr("OLDPWD", g_shell.env_list))
-			change_pwd("OLDPWD");
-		if (-1 == chdir(args[1]))
-		{
-			perror(ft_strjoin("minishell: cd: ", args[1]));
-			g_shell.status = 1;
-		}
-		change_pwd("PWD");
+		change_dir_core(args);
 	}
 }

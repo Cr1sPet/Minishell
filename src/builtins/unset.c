@@ -63,11 +63,13 @@ int	valid_unset(char *arg)
 	return (1);
 }
 
-void	unset(char **args)
+void	unset(void)
 {
 	int		i;
+	char	**args;
 
 	i = 0;
+	args = g_shell.cmd_list->args;
 	g_shell.status = 0;
 	while (args[i])
 	{

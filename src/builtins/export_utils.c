@@ -15,17 +15,23 @@
 int	valid_export(char *arg)
 {
 	int	i;
+	int	ok;
 
-	i = 0;
+	i = -1;
+	ok = 1;
 	if (!ft_isalpha(arg[0]))
-		return (0);
-	while (arg[i])
+		ok = 0;
+	while (arg[++i])
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '=')
-			return (0);
-		i++;
+			ok = 0;
 	}
-	return (1);
+	if (!ok)
+	{
+		ft_putendl_fd("not a valid identifier", STDERR_FILENO);
+		g_shell.status = 1;
+	}
+	return (ok);
 }
 
 static void	swap(t_env_list *a, t_env_list *b)
