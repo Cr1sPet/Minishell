@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 18:59:43 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:45:00 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:04:36 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	set_redir_in(t_redir *redir)
 			fd = fill_temp(redir);
 		if (-1 == fd)
 		{
+			g_shell.status = 1;
 			print_error(redir->filename, strerror(errno));
 			return (0);
 		}
@@ -94,6 +95,7 @@ int	set_redir_out(t_redir *redir)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (-1 == fd)
 		{
+			g_shell.status = 1;
 			print_error(redir->filename, strerror(errno));
 			return (0);
 		}

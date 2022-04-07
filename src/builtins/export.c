@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:41 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:44:21 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:22:53 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,12 @@ void	change_env_val(t_env_list *elem, t_env_list **env_list)
 	if (!try_change_val(*env_list, elem))
 	{
 		lst_envadd_back(env_list,
-			lst_envnew(ft_strdup(elem->key), elem->val));
+			lst_envnew(ft_strdup(elem->key), ft_strdup(elem->val)));
+	}
+	if (g_shell.env)
+	{
+		memclean(g_shell.env, len_2d_str(g_shell.env));
+		g_shell.env = collect_env(g_shell.env_list);
 	}
 	del_lst_env_elem(elem);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:13:43 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:43:51 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:36:30 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,14 @@ void	unset(char **args)
 			g_shell.status = 1;
 		}
 		else
+		{
 			lst_env_pop(&g_shell.env_list, args[i]);
+			if (g_shell.env)
+			{
+				memclean(g_shell.env, len_2d_str(g_shell.env));
+				g_shell.env = collect_env(g_shell.env_list);
+			}
+		}
 		i++;
 	}
 }

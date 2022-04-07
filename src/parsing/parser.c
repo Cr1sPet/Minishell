@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 21:52:05 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 20:06:19 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:20:35 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*parser(char *str)
 {
 	if (str == NULL)
 	{
-		ft_putendl_fd("Exit Minishell", 2);
+		ft_putendl_fd("exit", 2);
 		clear_all(&g_shell);
 		exit(g_shell.status);
 		return (NULL);

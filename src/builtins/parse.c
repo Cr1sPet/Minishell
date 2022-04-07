@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:46 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:44:37 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:43:38 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	**get_pathes(t_env_list *env_list)
 		pathes = ft_split(path, ':');
 		if (pathes && add_slash(&pathes))
 			return (pathes);
+	}
+	else
+	{
+		g_shell.status = 127;
+		print_error(g_shell.cmd_list->args[0], "No such file or directory");
 	}
 	return (NULL);
 }
@@ -84,8 +89,7 @@ static int	get_cmd(char **args, char **pathes)
 	}
 	else if (-1 == ok)
 	{
-		ft_putstr_fd(args[0], STDERR_FILENO);
-		ft_putendl_fd(": command not found ", STDERR_FILENO);
+		print_error(args[0], "command not found");
 		g_shell.status = 127;
 		ok = 0;
 	}

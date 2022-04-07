@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:14:19 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:39:24 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/07 17:21:38 by jchopped         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argv;
 	if (1 != argc)
-		return (1);
+	{
+		print_error(argv[1], "No such file or directory");
+		return (127);
+	}
 	initialisation(envp);
 	while (1)
 	{	
@@ -39,8 +42,6 @@ int	main(int argc, char **argv, char **envp)
 		exec();
 		clean_cmd_list(g_shell.cmd_list_head);
 		g_shell.cmd_list_head = NULL;
-		memclean(g_shell.env, len_2d_str(g_shell.env));
-		g_shell.env = collect_env(g_shell.env_list);
 	}
 	return (0);
 }
