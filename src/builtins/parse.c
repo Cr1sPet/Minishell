@@ -82,7 +82,10 @@ static int	get_cmd(char **args, char **pathes)
 {
 	int		ok;
 
-	ok = set_path (&args[0], pathes);
+	if (!ft_strcmp(args[0], ".") || !ft_strcmp(args[0], ".."))
+		ok = -1;
+	else
+		ok = set_path (&args[0], pathes);
 	if (0 == ok)
 	{
 		exit_with_error("minishell: -: malloc error");
@@ -112,6 +115,8 @@ int	parse_cmds(t_cmd *cmd)
 			return (0);
 		ok = get_cmd(cmd->args, pathes);
 		memclean(pathes, len_2d_str(pathes));
+		if (!ok)
+			return (0);
 	}
 	ret = file_check(cmd->args[0], 0);
 	if (ret != 0)
