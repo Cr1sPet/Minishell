@@ -74,6 +74,6 @@ int	error_parser(char *cmd)
 	ft_putendl_fd(cmd, 2);
 	clean_cmd_list(g_shell.cmd_list);
 	g_shell.cmd_list = NULL;
-	g_shell.status = 1;
+	g_shell.status = 2;
 	return (-1);
 }

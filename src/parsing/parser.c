@@ -73,7 +73,6 @@ void	*parser(char *str)
 		ft_putendl_fd("exit", 2);
 		clear_all(&g_shell);
 		exit(g_shell.status);
-		return (NULL);
 	}
 	else if (str && str[0] == '\0')
 	{
@@ -84,7 +83,6 @@ void	*parser(char *str)
 	{
 		free(str);
 		error_parser("minishell: syntax error near unexpected token");
-		g_shell.status = 1;
 	}
 	else
 	{
