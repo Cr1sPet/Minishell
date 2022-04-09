@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:36 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:43:21 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/09 11:59:33 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_exit(void)
 		else
 		{
 			print_error("exit", "numeric argement required");
-			g_shell.status = 2;
+			g_shell.status = 255;
 		}
 	}
 	clear_all(&g_shell);

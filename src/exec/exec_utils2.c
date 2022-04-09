@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 18:59:26 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:41:59 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/09 13:29:55 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ void	wait_pids(pid_t	*pids, int nmb)
 
 void	cmd_end_works(int **fds, pid_t *pids, int i)
 {
+	if (g_shell.fd_read != -10)
+	{
+		close (g_shell.fd_read);
+		g_shell.fd_read = -10;
+	}
+	if (g_shell.fd_write != -10)
+	{
+		close(g_shell.fd_write);
+		g_shell.fd_write = -10;
+	}
 	close_fds(fds);
 	wait_pids(pids, i);
 	dup2(g_shell.stdin, STDIN_FILENO);

@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "./minishell",
+            "program": "/Users/spurple/School21/Minishell/minishell",
             "args": [],
             "cwd": "${workspaceFolder}"
         }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchopped <jchopped@student.42.fr>          +#+  +:+       +#+        */
+/*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:05:41 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/07 17:22:53 by jchopped         ###   ########.fr       */
+/*   Updated: 2022/04/09 13:37:24 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,16 @@ int	try_change_val(t_env_list *env_list, t_env_list *elem)
 
 void	change_env_val(t_env_list *elem, t_env_list **env_list)
 {
+	char	*val;
+
 	if (!try_change_val(*env_list, elem))
 	{
+		if (elem->val)
+			val = ft_strdup(elem->val);
+		else
+			val = NULL;
 		lst_envadd_back(env_list,
-			lst_envnew(ft_strdup(elem->key), ft_strdup(elem->val)));
+			lst_envnew(ft_strdup(elem->key), val));
 	}
 	if (g_shell.env)
 	{

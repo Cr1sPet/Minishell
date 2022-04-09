@@ -55,7 +55,7 @@ READ		=	-lreadline
 
 all			:	$(NAME)
 
-$(NAME)		:	$(OBJ)
+$(NAME)		:	$(OBJ) ./includes/minishell.h
 						$(MAKE) all -C ./libft
 						$(MAKE) bonus -C ./libft
 						$(CC) $(FLAGS) $(OBJ)  ${LIBFT} -o $(NAME) $(READ) -lreadline -ltermcap -g -L/Users/$(USER)/.brew/opt/readline/lib/ -I/Users/$(USER)/.brew/opt/readline/include

@@ -6,7 +6,7 @@
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 19:14:00 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/04 19:42:15 by spurple          ###   ########.fr       */
+/*   Updated: 2022/04/09 13:28:06 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ char	**collect_env(t_env_list *env_list)
 
 void	initialisation(char **envp)
 {
+	g_shell.fd_read = -10;
+	g_shell.fd_write = -10;
 	g_shell.stdin = dup(STDIN_FILENO);
 	g_shell.stdout = dup(STDOUT_FILENO);
 	g_shell.status = 0;

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: spurple <spurple@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 19:33:07 by spurple           #+#    #+#             */
-/*   Updated: 2022/04/06 18:31:59 by spurple          ###   ########.fr       */
+/*   Created: 2022/04/09 12:30:56 by spurple           #+#    #+#             */
+/*   Updated: 2022/04/09 13:36:58 by spurple          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include <sys/stat.h>
-# include <wait.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
