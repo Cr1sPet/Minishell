@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "term.h": "c",
+        "readline.h": "c",
+        "history.h": "c",
+        "minishell.h": "c",
+        "libft.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
