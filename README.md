@@ -6,7 +6,7 @@ How to use:
 ```
 git clone git@github.com:Cr1sPet/Minishell.git
 
-cd Minishell.git
+cd Minishell
 
 make
 
